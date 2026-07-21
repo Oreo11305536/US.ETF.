@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 美国宽基指数</title>
+    <title>FIRE 美国宽基指数</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- 每日由 GitHub Action 自动生成的真实数据文件 -->
@@ -45,7 +45,7 @@
     <!-- 1. 顶部：七只 ETF 四维度深度白皮书 -->
     <div class="card bg-[#fffdfa] border-b-4 border-[#d4af37]">
         <h1 class="font-bold text-2xl mb-2 text-gray-800">Financial Independence, Retire Early (Buy & Hold)</h1>
-        <p class="text-sm text-gray-500 mb-6">全自动云端数据同步。采用自然生长（无强制再平衡）逻辑。</p>
+        <p class="text-sm text-gray-500 mb-6">全自动云端数据同步。采用资产自然生长（无强制再平衡）逻辑。</p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="border rounded-lg p-4 bg-white shadow-sm">
@@ -219,7 +219,7 @@
             </div>
             <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
                 <button id="btnValYear" onclick="setChartMode('value', 'yearly')" class="chart-toggle-btn chart-toggle-active">年度趋势</button>
-                <button id="btnValMonth" onclick="setChartMode('value', 'monthly')" class="chart-toggle-btn chart-toggle-inactive">月度精细 (模拟)</button>
+                <button id="btnValQuarter" onclick="setChartMode('value', 'quarterly')" class="chart-toggle-btn chart-toggle-inactive">季度精细 (模拟)</button>
             </div>
         </div>
         <canvas id="valueChart" height="90"></canvas>
@@ -228,12 +228,12 @@
     <div class="card relative">
         <div class="flex justify-between items-center mb-2">
             <div>
-                <h3 class="font-bold text-lg">股息派发图</h3>
-                <span class="text-xs text-gray-400">月度模式下展示每个季度（3/6/9/12月）发放的股息</span>
+                <h3 class="font-bold text-lg">分红派发图</h3>
+                <span class="text-xs text-gray-400">季度模式下展示每季度（3/6/9/12月）发放的现金流分红</span>
             </div>
             <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
                 <button id="btnDivYear" onclick="setChartMode('dividend', 'yearly')" class="chart-toggle-btn chart-toggle-active">年度总览</button>
-                <button id="btnDivMonth" onclick="setChartMode('dividend', 'monthly')" class="chart-toggle-btn chart-toggle-inactive">季度总览</button>
+                <button id="btnDivQuarter" onclick="setChartMode('dividend', 'quarterly')" class="chart-toggle-btn chart-toggle-inactive">季度总览</button>
             </div>
         </div>
         <canvas id="dividendChart" height="90"></canvas>
@@ -254,8 +254,8 @@
                     <tr>
                         <th class="py-3 px-4">年份</th>
                         <th class="py-3 px-4">年底总资产</th>
-                        <th class="py-3 px-4">该年股息</th>
-                        <th class="py-3 px-4">累计已领股息</th>
+                        <th class="py-3 px-4">该年分红</th>
+                        <th class="py-3 px-4">累计已领分红</th>
                         <th class="py-3 px-4 text-emerald-700">个人 YOC ⓘ</th>
                     </tr>
                 </thead>
@@ -272,8 +272,23 @@
                     <h3 class="font-bold text-xl text-gray-800">未来</h3>
                     <input type="number" id="forecastYearsInput" value="10" min="1" max="60" class="border-2 border-emerald-500 p-1 rounded-md w-16 text-center font-mono font-bold text-emerald-700 shadow-sm focus:outline-none">
                     <h3 class="font-bold text-xl text-gray-800">年动态延伸预测</h3>
+                    
+                    <!-- 核心算法揭秘 Tooltip -->
+                    <div class="veteran-tooltip relative inline-block cursor-help ml-1 pt-1">
+                        <div class="flex items-center justify-center w-5 h-5 rounded-full bg-emerald-500 text-white text-xs font-serif font-bold hover:scale-110 transition shadow">i</div>
+                        <div class="tooltip-text" style="width: 380px;">
+                            <div class="tooltip-title text-emerald-400 border-b border-gray-600 mb-2 pb-1">贝叶斯动态平滑推演 (Bayesian Smoothing)</div>
+                            <div class="mb-2"><span class="font-bold text-white">【算法痛点】</span>若只看近几年短期数据直接复利推演数十年，会导致资产指数级暴走失真。</div>
+                            <div class="mb-2"><span class="font-bold text-emerald-400">【自动校准】</span>当你选定的回测年份较短时，系统会自动提取你当前组合<span class="text-white">自1993年起跨越所有牛熊周期的30年历史母基金长线CAGR</span>作为终极锚定中枢。</div>
+                            <div class="mb-2"><span class="font-bold text-white">【置信衰减】</span>回测时间越长，系统对当前测算的信任度越高。当回测满 <span class="text-red-400">20年</span>（穿越两次大危机），系统将放弃干预，100%信任你的测算结果。</div>
+                            <div class="text-gray-300 mt-2 border-t border-gray-600 pt-2 text-xs">
+                                * <span class="text-white font-bold">保守打折(0.7x)：</span>基于平滑基准模拟剔除通胀后的真实购买力增长。<br>
+                                * <span class="text-white font-bold">狂热溢价(1.2x)：</span>模拟极度宽松与科技泡沫期的乐观景气预期。
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <p class="text-xs text-gray-500 mt-2">基于 <strong id="baseYearTag">2026</strong> 年底实际资产及组合真实历史胜率进行推演。</p>
+                <p class="text-xs text-gray-500 mt-2">基于 <strong id="baseYearTag">2026</strong> 年底实际资产及组合置信度加权算法进行推演。</p>
             </div>
             <!-- 动态三档调节按钮 -->
             <div class="bg-gray-100 p-1 rounded-lg flex space-x-1 shadow-inner mt-4 sm:mt-0">
@@ -322,11 +337,10 @@
         </div>
 
         <p class="text-xs text-gray-400 mt-4">
-            * 声明：历史业绩不代表未来表现。红利数据包含普通股息与资本利得派发，YOC（Yield on Cost）未扣除个人税务摩擦损耗。本沙盘纯为推演资产自然生长（Buy & Hold）规律，不构成直接投资建议。
+            * 声明：历史业绩不代表未来表现。分红数据包含普通股息与资本利得派发，YOC（Yield on Cost）未扣除个人税务摩擦损耗。本沙盘纯为推演资产自然生长（Buy & Hold）规律，不构成直接投资建议。
         </p>
     </div>
 
-    <!-- 引擎核心逻辑 -->
     <!-- 引擎核心逻辑 -->
     <script>
         const etfLibrary = [
@@ -368,7 +382,7 @@
                    <div><span class="font-bold text-blue-400">【买入逻辑】</span>组合中最尖锐的战术长矛，利用高弹性博取最高额的阿尔法收益。</div>` },
             { id: 'VGT', name: '纯净科技', type: '成长', defaultWeight: 0, color: 'red',
               ws: `<div class="tooltip-title"><span>VGT</span><span class="text-gray-400 font-normal">成立: 2004年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>深度覆盖全美IT行业。依GICS标准不含Alphabet、Meta及亚马逊、特斯拉。</div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>深度覆盖全美 IT 行业。依GICS标准不含Alphabet、Meta及亚马逊、特斯拉。</div>
                    <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>纯度极高，专注软件服务与硬件制造，费率极低（0.10%）。</div>
                    <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>行业定义死板，错过了数家具备强科技属性的万亿级互联网巨头。</div>
                    <div><span class="font-bold text-blue-400">【买入逻辑】</span>灵活替代或补充QQQM，强化对纯粹软硬件领域的垂直配置。</div>` }
@@ -381,7 +395,7 @@
             forecastMode: 'historical', forecastYears: 10
         };
 
-        let cachedChartData = { yearly: {}, monthly: {} };
+        let cachedChartData = { yearly: {}, quarterly: {} };
         let trueHistoricalCagr = 0;
 
         etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
@@ -390,6 +404,31 @@
         function getAssetPerformance(year, id) {
             if (window.proxyDatabase[year] && window.proxyDatabase[year][id]) return window.proxyDatabase[year][id];
             return [0.10, 0.02];
+        }
+
+        // 计算当前资产组合自 1993 至今的全历史长期真实 CAGR 基准 (Prior Anchor)
+        function calculateAllTimePortfolioCagr() {
+            let totalWeight = 0;
+            for (const w of Object.values(state.portfolio)) totalWeight += w;
+            if (totalWeight === 0) totalWeight = 100;
+
+            let idxVal = 1.0;
+            let startY = 1993; // 完整锚定30年起跑线
+            let endY = state.currentYear;
+            let yearsCount = endY - startY + 0.5;
+
+            for (let y = startY; y <= endY; y++) {
+                let yrCap = 0;
+                let yrDiv = 0;
+                for (const [id, weight] of Object.entries(state.portfolio)) {
+                    let [capReturn, divYield] = getAssetPerformance(y, id);
+                    let w = weight / totalWeight;
+                    yrCap += capReturn * w;
+                    yrDiv += divYield * w;
+                }
+                idxVal *= (1 + yrCap + (state.isDrip ? yrDiv : 0));
+            }
+            return Math.pow(idxVal, 1 / yearsCount) - 1;
         }
 
         function renderEtfGrid() {
@@ -467,22 +506,22 @@
                 const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
                 if (!x) return;
                 const bears = [
-                    { y: ['2000','2001','2002'], mStart: '2000-03', mEnd: '2002-10' }, 
-                    { y: ['2008','2009'], mStart: '2007-10', mEnd: '2009-03' },         
-                    { y: ['2020'], mStart: '2020-02', mEnd: '2020-04' },                
-                    { y: ['2022'], mStart: '2022-01', mEnd: '2022-10' }                 
+                    { y: ['2000','2001','2002'], qStart: '2000-Q1', qEnd: '2002-Q4' }, 
+                    { y: ['2008','2009'], qStart: '2007-Q4', qEnd: '2009-Q1' },         
+                    { y: ['2020'], qStart: '2020-Q1', qEnd: '2020-Q2' },                
+                    { y: ['2022'], qStart: '2022-Q1', qEnd: '2022-Q3' }                 
                 ];
                 ctx.save(); ctx.fillStyle = 'rgba(156, 163, 175, 0.15)'; 
                 const labels = chart.data.labels;
-                const isMonthly = labels.length > 0 && String(labels[0]).includes('-');
+                const isQuarterly = labels.length > 0 && String(labels[0]).includes('-Q');
 
                 bears.forEach(b => {
                     let startX, endX;
-                    if (isMonthly) {
-                        let idxStart = labels.indexOf(b.mStart);
-                        let idxEnd = labels.indexOf(b.mEnd);
+                    if (isQuarterly) {
+                        let idxStart = labels.indexOf(b.qStart);
+                        let idxEnd = labels.indexOf(b.qEnd);
                         if(idxStart === -1) {
-                            let possibleStarts = labels.filter(l => l >= b.mStart && l <= b.mEnd);
+                            let possibleStarts = labels.filter(l => l >= b.qStart && l <= b.qEnd);
                             if(possibleStarts.length > 0) idxStart = labels.indexOf(possibleStarts[0]);
                         }
                         if (idxStart !== -1) {
@@ -504,32 +543,24 @@
             }
         };
 
-        // --- 图表颜值升级：配置高级渐变与柔和视觉 ---
         const valueCtx = document.getElementById('valueChart').getContext('2d');
-        let valueGradient = valueCtx.createLinearGradient(0, 0, 0, 200);
-        valueGradient.addColorStop(0, 'rgba(16, 185, 129, 0.4)'); // 翠绿半透
-        valueGradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)'); // 透明渐隐
+        let valueGradient = valueCtx.createLinearGradient(0, 0, 0, 220);
+        valueGradient.addColorStop(0, 'rgba(16, 185, 129, 0.35)'); 
+        valueGradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)'); 
 
         const divCtx = document.getElementById('dividendChart').getContext('2d');
-        let divGradient = divCtx.createLinearGradient(0, 0, 0, 200);
-        divGradient.addColorStop(0, 'rgba(212, 175, 55, 0.8)'); // 黄金色
-        divGradient.addColorStop(1, 'rgba(212, 175, 55, 0.1)'); // 淡黄渐隐
+        let divGradient = divCtx.createLinearGradient(0, 0, 0, 220);
+        divGradient.addColorStop(0, 'rgba(212, 175, 55, 0.85)'); 
+        divGradient.addColorStop(1, 'rgba(212, 175, 55, 0.15)'); 
 
         let valueChart = new Chart(valueCtx, { 
             type: 'line', 
             data: { labels: [], datasets: [{ 
-                label: '资产现值', 
-                data: [], 
-                borderColor: '#10b981', 
-                backgroundColor: valueGradient, 
-                borderWidth: 2.5, 
-                pointRadius: 0, 
-                pointHoverRadius: 5,
-                pointHoverBackgroundColor: '#ffffff',
-                pointHoverBorderColor: '#10b981',
-                pointHoverBorderWidth: 2,
-                fill: true, 
-                tension: 0.3 // 增加丝滑张力
+                label: '资产现值', data: [], 
+                borderColor: '#10b981', backgroundColor: valueGradient, 
+                borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5,
+                pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#10b981', pointHoverBorderWidth: 2,
+                fill: true, tension: 0.3 
             }] }, 
             plugins: [bearMarketPlugin], 
             options: { 
@@ -553,11 +584,8 @@
         let dividendChart = new Chart(divCtx, { 
             type: 'bar', 
             data: { labels: [], datasets: [{ 
-                label: '股息', 
-                data: [], 
-                backgroundColor: divGradient,
-                hoverBackgroundColor: '#d4af37',
-                borderRadius: 3 // 圆角柱状图
+                label: '现金流', data: [], 
+                backgroundColor: divGradient, hoverBackgroundColor: '#d4af37', borderRadius: 3 
             }] }, 
             options: { 
                 responsive: true, 
@@ -579,14 +607,14 @@
             if (target === 'value') {
                 state.viewVal = mode;
                 document.getElementById('btnValYear').className = mode==='yearly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
-                document.getElementById('btnValMonth').className = mode==='monthly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
+                document.getElementById('btnValQuarter').className = mode==='quarterly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
                 valueChart.data.labels = cachedChartData[mode].labels;
                 valueChart.data.datasets[0].data = cachedChartData[mode].value;
                 valueChart.update();
             } else {
                 state.viewDiv = mode;
                 document.getElementById('btnDivYear').className = mode==='yearly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
-                document.getElementById('btnDivMonth').className = mode==='monthly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
+                document.getElementById('btnDivQuarter').className = mode==='quarterly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
                 dividendChart.data.labels = cachedChartData[mode].labels;
                 dividendChart.data.datasets[0].data = cachedChartData[mode].div;
                 dividendChart.update();
@@ -604,7 +632,7 @@
             }
 
             let yLabels = [], yValue = [], yDiv = [];
-            let mLabels = [], mValue = [], mDiv = [];
+            let qLabels = [], qValue = [], qDiv = [];
             
             let cumulativeDiv = 0;
             let currentCapitalInjected = state.capital;
@@ -634,14 +662,11 @@
 
                     if (y > state.startYear) assetBuckets[id] += state.annualAdd * (state.portfolio[id] / totalWeight);
                     
-                    // --- 核心数学修复点 ---
-                    // 股息必须基于【资本暴涨发生前】的本金基础来结算
-                    let baseAssetForDividend = assetBuckets[id]; 
+                    let baseAssetForDividend = assetBuckets[id];
                     
                     assetBuckets[id] = assetBuckets[id] * (1 + capReturn);
                     
-                    // 基于未暴涨的本金计算当年股息，完美消除 1999 年由于暴涨导致的股息复合错配估值
-                    let div = baseAssetForDividend * divYield; 
+                    let div = baseAssetForDividend * divYield;
                     currentYearDiv += div;
 
                     if (state.isDrip) assetBuckets[id] += div;
@@ -655,15 +680,13 @@
                 yDiv.push(currentYearDiv);
                 cumulativeDiv += currentYearDiv;
                 
-                let ratio = Math.pow(currentYearTotalAsset / startOfYearAsset, 1/12);
-                let currentMonthAsset = startOfYearAsset;
-                
-                for(let m=1; m<=12; m++) {
-                    currentMonthAsset *= ratio;
-                    mLabels.push(y + '-' + String(m).padStart(2, '0'));
-                    mValue.push(currentMonthAsset);
-                    if (m % 3 === 0) mDiv.push(currentYearDiv / 4);
-                    else mDiv.push(0);
+                let ratio = Math.pow(currentYearTotalAsset / startOfYearAsset, 1/4);
+                let currentQAsset = startOfYearAsset;
+                for(let q=1; q<=4; q++) {
+                    currentQAsset *= ratio;
+                    qLabels.push(y + '-Q' + q);
+                    qValue.push(currentQAsset);
+                    qDiv.push(currentYearDiv / 4);
                 }
                 prevTotalAsset = currentYearTotalAsset;
 
@@ -680,7 +703,7 @@
             }
 
             cachedChartData.yearly = { labels: yLabels, value: yValue, div: yDiv };
-            cachedChartData.monthly = { labels: mLabels, value: mValue, div: mDiv };
+            cachedChartData.quarterly = { labels: qLabels, value: qValue, div: qDiv };
 
             let finalValue = yValue[yValue.length - 1] || 0;
             let finalDiv = yDiv[yDiv.length - 1] || 0;
@@ -700,19 +723,30 @@
             setChartMode('value', state.viewVal);
             setChartMode('dividend', state.viewDiv);
 
-            let consCagr = trueHistoricalCagr * 0.7; 
-            let optCagr = trueHistoricalCagr * 1.2;  
+            // ================= 贝叶斯动态加权平滑算法 (20年置信度) =================
+            let longTermPortfolioPrior = calculateAllTimePortfolioCagr(); // 该组合自 1993 年以来的完整大周期 CAGR
+            let weight = Math.min(1.0, years / 20.0); // 核心修改：满 20 年（跨越两次大危机）才 100% 相信短期回测，否则向历史全周期平滑
+            let baseForecastCagr = (trueHistoricalCagr * weight) + (longTermPortfolioPrior * (1.0 - weight));
+
+            let consCagr = baseForecastCagr * 0.7; // 所有按钮都在平滑后的基准上运算
+            let optCagr = baseForecastCagr * 1.2;  
 
             document.getElementById('btnConservative').textContent = `保守打折 (${(consCagr*100).toFixed(1)}%)`;
-            document.getElementById('btnHistorical').textContent = `按历史均值 (${(trueHistoricalCagr*100).toFixed(1)}%)`;
+            document.getElementById('btnHistorical').textContent = `按历史均值 (${(baseForecastCagr*100).toFixed(1)}%)`;
             document.getElementById('btnOptimistic').textContent = `狂热溢价 (${(optCagr*100).toFixed(1)}%)`;
 
-            let terminalDivYield = finalValue > 0 ? (finalDiv / finalValue) : 0.015; 
+            // 自动拿上一个完整自然年结算 Terminal Yield
+            let terminalDivYield = 0.015;
+            if (yValue.length > 1) {
+                terminalDivYield = yDiv[yDiv.length - 2] / yValue[yValue.length - 2];
+            } else if (finalValue > 0) {
+                terminalDivYield = (finalDiv * 2) / finalValue;
+            }
             
             let forecastCagr;
             if (state.forecastMode === 'conservative') forecastCagr = consCagr;
             else if (state.forecastMode === 'optimistic') forecastCagr = optCagr;
-            else forecastCagr = trueHistoricalCagr;
+            else forecastCagr = baseForecastCagr;
 
             let forecastRate = 1 + forecastCagr;
             if (state.isDrip) forecastRate = 1 + forecastCagr + terminalDivYield;
