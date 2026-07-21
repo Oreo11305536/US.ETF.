@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> 美国宽基指数定投 </title>
+    <title> 美国宽基指数投资 </title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- 每日由 GitHub Action 自动生成的真实数据文件 -->
@@ -22,6 +22,19 @@
         
         .badge-label { display: inline-block; width: 4.5rem; color: #9ca3af; font-size: 0.825rem; vertical-align: top; }
         .badge-content { display: inline-block; width: calc(100% - 5rem); font-size: 0.875rem; color: #374151; }
+
+        /* 修复：恢复 ETF 卡片小绿标 i 的默认隐藏与悬停弹出效果 */
+        .veteran-tooltip { position: relative; display: inline-block; }
+        .veteran-tooltip .tooltip-text {
+            visibility: hidden; opacity: 0; transition: opacity 0.2s;
+            position: absolute; z-index: 999; top: 100%; left: 0; margin-top: 8px;
+            width: 360px; background-color: #1f2937; color: #e5e7eb;
+            text-align: left; border-radius: 8px; padding: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); font-size: 0.825rem; line-height: 1.5;
+            border: 1px solid #374151;
+        }
+        .veteran-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .tooltip-title { font-weight: bold; color: #d4af37; border-bottom: 1px solid #4b5563; padding-bottom: 6px; margin-bottom: 8px; font-size: 0.95rem; display: flex; justify-content: space-between;}
 
         .chart-toggle-btn { padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .chart-toggle-active { background-color: #1f2937; color: white; }
@@ -135,7 +148,7 @@
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国信息技术指数</span></div>
                     <div><span class="badge-label">选股逻辑</span><span class="badge-content">深度覆盖全美 IT 行业。依 GICS 标准不含 Alphabet/Meta 及 Amazon/Tesla。</span></div>
-                    <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">纯粹硬科技与软件纯度仓位（Pure IT Sector）</span></div>
+                    <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">纯粹硬科技与软件纯度仓位 (Pure IT Sector)</span></div>
                     <div><span class="badge-label">组合角色</span><span class="badge-content">战术扩展位。可灵活替代或稀释部分 QQQM 权重，强化科技轮动。</span></div>
                 </div>
             </div>
@@ -187,24 +200,24 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="text-xs text-gray-500 mb-2">现值 (今年)</div>
-                <div class="text-3xl font-bold font-mono mb-2 text-gray-800" id="valPresent">$0</div>
+                <div class="text-3xl font-bold font-mono mb-2 text-gray-800" id="valPresent">$0.00</div>
                 <div class="text-xs text-gray-500" id="valPresentSub">加载中...</div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="text-xs text-gray-500 mb-2">真实复合年化收益 (CAGR)</div>
-                <div class="text-3xl font-bold font-mono text-emerald-600 mb-2" id="valCagr">+0.0%</div>
+                <div class="text-3xl font-bold font-mono text-emerald-600 mb-2" id="valCagr">+0.00%</div>
                 <div class="text-xs text-gray-500" id="valCagrSub">复利滚雪球的平均自然膨胀率</div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="flex items-center mb-2"><span class="text-xs text-gray-500">最新年度总分红 (税前毛额)</span></div>
-                <div class="text-3xl font-bold font-mono mb-2 text-[#d4af37]" id="valSalary">$0</div>
+                <div class="text-3xl font-bold font-mono mb-2 text-[#d4af37]" id="valSalary">$0.00</div>
                 <div class="text-xs text-gray-600 flex flex-col space-y-1" id="valSalarySub">
                     <!-- JS 动态注入 HK / CN 实际到手金额 -->
                 </div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-                <div class="flex items-center mb-2"><span class="text-xs text-gray-500">累计落袋红利 (税前毛额)</span></div>
-                <div class="text-3xl font-bold font-mono mb-2 text-blue-600" id="valTotalDiv">$0</div>
+                <div class="flex items-center mb-2"><span class="text-xs text-gray-500">累计落袋分红 (税前毛额)</span></div>
+                <div class="text-3xl font-bold font-mono mb-2 text-blue-600" id="valTotalDiv">$0.00</div>
                 <div class="text-xs text-gray-600 flex flex-col space-y-1" id="valTotalDivSub">
                     <!-- JS 动态注入 HK / CN 实际到手金额 -->
                 </div>
@@ -256,11 +269,12 @@
                     <tr>
                         <th class="py-3 px-4">年份</th>
                         <th class="py-3 px-4">年底总资产</th>
+                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="相比上一年底总资产的增长幅度（含每年追加本金及复利）。">资产年增长率</span></th>
                         <th class="py-3 px-4 text-[#d4af37]"><span class="help-tip" data-tip="你名下资产产生的全部股息毛利，还未交税。">税前分红</span></th>
                         <th class="py-3 px-4 text-orange-600"><span class="help-tip" data-tip="假设你是香港税务居民(非美国居民)，美国政府会强行扣走 30% 股息税。本列为你真正拿到手的钱。">HK实际到手 (扣30%)</span></th>
                         <th class="py-3 px-4 text-rose-600"><span class="help-tip" data-tip="假设你是内地税务居民，因中美有税收协定，填写 W-8BEN 表格后仅扣 10% 股息税。本列为你真正拿到手的钱。">CN实际到手 (扣10%)</span></th>
-                        <th class="py-3 px-4">累计已领(税前)</th>
-                        <th class="py-3 px-4 text-emerald-700"><span class="help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的总本金。它衡量你真金白银掏出的钱，现在每年能产出多少比例的利息。本列为税前，HK请乘0.7，CN请乘0.9。">税前成本收益率(YOC)</span> <span class="icon-tip help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的总本金。它衡量你真金白银掏出的钱，现在每年能产出多少比例的利息。本列为税前，HK请乘0.7，CN请乘0.9。">i</span></th>
+                        <th class="py-3 px-4">累计已领分红(税前)</th>
+                        <th class="py-3 px-4 text-emerald-700"><span class="help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的总本金。衡量你投入的本金，现在每年能产出多少比例的股息。本列为税前，HK请乘0.7，CN请乘0.9。">税前成本收益率(YOC)</span></th>
                     </tr>
                 </thead>
                 <tbody id="historyTableBody" class="divide-y divide-gray-100 bg-white font-mono"></tbody>
@@ -294,6 +308,7 @@
                     <tr>
                         <th class="py-3 px-4">推演年份</th>
                         <th class="py-3 px-4">预计年底总资产</th>
+                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="预测期内每年资产的复合增长率。">资产年增长率</span></th>
                         <th class="py-3 px-4 text-[#d4af37]"><span class="help-tip" data-tip="未扣税毛额。">预计税前分红</span></th>
                         <th class="py-3 px-4 text-orange-600"><span class="help-tip" data-tip="扣除30%股息税后的净额">HK税後預估</span></th>
                         <th class="py-3 px-4 text-rose-600"><span class="help-tip" data-tip="扣除10%股息税后的净额">CN税後預估</span></th>
@@ -307,8 +322,8 @@
         </div>
     </div>
 
-    <!-- ================= 进阶财富计算器 (硅谷居士) ================= -->
-    <h2 class="font-bold text-2xl mt-12 mb-6 text-gray-800 border-l-4 border-[#d4af37] pl-3"> 财富规划小工具 (硅谷居士)</h2>
+    <!-- ================= 全新：进阶财富计算器 (硅谷居士) ================= -->
+    <h2 class="font-bold text-2xl mt-12 mb-6 text-gray-800 border-l-4 border-[#d4af37] pl-3"> 进阶财富规划工具箱 (硅谷居士)</h2>
     
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
         <!-- 工具一：理财指数评估器 -->
@@ -545,8 +560,9 @@
             if (state.portfolio[id] !== undefined) { state.portfolio[id] = parseInt(value) || 0; runBacktestEngine(); }
         }
 
-        const fmtUsdChart = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(1) + 'M' : '$' + (num/1000).toFixed(0) + 'k';
-        const fmtUsd = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(2) + 'M' : '$' + (num/1000).toFixed(0) + 'k';
+        // 修改格式化函数，强制精确到 2 位小数，避免小金额显示不出
+        const fmtUsdChart = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(2) + 'M' : (num >= 1000 ? '$' + (num/1000).toFixed(2) + 'k' : '$' + num.toFixed(2));
+        const fmtUsd = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(2) + 'M' : (num >= 1000 ? '$' + (num/1000).toFixed(2) + 'k' : '$' + num.toFixed(2));
         
         ['initialCapital', 'annualContribution', 'annualGrowthRate', 'startYear'].forEach(id => {
             document.getElementById(id).addEventListener('input', e => {
@@ -638,13 +654,11 @@
                         ctx.fillStyle = 'rgba(156, 163, 175, 0.15)'; 
                         ctx.fillRect(startX, top, width, bottom - top);
                         
-                        // 绘制横向排列的单字，避免长名字溢出
-                        ctx.fillStyle = 'rgba(75, 85, 99, 0.8)'; // 深灰色带透明度
+                        ctx.fillStyle = 'rgba(75, 85, 99, 0.8)';
                         ctx.font = 'bold 11px system-ui, sans-serif';
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'top';
                         
-                        // 只在足够宽（或者有足够年份）的时候才绘字，防止太挤
                         if (width > 20) {
                             ctx.fillText(b.name, startX + width / 2, top + 5);
                         }
@@ -766,6 +780,7 @@
             let indexValue = 1.0;
             
             let currentAnnualContribution = state.annualAdd; 
+            let lastYearAssetForGrowth = state.capital; // 用于计算资产同比增长率
 
             for(let y = state.startYear; y <= state.currentYear; y++) {
                 
@@ -828,6 +843,10 @@
                     qDiv.push(currentYearDiv / 4);
                 }
                 
+                // 计算资产同比增长率 (相比上一年度底总资产的增幅)
+                let assetGrowthRate = y === state.startYear ? 0 : ((currentYearTotalAsset - lastYearAssetForGrowth) / lastYearAssetForGrowth) * 100;
+                lastYearAssetForGrowth = currentYearTotalAsset;
+
                 prevTotalAsset = currentYearTotalAsset;
                 
                 if (y >= state.startYear) {
@@ -839,6 +858,7 @@
                     <tr class="hover:bg-gray-50 transition border-b border-gray-100">
                         <td class="py-2 px-4 text-gray-800">${y}</td>
                         <td class="py-2 px-4 font-semibold text-gray-700">${fmtUsd(currentYearTotalAsset)}</td>
+                        <td class="py-2 px-4 font-semibold text-purple-700">${y === state.startYear ? '-' : (assetGrowthRate >= 0 ? '+' : '') + assetGrowthRate.toFixed(2) + '%'}</td>
                         <td class="py-2 px-4 font-semibold text-[#d4af37]">${fmtUsd(currentYearDiv)}</td>
                         <td class="py-2 px-4 font-semibold text-orange-600">${fmtUsd(currentYearDiv * 0.7)}</td>
                         <td class="py-2 px-4 font-semibold text-rose-600">${fmtUsd(currentYearDiv * 0.9)}</td>
@@ -861,10 +881,9 @@
             
             document.getElementById('valPresent').textContent = fmtUsd(finalValue);
             document.getElementById('valPresentSub').textContent = `真金白银投入 ${fmtUsd(totalIn)}`;
-            document.getElementById('valCagr').textContent = `+${(trueHistoricalCagr*100).toFixed(1)}%`;
+            document.getElementById('valCagr').textContent = `+${(trueHistoricalCagr*100).toFixed(2)}%`;
             document.getElementById('valSalary').textContent = fmtUsd(finalDiv);
             
-            // 细化面板：动态注入税务后金额
             let divYieldDisplay = finalValue > 0 ? ((finalDiv / finalValue) * 100).toFixed(2) : '0.00';
             document.getElementById('valSalarySub').innerHTML = `
                 <span>占总资产比: <strong class="text-gray-800">${divYieldDisplay}%</strong></span>
@@ -874,7 +893,7 @@
             
             document.getElementById('valTotalDiv').textContent = fmtUsd(cumulativeDiv);
             document.getElementById('valTotalDivSub').innerHTML = `
-                <span>占总投入比: <strong class="text-gray-800">${totalIn > 0 ? ((cumulativeDiv/totalIn)*100).toFixed(1) : 0}%</strong></span>
+                <span>占总投入比: <strong class="text-gray-800">${totalIn > 0 ? ((cumulativeDiv/totalIn)*100).toFixed(2) : 0}%</strong></span>
                 <span class="text-orange-600">HK到手: ${fmtUsd(cumulativeDiv * 0.7)}</span>
                 <span class="text-rose-600">CN到手: ${fmtUsd(cumulativeDiv * 0.9)}</span>
             `;
@@ -893,9 +912,9 @@
             let consCagr = baseForecastCagr * 0.7; 
             let optCagr = baseForecastCagr * 1.2;  
 
-            document.getElementById('btnConservative').textContent = `保守打折 (${(consCagr*100).toFixed(1)}%)`;
-            document.getElementById('btnHistorical').textContent = `按历史均值 (${(baseForecastCagr*100).toFixed(1)}%)`;
-            document.getElementById('btnOptimistic').textContent = `狂热溢价 (${(optCagr*100).toFixed(1)}%)`;
+            document.getElementById('btnConservative').textContent = `保守打折 (${(consCagr*100).toFixed(2)}%)`;
+            document.getElementById('btnHistorical').textContent = `按历史均值 (${(baseForecastCagr*100).toFixed(2)}%)`;
+            document.getElementById('btnOptimistic').textContent = `狂热溢价 (${(optCagr*100).toFixed(2)}%)`;
 
             let terminalDivYield = 0.015;
             if (yValue.length > 1) {
@@ -918,6 +937,7 @@
             let forecastTableHtml = '';
             
             let futureAnnualContribution = currentAnnualContribution;
+            let prevForecastAsset = finalValue;
             
             document.getElementById('baseYearTag').textContent = state.currentYear;
             let endForecastYear = state.currentYear + state.forecastYears;
@@ -930,6 +950,9 @@
                 let forecastDiv = forecastAsset * terminalDivYield;
                 forecastTotalDiv += forecastDiv; 
                 
+                let assetGrowthRateForecast = ((forecastAsset - prevForecastAsset) / prevForecastAsset) * 100;
+                prevForecastAsset = forecastAsset;
+
                 futureAnnualContribution *= (1 + state.annualAddGrowth); 
                 
                 let forecastYOC = (forecastDiv / forecastCapitalInjected) * 100;
@@ -938,6 +961,7 @@
                     <tr class="hover:bg-emerald-50/50 transition border-b border-gray-100">
                         <td class="py-2.5 px-4 font-bold text-gray-800">${fy}</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-semibold">${fmtUsd(forecastAsset)}</td>
+                        <td class="py-2.5 px-4 text-purple-700 font-semibold">+${assetGrowthRateForecast.toFixed(2)}%</td>
                         <td class="py-2.5 px-4 text-[#d4af37] font-semibold">${fmtUsd(forecastDiv)}</td>
                         <td class="py-2.5 px-4 font-semibold text-orange-600">${fmtUsd(forecastDiv * 0.7)}</td>
                         <td class="py-2.5 px-4 font-semibold text-rose-600">${fmtUsd(forecastDiv * 0.9)}</td>
@@ -947,9 +971,8 @@
             }
             document.getElementById('forecastTableBody').innerHTML = forecastTableHtml;
             
-            // 同步更新理财计算器和杠杆计算器里的数据
             document.getElementById('wiNetWorth').value = finalValue.toFixed(0);
-            document.getElementById('levEtfReturn').value = (trueHistoricalCagr * 100).toFixed(1);
+            document.getElementById('levEtfReturn').value = (trueHistoricalCagr * 100).toFixed(2);
             calcWealthIndex();
             calcLeverage();
         }
@@ -1006,17 +1029,15 @@
         document.body.appendChild(dynamicTooltip);
 
         function setupDynamicTooltips() {
-            // 给所有的 .help-tip 和 .icon-tip 绑定事件
             document.querySelectorAll('.help-tip').forEach(el => {
                 el.addEventListener('mouseenter', e => {
                     const tipText = el.getAttribute('data-tip');
                     if(tipText) {
-                        dynamicTooltip.innerHTML = tipText; // 支持简单的HTML如果需要
+                        dynamicTooltip.innerHTML = tipText;
                         dynamicTooltip.classList.remove('opacity-0');
                     }
                 });
                 el.addEventListener('mousemove', e => {
-                    // 悬浮框始终跟随鼠标右下角，并做边界检测防止溢出屏幕
                     let tipX = e.clientX + 15;
                     let tipY = e.clientY + 15;
                     const tipWidth = dynamicTooltip.offsetWidth;
