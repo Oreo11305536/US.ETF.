@@ -148,7 +148,7 @@
             <h2 class="font-bold text-xl">步骤 1：设置初始配比</h2>
             <div id="weightWarning" class="text-sm font-bold text-red-500 hidden">⚠️ 初始总权重不等于 100%</div>
         </div>
-        <p class="text-sm text-gray-500 mb-6">输入初始资金分配权重。把鼠标放在小绿标 <span class="icon-tip relative bottom-[1px]">i</span> 上即可查看人话版解析。</p>
+        <p class="text-sm text-gray-500 mb-6">输入初始资金分配权重。把鼠标放在小绿标 <span class="icon-tip help-tip relative bottom-[1px]" data-tip="在下方卡片中输入你心仪的资金分配比例，点击ETF名称左侧的复选框可以启用或取消该ETF。系统将自动进行动态历史回测。">i</span> 上即可查看人话版解析。</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="etfGrid"></div>
     </div>
 
@@ -259,8 +259,8 @@
                         <th class="py-3 px-4 text-[#d4af37]"><span class="help-tip" data-tip="你名下资产产生的全部股息毛利，还未交税。">税前分红</span></th>
                         <th class="py-3 px-4 text-orange-600"><span class="help-tip" data-tip="假设你是香港税务居民(非美国居民)，美国政府会强行扣走 30% 股息税。本列为你真正拿到手的钱。">HK实际到手 (扣30%)</span></th>
                         <th class="py-3 px-4 text-rose-600"><span class="help-tip" data-tip="假设你是内地税务居民，因中美有税收协定，填写 W-8BEN 表格后仅扣 10% 股息税。本列为你真正拿到手的钱。">CN实际到手 (扣10%)</span></th>
-                        <th class="py-3 px-4">累计已领分红(税前)</th>
-                        <th class="py-3 px-4 text-emerald-700"><span class="help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的总本金。它衡量你真金白银掏出的钱，现在每年能产出多少比例的利息。本列为税前，HK请乘0.7，CN请乘0.9。">税前成本收益率(YOC)</span> <span class="icon-tip">i</span></th>
+                        <th class="py-3 px-4">累计已领(税前)</th>
+                        <th class="py-3 px-4 text-emerald-700"><span class="help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的总本金。它衡量你真金白银掏出的钱，现在每年能产出多少比例的利息。本列为税前，HK请乘0.7，CN请乘0.9。">税前成本收益率(YOC)</span> <span class="icon-tip help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的总本金。它衡量你真金白银掏出的钱，现在每年能产出多少比例的利息。本列为税前，HK请乘0.7，CN请乘0.9。">i</span></th>
                     </tr>
                 </thead>
                 <tbody id="historyTableBody" class="divide-y divide-gray-100 bg-white font-mono"></tbody>
@@ -954,7 +954,7 @@
             calcLeverage();
         }
 
-        // ================= 进阶财富计算器逻辑（硅谷居士） =================
+        // ================= 进阶财富计算器逻辑 =================
         window.calcWealthIndex = function() {
             let age = parseFloat(document.getElementById('wiAge').value) || 0;
             let income = parseFloat(document.getElementById('wiIncome').value) || 0;
