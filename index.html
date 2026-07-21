@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>美国宽基指数</title>
+    <title>FIRE 美国宽基指数</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- 每日由 GitHub Action 自动生成的真实数据文件 -->
@@ -20,11 +20,9 @@
         .etf-checkbox { accent-color: #d4af37; width: 1.2rem; height: 1.2rem; cursor: pointer; }
         .weight-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 2px 4px; font-size: 0.875rem; }
         
-        /* 标签小样式 */
         .badge-label { display: inline-block; width: 4.5rem; color: #9ca3af; font-size: 0.825rem; vertical-align: top; }
         .badge-content { display: inline-block; width: calc(100% - 5rem); font-size: 0.875rem; color: #374151; }
 
-        /* 机构级 Tooltip 样式 */
         .veteran-tooltip .tooltip-text {
             visibility: hidden; opacity: 0; transition: opacity 0.2s;
             position: absolute; z-index: 999; top: 100%; left: 0; margin-top: 8px;
@@ -36,7 +34,6 @@
         .veteran-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
         .tooltip-title { font-weight: bold; color: #d4af37; border-bottom: 1px solid #4b5563; padding-bottom: 6px; margin-bottom: 8px; font-size: 0.95rem; display: flex; justify-content: space-between;}
         
-        /* 图表切换按钮 */
         .chart-toggle-btn { padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .chart-toggle-active { background-color: #1f2937; color: white; }
         .chart-toggle-inactive { background-color: #e5e7eb; color: #4b5563; }
@@ -45,13 +42,12 @@
 </head>
 <body class="p-8 max-w-7xl mx-auto">
 
-    <!-- ================= 1. 顶部：七只 ETF 四维度深度白皮书 (全景恢复) ================= -->
+    <!-- 1. 顶部：七只 ETF 四维度深度白皮书 -->
     <div class="card bg-[#fffdfa] border-b-4 border-[#d4af37]">
         <h1 class="font-bold text-2xl mb-2 text-gray-800">Financial Independence, Retire Early (Buy & Hold)</h1>
-        <p class="text-sm text-gray-500 mb-6">全自动云端数据同步。采用自然生长（无强制再平衡）逻辑，让强力资产利润自由奔跑。</p>
+        <p class="text-sm text-gray-500 mb-6">全自动云端数据同步。采用自然生长（无强制再平衡）逻辑。</p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            
             <div class="border rounded-lg p-4 bg-white shadow-sm">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="font-bold text-lg text-blue-800">SCHD</h3>
@@ -59,10 +55,10 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Schwab U.S. Dividend Equity ETF</p>
                 <div class="space-y-2 border-t pt-2">
-                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">道琼斯美国股息 100 指数 (Dow Jones U.S. Dividend 100)</span></div>
-                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">连续分红 ≥10 年，按自由现金流/债务、ROE、股息率、5年股息增速四因子打分选前 100 只；单股限重 4%，不含 REITs。</span></div>
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">道琼斯美国股息 100 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">连续分红 ≥10 年，按自由现金流/债务、ROE、股息率、5年股息增速四因子打分选前 100 只。</span></div>
                     <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">高品质高股息核心（Quality Dividend Engine）</span></div>
-                    <div><span class="badge-label">组合角色</span><span class="badge-content">现金流压舱石。提供组合中最稳定、初始收益率最高 (约 3.2%) 的当期工资来源。</span></div>
+                    <div><span class="badge-label">组合角色</span><span class="badge-content">现金流压舱石。提供组合中最稳定、初始收益率最高的当期工资来源。</span></div>
                 </div>
             </div>
 
@@ -73,10 +69,10 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">iShares Core Dividend Growth ETF</p>
                 <div class="space-y-2 border-t pt-2">
-                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">晨星美国股息成长指数 (Morningstar US Dividend Growth)</span></div>
-                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">连续增发股息 ≥5 年 + 派息率 &lt; 75% + 剔除股息率最高的前 10%（防陷阱）；覆盖 MSFT、AAPL 等科技成长派息巨头。</span></div>
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">晨星美国股息成长指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">连续增发股息 ≥5 年，派息率 &lt; 75%，剔除最高息前 10%防陷阱；覆盖 MSFT、AAPL。</span></div>
                     <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">股息复利增长极（Dividend Growth Engine）</span></div>
-                    <div><span class="badge-label">组合角色</span><span class="badge-content">负责抵御通胀，推动未来工资购买力的持续阶梯式增长，危机中派息韧性极强。</span></div>
+                    <div><span class="badge-label">组合角色</span><span class="badge-content">抵御通胀，推动未来工资购买力的持续阶梯式增长，危机中派息韧性极强。</span></div>
                 </div>
             </div>
 
@@ -87,10 +83,10 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard Utilities ETF</p>
                 <div class="space-y-2 border-t pt-2">
-                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国可投资市场公用事业 25/50 指数</span></div>
-                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">纯粹覆盖受监管的电力、天然气、供水等区域垄断公司。电价由监管定价保障，收入几乎不随经济周期波动。</span></div>
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国公用事业 25/50 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">纯粹覆盖受监管的电力、天然气、供水等区域垄断公司。电价由监管定价保障。</span></div>
                     <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">深度防御与逆周期避险（Defensive Anchor）</span></div>
-                    <div><span class="badge-label">组合角色</span><span class="badge-content">组合的“左侧装甲”。08-09 年金融危机中少数依然能逆势上调股息的特仓，提供强劲心理防线。</span></div>
+                    <div><span class="badge-label">组合角色</span><span class="badge-content">组合的“左侧装甲”。08-09 年金融危机中少数依然能逆势上调股息的特仓。</span></div>
                 </div>
             </div>
 
@@ -101,10 +97,10 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard S&P 500 ETF</p>
                 <div class="space-y-2 border-t pt-2">
-                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">标普 500 指数 (S&P 500 Index)</span></div>
-                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">美国市值最大、最具代表性的 500 家跨国巨头，按自由流通市值加权，由标普委员会定期自动更新淘汰。</span></div>
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">标普 500 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">美国市值最大、最具代表性的 500 家跨国巨头，市值加权，定期淘汰。</span></div>
                     <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">大盘核心基座（Market Core）</span></div>
-                    <div><span class="badge-label">组合角色</span><span class="badge-content">锚定美国整体国运。不押注单一风格，兼顾资本增值与分红增长，作为组合长期总市值的稳固中枢。</span></div>
+                    <div><span class="badge-label">组合角色</span><span class="badge-content">锚定美国国运。不押注单一风格，兼顾增值与分红，作为长期市值的稳固中枢。</span></div>
                 </div>
             </div>
 
@@ -115,10 +111,10 @@
                 </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Invesco NASDAQ 100 ETF</p>
                 <div class="space-y-2 border-t pt-2">
-                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">纳斯达克 100 指数 (NASDAQ-100 Index)</span></div>
-                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">纳斯达克上市市值最大的 100 家非金融企业，按市值加权，每年 12 月重构——自动收编存活下来的科技与消费赢家。</span></div>
-                    <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">科技与创新大盘进攻锋线（Tech Heavyweight）</span></div>
-                    <div><span class="badge-label">组合角色</span><span class="badge-content">成长半区基座。费率低于 QQQ，负责捕捉科技革命带来的贝塔收益，市值冲顶后向收入侧反哺。</span></div>
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">纳斯达克 100 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">市值最大的 100 家非金融企业，自动收编存活下来的科技与消费赢家。</span></div>
+                    <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">科技进攻锋线（Tech Heavyweight）</span></div>
+                    <div><span class="badge-label">组合角色</span><span class="badge-content">成长半区基座。负责捕捉科技革命收益，市值冲顶后向收入侧反哺。</span></div>
                 </div>
             </div>
 
@@ -130,9 +126,9 @@
                 <p class="text-sm text-gray-500 mb-3 font-medium">VanEck Semiconductor ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MVIS 美国上市半导体 25 指数</span></div>
-                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">集中持仓全球半导体产业链前 25 大龙头（NVDA, TSM, AVGO 等），单股权重上限可达 20%+。</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">集中持仓全球半导体产业链前 25 大龙头（NVDA, TSM 等），集中度极高。</span></div>
                     <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">算力硬科技尖刀（Semiconductor Vanguard）</span></div>
-                    <div><span class="badge-label">组合角色</span><span class="badge-content">最锐利的进攻武器。利用半导体高周期、高弹性的特征积累巨额超额收益。</span></div>
+                    <div><span class="badge-label">组合角色</span><span class="badge-content">最锐利的进攻武器。利用半导体高周期弹性积累巨额超额收益。</span></div>
                 </div>
             </div>
 
@@ -144,19 +140,18 @@
                 <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard Information Technology ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国信息技术指数</span></div>
-                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">深度覆盖全美 IT 行业（软件、硬件）。<strong>注意分类盲区：</strong>依 GICS 标准不含 Alphabet/Meta 及 Amazon/Tesla。</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">深度覆盖全美 IT 行业。依 GICS 标准不含 Alphabet/Meta 及 Amazon/Tesla。</span></div>
                     <div><span class="badge-label">主题角色</span><span class="badge-content font-medium text-gray-800">纯粹硬科技与软件纯度仓位（Pure IT Sector）</span></div>
-                    <div><span class="badge-label">组合角色</span><span class="badge-content">战术扩展位。可灵活替代或稀释部分 QQQM 权重，强化软件/硬件科技轮动。</span></div>
+                    <div><span class="badge-label">组合角色</span><span class="badge-content">战术扩展位。可灵活替代或稀释部分 QQQM 权重，强化科技轮动。</span></div>
                 </div>
             </div>
-
         </div>
     </div>
 
-    <!-- ================= 2. 交互配置 (带客观深度 Tooltip) ================= -->
+    <!-- 2. 交互配置 (带客观深度 Tooltip) -->
     <div class="card overflow-visible">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="font-bold text-xl">设置初始配比</h2>
+            <h2 class="font-bold text-xl">步骤 1：设置初始配比</h2>
             <div id="weightWarning" class="text-sm font-bold text-red-500 hidden">⚠️ 初始总权重不等于 100%</div>
         </div>
         <p class="text-sm text-gray-500 mb-6">输入初始资金分配权重。点击金币图标 <span class="inline-flex justify-center items-center w-5 h-5 bg-[#d4af37] text-white rounded-full text-xs font-bold font-serif">i</span> 查阅机构级底层机制与优劣势解析。</p>
@@ -168,7 +163,7 @@
         <div class="flex flex-wrap items-center gap-6 mb-6">
             <div class="bg-white rounded-full p-1 flex shadow-sm border">
                 <button id="btnIncome" class="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition">取出分红</button>
-                <button id="btnDrip" class="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100">股息再投 (DRIP)</button>
+                <button id="btnDrip" class="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100">红利再投 (DRIP)</button>
             </div>
             <div class="flex items-center space-x-2">
                 <span class="text-sm font-medium">初始本金 $</span>
@@ -198,7 +193,7 @@
                 <div class="text-xs text-gray-500" id="valPresentSub">加载中...</div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-                <div class="text-xs text-gray-500 mb-2">组合真实 CAGR</div>
+                <div class="text-xs text-gray-500 mb-2">真实复合年化收益 (CAGR)</div>
                 <div class="text-3xl font-bold font-mono text-emerald-600 mb-2" id="valCagr">+0.0%</div>
                 <div class="text-xs text-gray-500" id="valCagrSub">自然膨胀</div>
             </div>
@@ -259,8 +254,8 @@
                     <tr>
                         <th class="py-3 px-4">年份</th>
                         <th class="py-3 px-4">年底总资产</th>
-                        <th class="py-3 px-4">当年分红</th>
-                        <th class="py-3 px-4">累计已领</th>
+                        <th class="py-3 px-4">该年股息</th>
+                        <th class="py-3 px-4">累计已领股息</th>
                         <th class="py-3 px-4 text-emerald-700">个人 YOC ⓘ</th>
                     </tr>
                 </thead>
@@ -269,67 +264,124 @@
         </div>
     </div>
 
+    <!-- 动态进化的未来推演预测表 -->
+    <div class="card bg-[#fcfdfd] border-t-4 border-emerald-500">
+        <div class="flex flex-wrap justify-between items-center mb-4">
+            <div>
+                <div class="flex items-center space-x-2">
+                    <h3 class="font-bold text-xl text-gray-800">未来</h3>
+                    <input type="number" id="forecastYearsInput" value="10" min="1" max="60" class="border-2 border-emerald-500 p-1 rounded-md w-16 text-center font-mono font-bold text-emerald-700 shadow-sm focus:outline-none">
+                    <h3 class="font-bold text-xl text-gray-800">年动态延伸预测</h3>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">基于 <strong id="baseYearTag">2026</strong> 年底实际资产及组合真实历史胜率进行推演。</p>
+            </div>
+            <!-- 动态三档调节按钮 -->
+            <div class="bg-gray-100 p-1 rounded-lg flex space-x-1 shadow-inner mt-4 sm:mt-0">
+                <button id="btnConservative" onclick="setForecastMode('conservative')" class="px-3 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800 hover:bg-white/50">保守打折</button>
+                <button id="btnHistorical" onclick="setForecastMode('historical')" class="px-3 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-gray-800">按历史均值</button>
+                <button id="btnOptimistic" onclick="setForecastMode('optimistic')" class="px-3 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800 hover:bg-white/50">狂热溢价</button>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto border rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                <thead class="bg-emerald-50 text-emerald-900 font-bold">
+                    <tr>
+                        <th class="py-3 px-4">推演年份</th>
+                        <th class="py-3 px-4">预计年底总资产</th>
+                        <th class="py-3 px-4">预计当年总股息</th>
+                        <th class="py-3 px-4">累计已领 (接续历史)</th>
+                        <th class="py-3 px-4 text-emerald-700">预期 YOC</th>
+                    </tr>
+                </thead>
+                <tbody id="forecastTableBody" class="divide-y divide-gray-100 bg-white font-mono">
+                    <!-- JS 动态填充预测表格行 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ================= 附录：数据溯源与底层方法论 ================= -->
+    <div class="mt-8 mb-12 border-t border-gray-200 pt-8">
+        <h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
+            <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            量化回测方法论与数据溯源 (Data Proxy Chain)
+        </h3>
+        <p class="text-xs text-gray-500 mb-4 leading-relaxed">
+            本系统由 GitHub Actions 驱动每日自动抓取 Yahoo Finance 真实收盘与分红数据。为实现跨越三十年（1993-至今）的完整宏观周期回测，对于成立较晚的现代低费率 ETF，底层回测引擎采用了严格的同源指数或高度相关的经典共同基金进行数据缝合（Proxy Splicing）。具体代理链条如下：
+        </p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs font-mono text-gray-600 bg-gray-50 p-4 rounded-lg border">
+            <div><strong class="text-gray-800">SCHD</strong> (2011成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VYM</span> (2006-2011) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VEIPX</span> (1993-2006)</div>
+            <div><strong class="text-gray-800">DGRO</strong> (2014成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VIG</span> (2006-2014) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VDIGX</span> (1993-2006)</div>
+            <div><strong class="text-gray-800">VOO</strong> (2010成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">SPY</span> (1993-2010)</div>
+            <div><strong class="text-gray-800">QQQM</strong> (2020成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">QQQ</span> (1999-2020) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">NDX Index</span> (1993-1999)</div>
+            <div><strong class="text-gray-800">SMH</strong> (2011成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">SOXX</span> (2001-2011) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">FSELX</span> (1993-2001)</div>
+            <div><strong class="text-gray-800">VGT</strong> (2004成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">XLK</span> (1998-2004) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">FSPTX</span> (1993-1998)</div>
+            <div><strong class="text-gray-800">VPU</strong> (2004成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">XLU</span> (1998-2004) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">FKUTX</span> (1993-1998)</div>
+        </div>
+
+        <p class="text-xs text-gray-400 mt-4">
+            * 声明：历史业绩不代表未来表现。红利数据包含普通股息与资本利得派发，YOC（Yield on Cost）未扣除个人税务摩擦损耗。本沙盘纯为推演资产自然生长（Buy & Hold）规律，不构成直接投资建议。
+        </p>
+    </div>
+
     <!-- 引擎核心逻辑 -->
     <script>
-        // --- 1. 机构级 ETF 档案库 (深度客观描述) ---
         const etfLibrary = [
             { id: 'SCHD', name: '高息质量', type: '收入', defaultWeight: 20, color: 'blue', 
               ws: `<div class="tooltip-title"><span>SCHD</span><span class="text-gray-400 font-normal">成立: 2011年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>严格跟踪道琼斯美国股息100指数。并非简单追求高息，而是通过现金流/债务比、ROE等四大基本面指标，层层筛选出连续10年分红的优质企业。</div>
-                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>成分股财务极为健康，具备强劲的下行保护能力，股息增长率长期跑赢通胀。</div>
-                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>选股逻辑导致极度缺乏高成长性的科技股，在狂热牛市中会显著跑输大盘。</div>
-                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>充当组合的“现金流压舱石”，用以提供高确定性且初始占比较高的股息收入。</div>` },
-            
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>严格跟踪道琼斯美国股息100指数。并非简单追求高息，而是通过四大基本面指标，层层筛选连续10年分红的优质企业。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>成分股财务极为健康，具备强劲下行保护能力，股息增长长期跑赢通胀。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>极度缺乏高成长的科技股，在狂热牛市中会显著跑输大盘。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>组合的“现金流压舱石”，提供高确定性且初始占比较高的股息收入。</div>` },
             { id: 'DGRO', name: '股息成长', type: '收入', defaultWeight: 10, color: 'blue',
               ws: `<div class="tooltip-title"><span>DGRO</span><span class="text-gray-400 font-normal">成立: 2014年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>跟踪晨星美国股息成长指数。专注于具有5年以上股息增长历史的公司，并强制要求派息率低于75%，同时剔除收益率最高的前10%以规避“高息陷阱”。</div>
-                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>能够捕获具备持续造血能力的科技巨头（如微软、苹果），实现资本升值与分红增长的双击。</div>
-                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>初始股息率相对偏低（通常在2%左右），需要较长的时间周期让复利发酵。</div>
-                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>作为长期抗通胀引擎，确保未来的股息现金流购买力能够逐年阶梯式上升。</div>` },
-            
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>专注具有5年以上股息增长历史的公司，强制要求派息率低于75%，同时剔除收益率最高的前10%规避“高息陷阱”。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>捕获具备持续造血能力的科技巨头（如微软、苹果），实现双击。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>初始股息率相对偏低（约2%），需要较长的时间周期让复利发酵。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>长期抗通胀引擎，确保未来的现金流购买力逐年阶梯上升。</div>` },
             { id: 'VPU', name: '公用事业', type: '收入', defaultWeight: 5, color: 'blue',
               ws: `<div class="tooltip-title"><span>VPU</span><span class="text-gray-400 font-normal">成立: 2004年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>纯粹的行业ETF，专门投资于受政府监管的美国电力、天然气和水务等区域性垄断公用事业公司。</div>
-                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>具备极强的逆周期防御属性，收入由监管电价保障，与宏观经济衰退关联度极低。</div>
-                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>对利率极其敏感，在加息周期中表现通常极其疲软；完全缺乏进攻性。</div>
-                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>极小仓位的防御避险配置，在系统性崩盘时提供稳定的股息和心理支撑。</div>` },
-            
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>专门投资受政府监管的美国电力、天然气和水务等垄断公用事业公司。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>极强的逆周期防御属性，收入由监管电价保障，与宏观经济衰退关联度极低。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>对利率敏感，在加息周期表现疲软；完全缺乏进攻性。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>防御避险配置，在系统性崩盘时提供稳定的股息和心理支撑。</div>` },
             { id: 'VOO', name: '标普500', type: '收入', defaultWeight: 15, color: 'slate',
               ws: `<div class="tooltip-title"><span>VOO</span><span class="text-gray-400 font-normal">成立: 2010年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>按市值加权跟踪标普500指数，覆盖美国最具代表性的500家跨国大型企业，指数委员会定期自动更新成分股。</div>
-                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>极致的广泛分散性与优胜劣汰机制，费率极低（0.03%），代表了美股最纯正的市场贝塔收益。</div>
-                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>近年来前十大科技巨头集中度过高（达30%以上），且整体分红率被高估值科技股拉低。</div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>按市值加权跟踪标普500指数，覆盖美国最具代表性的500家跨国企业。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>极致的分散与优胜劣汰机制，费率极低（0.03%），代表最纯正的市场贝塔收益。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>前十大科技巨头集中度过高（达30%以上），整体分红率被拉低。</div>
                    <div><span class="font-bold text-blue-400">【买入逻辑】</span>作为组合的总市值中枢，不押注单一风格，平抑极端波动。</div>` },
-            
             { id: 'QQQM', name: '纳指100', type: '成长', defaultWeight: 25, color: 'red',
               ws: `<div class="tooltip-title"><span>QQQM</span><span class="text-gray-400 font-normal">成立: 2020年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>跟踪纳斯达克100指数（与老牌ETF QQQ完全一致，但费率更低）。包含纳斯达克上市市值最大的100家非金融类创新企业。</div>
-                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>深度绑定全球科技革命与数字化进程，长期展现出极强的进攻性和超额收益能力。</div>
-                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>波动率极大，在估值泡沫破裂或科技衰退期（如2000年、2022年）会遭遇毁灭性回撤。</div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>跟踪纳斯达克100指数，包含上市市值最大的100家非金融类创新企业。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>深度绑定科技革命，长期展现极强的进攻性和超额收益能力。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>波动率极大，在估值泡沫破裂期（如2000、2022年）会遭遇毁灭性回撤。</div>
                    <div><span class="font-bold text-blue-400">【买入逻辑】</span>绝对的成长半区核心，承担拉升整个资产包长期总市值的重任。</div>` },
-            
             { id: 'SMH', name: '半导体', type: '成长', defaultWeight: 25, color: 'red',
               ws: `<div class="tooltip-title"><span>SMH</span><span class="text-gray-400 font-normal">成立: 2011年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>集中持仓全球半导体产业链中最核心的前25大龙头企业（涵盖设计、制造、设备等），单股权重上限可达20%以上。</div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>集中持仓全球半导体产业链最核心的前25大龙头企业，单股上限达20%+。</div>
                    <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>爆发力冠绝美股，处于AI、云计算和智能硬件革命的最底层刚需环节。</div>
-                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>半导体属于高周期行业，受库存周期和地缘政治影响深远，回撤往往极其惨烈。</div>
-                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>组合中最尖锐的战术长矛，利用高弹性和产业爆发期博取最高额的阿尔法收益。</div>` },
-            
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>高周期行业，受库存与地缘政治影响深远，回撤惨烈。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>组合中最尖锐的战术长矛，利用高弹性博取最高额的阿尔法收益。</div>` },
             { id: 'VGT', name: '纯净科技', type: '成长', defaultWeight: 0, color: 'red',
               ws: `<div class="tooltip-title"><span>VGT</span><span class="text-gray-400 font-normal">成立: 2004年</span></div>
-                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>深度覆盖全美IT行业（信息技术）。注意：依照GICS行业分类标准，该ETF不包含Alphabet、Meta（属通信服务）及亚马逊、特斯拉（属消费）。</div>
-                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>纯度极高，专注于传统的软件服务与硬件制造，费率极低（0.10%）。</div>
-                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>行业定义相对死板，错过了数家实际上具备强科技属性的万亿级互联网巨头。</div>
-                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>可作为QQQM的灵活替代或补充，强化对纯粹软件和硬件领域的垂直配置。</div>` }
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>深度覆盖全美IT行业。依GICS标准不含Alphabet、Meta及亚马逊、特斯拉。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>纯度极高，专注软件服务与硬件制造，费率极低（0.10%）。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>行业定义死板，错过了数家具备强科技属性的万亿级互联网巨头。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>灵活替代或补充QQQM，强化对纯粹软硬件领域的垂直配置。</div>` }
         ];
 
         let state = {
             isDrip: false, capital: 3000000, annualAdd: 0, startYear: 2000, 
             currentYear: new Date().getFullYear(), portfolio: {},
-            viewVal: 'yearly', viewDiv: 'yearly'
+            viewVal: 'yearly', viewDiv: 'yearly',
+            forecastMode: 'historical', forecastYears: 10
         };
 
         let cachedChartData = { yearly: {}, monthly: {} };
+        let trueHistoricalCagr = 0;
 
         etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
         if (typeof proxyDatabase === 'undefined') window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
@@ -339,7 +391,6 @@
             return [0.10, 0.02];
         }
 
-        // --- 2. 渲染带 Tooltip 的网格 ---
         function renderEtfGrid() {
             const grid = document.getElementById('etfGrid');
             grid.innerHTML = '';
@@ -357,9 +408,7 @@
                             </div>
                             <div class="veteran-tooltip relative inline-block cursor-help" onclick="event.stopPropagation()">
                                 <div class="flex items-center justify-center w-5 h-5 rounded-full bg-[#d4af37] text-white text-xs font-serif font-bold hover:scale-110 transition shadow">i</div>
-                                <div class="tooltip-text">
-                                    ${etf.ws}
-                                </div>
+                                <div class="tooltip-text">${etf.ws}</div>
                             </div>
                         </div>
                         <div class="flex justify-between items-center bg-gray-50 p-1 rounded" onclick="event.stopPropagation()">
@@ -391,12 +440,26 @@
             });
         });
 
+        document.getElementById('forecastYearsInput').addEventListener('input', e => {
+            let val = parseInt(e.target.value) || 10;
+            state.forecastYears = val; runBacktestEngine();
+        });
+
         window.setYear = (year) => { document.getElementById('startYear').value = year; state.startYear = year; runBacktestEngine(); };
 
         document.getElementById('btnIncome').addEventListener('click', e => { state.isDrip = false; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; document.getElementById('btnDrip').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; runBacktestEngine(); });
         document.getElementById('btnDrip').addEventListener('click', e => { state.isDrip = true; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; document.getElementById('btnIncome').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; runBacktestEngine(); });
 
-        // --- 3. 危机阴影插件 ---
+        window.setForecastMode = function(mode) {
+            state.forecastMode = mode;
+            ['btnConservative', 'btnHistorical', 'btnOptimistic'].forEach(id => {
+                document.getElementById(id).className = "px-3 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800 hover:bg-white/50";
+            });
+            const activeBtn = mode === 'conservative' ? 'btnConservative' : (mode === 'historical' ? 'btnHistorical' : 'btnOptimistic');
+            document.getElementById(activeBtn).className = "px-3 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-gray-800";
+            runBacktestEngine();
+        };
+
         const bearMarketPlugin = {
             id: 'bearMarketShading',
             beforeDraw(chart) {
@@ -408,7 +471,6 @@
                     { y: ['2020'], mStart: '2020-02', mEnd: '2020-04' },                
                     { y: ['2022'], mStart: '2022-01', mEnd: '2022-10' }                 
                 ];
-                
                 ctx.save(); ctx.fillStyle = 'rgba(156, 163, 175, 0.2)'; 
                 const labels = chart.data.labels;
                 const isMonthly = labels.length > 0 && String(labels[0]).includes('-');
@@ -444,7 +506,6 @@
         let valueChart = new Chart(document.getElementById('valueChart').getContext('2d'), { type: 'line', data: { labels: [], datasets: [{ label: '资产现值', data: [], borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.1)', borderWidth: 1.5, pointRadius: 0, fill: true, tension: 0.2 }] }, plugins: [bearMarketPlugin], options: { responsive: true, plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false } }, scales: { x: { ticks: { autoSkip: true, maxTicksLimit: 12 } }, y: { ticks: { callback: fmtUsdChart } } }, interaction: { mode: 'nearest', axis: 'x', intersect: false } } });
         let dividendChart = new Chart(document.getElementById('dividendChart').getContext('2d'), { type: 'bar', data: { labels: [], datasets: [{ label: '现金流', data: [], backgroundColor: '#d4af37', borderRadius: 2 }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { autoSkip: true, maxTicksLimit: 12 } }, y: { ticks: { callback: fmtUsdChart } } } } });
 
-        // --- 4. 图表切换逻辑 ---
         window.setChartMode = function(target, mode) {
             if (target === 'value') {
                 state.viewVal = mode;
@@ -463,7 +524,6 @@
             }
         };
 
-        // --- 5. 核心计算引擎 ---
         function runBacktestEngine() {
             let totalWeight = 0;
             for (const w of Object.values(state.portfolio)) totalWeight += w;
@@ -481,6 +541,7 @@
             let currentCapitalInjected = state.capital;
             let historyTableHtml = '';
             let prevTotalAsset = state.capital;
+            let indexValue = 1.0;
 
             for(let y = state.startYear; y <= state.currentYear; y++) {
                 
@@ -489,9 +550,19 @@
 
                 let currentYearTotalAsset = 0;
                 let currentYearDiv = 0;
+                let weightSum = 0;
+                for (const val of Object.values(assetBuckets)) weightSum += val;
+                
+                let yearCapReturn = 0;
+                let yearDivYield = 0;
 
                 for (const id of Object.keys(assetBuckets)) {
                     let [capReturn, divYield] = getAssetPerformance(y, id);
+                    
+                    let w = assetBuckets[id] / weightSum;
+                    yearCapReturn += capReturn * w;
+                    yearDivYield += divYield * w;
+
                     if (y > state.startYear) assetBuckets[id] += state.annualAdd * (state.portfolio[id] / totalWeight);
                     
                     assetBuckets[id] = assetBuckets[id] * (1 + capReturn);
@@ -502,6 +573,8 @@
                     currentYearTotalAsset += assetBuckets[id];
                 }
                 
+                indexValue *= (1 + yearCapReturn + (state.isDrip ? yearDivYield : 0));
+
                 yLabels.push(y.toString());
                 yValue.push(currentYearTotalAsset);
                 yDiv.push(currentYearDiv);
@@ -514,16 +587,13 @@
                     currentMonthAsset *= ratio;
                     mLabels.push(y + '-' + String(m).padStart(2, '0'));
                     mValue.push(currentMonthAsset);
-                    if (m % 3 === 0) {
-                        mDiv.push(currentYearDiv / 4);
-                    } else {
-                        mDiv.push(0);
-                    }
+                    if (m % 3 === 0) mDiv.push(currentYearDiv / 4);
+                    else mDiv.push(0);
                 }
                 prevTotalAsset = currentYearTotalAsset;
 
                 let yoc = (currentYearDiv / currentCapitalInjected) * 100;
-                historyTableHtml = `
+                historyTableHtml += `
                     <tr class="hover:bg-gray-50 transition border-b border-gray-100">
                         <td class="py-2 px-4 text-gray-800">${y}</td>
                         <td class="py-2 px-4 font-semibold text-gray-700">${fmtUsd(currentYearTotalAsset)}</td>
@@ -531,7 +601,7 @@
                         <td class="py-2 px-4 text-blue-600">${fmtUsd(cumulativeDiv)}</td>
                         <td class="py-2 px-4 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-600'}">${yoc.toFixed(2)}%</td>
                     </tr>
-                ` + historyTableHtml;
+                `;
             }
 
             cachedChartData.yearly = { labels: yLabels, value: yValue, div: yDiv };
@@ -542,9 +612,11 @@
             let years = state.currentYear - state.startYear + 0.5;
             let totalIn = currentCapitalInjected;
             
+            trueHistoricalCagr = Math.pow(indexValue, 1/years) - 1;
+            
             document.getElementById('valPresent').textContent = fmtUsd(finalValue);
             document.getElementById('valPresentSub').textContent = `真金白银投入 ${fmtUsd(totalIn)}`;
-            document.getElementById('valCagr').textContent = `+${((Math.pow(finalValue / state.capital, 1/years) - 1)*100).toFixed(1)}%`;
+            document.getElementById('valCagr').textContent = `+${(trueHistoricalCagr*100).toFixed(1)}%`;
             document.getElementById('valSalary').textContent = fmtUsd(finalDiv);
             document.getElementById('valTotalDiv').textContent = fmtUsd(cumulativeDiv);
             document.getElementById('historyRangeTag').textContent = `${state.startYear} - ${state.currentYear}`;
@@ -552,6 +624,54 @@
 
             setChartMode('value', state.viewVal);
             setChartMode('dividend', state.viewDiv);
+
+            // --- 动态未来推演逻辑 ---
+            let consCagr = trueHistoricalCagr * 0.7; // 打七折
+            let optCagr = trueHistoricalCagr * 1.2;  // 溢价两成
+
+            document.getElementById('btnConservative').textContent = `保守打折 (${(consCagr*100).toFixed(1)}%)`;
+            document.getElementById('btnHistorical').textContent = `按历史均值 (${(trueHistoricalCagr*100).toFixed(1)}%)`;
+            document.getElementById('btnOptimistic').textContent = `狂热溢价 (${(optCagr*100).toFixed(1)}%)`;
+
+            let terminalDivYield = finalValue > 0 ? (finalDiv / finalValue) : 0.015; 
+            
+            let forecastCagr;
+            if (state.forecastMode === 'conservative') forecastCagr = consCagr;
+            else if (state.forecastMode === 'optimistic') forecastCagr = optCagr;
+            else forecastCagr = trueHistoricalCagr;
+
+            let forecastRate = 1 + forecastCagr;
+            if (state.isDrip) forecastRate = 1 + forecastCagr + terminalDivYield;
+
+            let forecastAsset = finalValue;
+            let forecastTotalDiv = cumulativeDiv;
+            let forecastCapitalInjected = currentCapitalInjected;
+            let forecastTableHtml = '';
+            
+            document.getElementById('baseYearTag').textContent = state.currentYear;
+            let endForecastYear = state.currentYear + state.forecastYears;
+
+            for (let fy = state.currentYear + 1; fy <= endForecastYear; fy++) {
+                forecastAsset += state.annualAdd;
+                forecastCapitalInjected += state.annualAdd;
+                forecastAsset *= forecastRate;
+                
+                let forecastDiv = forecastAsset * terminalDivYield;
+                forecastTotalDiv += forecastDiv; 
+                
+                let forecastYOC = (forecastDiv / forecastCapitalInjected) * 100;
+
+                forecastTableHtml += `
+                    <tr class="hover:bg-emerald-50/50 transition border-b border-gray-100">
+                        <td class="py-2.5 px-4 font-bold text-gray-800">${fy}</td>
+                        <td class="py-2.5 px-4 text-emerald-700 font-semibold">${fmtUsd(forecastAsset)}</td>
+                        <td class="py-2.5 px-4 text-[#d4af37] font-semibold">${fmtUsd(forecastDiv)}</td>
+                        <td class="py-2.5 px-4 text-blue-700">${fmtUsd(forecastTotalDiv)}</td>
+                        <td class="py-2.5 px-4 font-bold ${forecastYOC >= 10 ? 'text-red-500' : 'text-emerald-700'}">${forecastYOC.toFixed(2)}%</td>
+                    </tr>
+                `;
+            }
+            document.getElementById('forecastTableBody').innerHTML = forecastTableHtml;
         }
 
         window.onload = () => { renderEtfGrid(); runBacktestEngine(); };
