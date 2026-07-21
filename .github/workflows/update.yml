@@ -1,0 +1,29 @@
+name: Daily FIRE Data Update
+
+on:
+  schedule:
+    - cron: "0 8 * * *" # 每天 UTC 时间早 8 点（美股收盘后）自动执行一次
+  workflow_dispatch: # 让你可以在网页上手动点一个按钮强制运行
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 授权机器人写入代码
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: pip install yfinance pandas numpy
+      - name: Run Data Fetcher
+        run: python update_data.py
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.js
+          git commit -m "🤖 每日自动同步最新雅虎金融数据" || echo "今天的数据没有变化"
+          git push
