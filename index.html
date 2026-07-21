@@ -163,7 +163,7 @@
         <div class="flex flex-wrap items-center gap-6 mb-6">
             <div class="bg-white rounded-full p-1 flex shadow-sm border">
                 <button id="btnIncome" class="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition">取出分红</button>
-                <button id="btnDrip" class="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100">红利再投 (DRIP)</button>
+                <button id="btnDrip" class="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100">分红再投 (DRIP)</button>
             </div>
             <div class="flex items-center space-x-2">
                 <span class="text-sm font-medium">初始本金 $</span>
@@ -289,8 +289,8 @@
                     <tr>
                         <th class="py-3 px-4">推演年份</th>
                         <th class="py-3 px-4">预计年底总资产</th>
-                        <th class="py-3 px-4">预计当年总股息</th>
-                        <th class="py-3 px-4">累计已领 (接续历史)</th>
+                        <th class="py-3 px-4">预计当年总分红</th>
+                        <th class="py-3 px-4">累计已领分红 (接续历史)</th>
                         <th class="py-3 px-4 text-emerald-700">预期 YOC</th>
                     </tr>
                 </thead>
@@ -553,7 +553,7 @@
         let dividendChart = new Chart(divCtx, { 
             type: 'bar', 
             data: { labels: [], datasets: [{ 
-                label: '现金流', 
+                label: '股息', 
                 data: [], 
                 backgroundColor: divGradient,
                 hoverBackgroundColor: '#d4af37',
