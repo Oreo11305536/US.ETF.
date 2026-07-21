@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIRE 终极仪表盘</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 每天自动更新的数据文件会在这里加载 -->
+    <script src="data.js"></script>
+    <style>
+        body { background-color: #f5f3ef; color: #333; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        .card { background-color: #ffffff; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); padding: 24px; margin-bottom: 24px; }
+        .tab-active { font-weight: bold; color: #000; border-bottom: 2px solid #e11d48; }
+        .tab-inactive { color: #6b7280; cursor: pointer; }
+        .tab-inactive:hover { color: #000; }
+        .etf-card { transition: all 0.2s; border: 2px solid transparent; cursor: pointer; }
+        .etf-card.selected { border-color: #e9886e; background-color: #fffdfa; }
+        .etf-checkbox { accent-color: #e9886e; width: 1.2rem; height: 1.2rem; cursor: pointer; }
+        .weight-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 2px 4px; font-size: 0.875rem; }
+        .weight-input:disabled { background-color: #f3f4f6; color: #9ca3af; }
+    </style>
+</head>
+<body class="p-8 max-w-7xl mx-auto">
+
+    <div class="card bg-[#fffdfa] border-b-4 border-[#e9886e]">
+        <h1 class="font-bold text-2xl mb-2">Financial Independence, Retire Early (Buy & Hold)</h1>
+        <p class="text-sm text-gray-500 mb-6">全自动云端数据同步。采用自然生长（无强制再平衡）逻辑，让利润自由奔跑。</p>
+    </div>
+
+    <div class="card">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="font-bold text-xl">步骤 1：设置初始配比</h2>
+            <div id="weightWarning" class="text-sm font-bold text-red-500 hidden">⚠️ 初始总权重不等于 100%</div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="etfGrid"></div>
+    </div>
+
+    <div class="card bg-[#faf9f6]">
+        <div class="flex flex-wrap items-center gap-6 mb-6">
+            <div class="bg-white rounded-full p-1 flex shadow-sm border">
+                <button id="btnIncome" class="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition">股息取出</button>
+                <button id="btnDrip" class="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100">股息再投</button>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-sm font-medium">初始本金 $</span>
+                <input type="text" id="initialCapital" value="3,000,000" class="border p-2 rounded w-36 text-right font-mono shadow-inner">
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-sm font-medium">每年定投 $</span>
+                <input type="text" id="annualContribution" value="0" class="border p-2 rounded w-32 text-right font-mono shadow-inner">
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="text-sm font-medium">回测起点</span>
+                <input type="number" id="startYear" value="2000" min="1993" max="2026" class="border p-2 rounded w-24 text-center font-mono shadow-inner">
+            </div>
+        </div>
+        
+        <div class="flex space-x-6 mb-6 text-sm">
+            <button class="tab-active pb-2">从设定年份开始</button>
+            <button class="tab-inactive pb-2" onclick="setYear(2006)">如果 20 年前开始</button>
+            <button class="tab-inactive pb-2" onclick="setYear(2016)">如果 10 年前开始</button>
+            <button class="tab-inactive pb-2" onclick="setYear(2000)">如果买在最坏一天 (2000)</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-between">
+                <div class="text-xs text-gray-500 mb-2">现值 (今年)</div>
+                <div class="text-3xl font-bold font-mono mb-2" id="valPresent">$0</div>
+                <div class="text-xs text-gray-500 leading-tight" id="valPresentSub">加载中...</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-between">
+                <div class="text-xs text-gray-500 mb-2">组合真实 CAGR</div>
+                <div class="text-3xl font-bold font-mono text-green-600 mb-2" id="valCagr">+0.0%</div>
+                <div class="text-xs text-gray-500" id="valCagrSub">无再平衡，自然膨胀</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-between">
+                <div class="text-xs text-gray-500 mb-2">最新年度股息</div>
+                <div class="text-3xl font-bold font-mono mb-2" id="valSalary">$0</div>
+                <div class="text-xs text-gray-500 leading-tight" id="valSalarySub">加载中...</div>
+            </div>
+            <div class="bg-white p-4 rounded-xl border shadow-sm flex flex-col justify-between">
+                <div class="text-xs text-gray-500 mb-2">累计已领股息</div>
+                <div class="text-3xl font-bold font-mono mb-2" id="valTotalDiv">$0</div>
+                <div class="text-xs text-gray-500" id="valTotalDivSub">占总投入 0%</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <canvas id="valueChart" height="90"></canvas>
+    </div>
+    <div class="card">
+        <canvas id="dividendChart" height="90"></canvas>
+    </div>
+
+    <script>
+        const etfLibrary = [
+            { id: 'SCHD', name: '高股息质量', type: '收入', defaultWeight: 20 },
+            { id: 'DGRO', name: '股息成长', type: '收入', defaultWeight: 10 },
+            { id: 'VPU', name: '公用事业', type: '收入', defaultWeight: 5 },
+            { id: 'VOO', name: '标普500', type: '收入', defaultWeight: 15 },
+            { id: 'QQQM', name: '纳指100', type: '成长', defaultWeight: 25 },
+            { id: 'SMH', name: '半导体', type: '成长', defaultWeight: 25 },
+            { id: 'VGT', name: '纯净科技', type: '成长', defaultWeight: 0 }
+        ];
+
+        let state = {
+            isDrip: false, capital: 3000000, annualAdd: 0, startYear: 2000, 
+            currentYear: new Date().getFullYear(), portfolio: {} 
+        };
+
+        etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
+
+        // 如果 data.js 还没生成，给个兜底保护
+        if (typeof proxyDatabase === 'undefined') {
+            window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
+        }
+
+        function getAssetPerformance(year, id) {
+            if (window.proxyDatabase[year] && window.proxyDatabase[year][id]) return window.proxyDatabase[year][id];
+            return [0.10, 0.02];
+        }
+
+        function renderEtfGrid() {
+            const grid = document.getElementById('etfGrid');
+            grid.innerHTML = '';
+            etfLibrary.forEach(etf => {
+                const isSelected = state.portfolio[etf.id] !== undefined;
+                const weight = isSelected ? state.portfolio[etf.id] : 0;
+                grid.innerHTML += `
+                    <div class="border rounded-lg p-3 bg-white etf-card ${isSelected ? 'selected' : ''}" onclick="toggleEtf('${etf.id}')">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <input type="checkbox" class="etf-checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation(); toggleEtf('${etf.id}')">
+                            <h3 class="font-bold text-lg ${etf.type==='成长' ? 'text-[#e9886e]' : 'text-blue-800'}">${etf.id}</h3>
+                        </div>
+                        <div class="flex justify-between items-center bg-gray-50 p-1 rounded" onclick="event.stopPropagation()">
+                            <span class="text-xs text-gray-600 font-medium pl-1">初始权重 %</span>
+                            <input type="number" min="0" max="100" class="weight-input" value="${weight}" ${!isSelected ? 'disabled' : ''} onchange="updateWeight('${etf.id}', this.value)">
+                        </div>
+                    </div>`;
+            });
+        }
+
+        function toggleEtf(id) {
+            if (state.portfolio[id] !== undefined) delete state.portfolio[id];
+            else state.portfolio[id] = 10;
+            renderEtfGrid(); runBacktestEngine();
+        }
+
+        function updateWeight(id, value) {
+            if (state.portfolio[id] !== undefined) {
+                state.portfolio[id] = parseInt(value) || 0;
+                runBacktestEngine();
+            }
+        }
+
+        const fmtUsdChart = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(1) + 'M' : '$' + (num/1000).toFixed(0) + 'k';
+        const fmtUsd = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(2) + 'M' : '$' + (num/1000).toFixed(0) + 'k';
+        
+        ['initialCapital', 'annualContribution', 'startYear'].forEach(id => {
+            document.getElementById(id).addEventListener('input', e => {
+                let val = parseInt(e.target.value.replace(/,/g, '')) || 0;
+                if(id==='startYear') state.startYear = val;
+                else state[id === 'initialCapital' ? 'capital' : 'annualAdd'] = val;
+                runBacktestEngine();
+            });
+        });
+
+        window.setYear = (year) => { document.getElementById('startYear').value = year; state.startYear = year; runBacktestEngine(); };
+
+        document.getElementById('btnIncome').addEventListener('click', e => { state.isDrip = false; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold"; document.getElementById('btnDrip').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold"; runBacktestEngine(); });
+        document.getElementById('btnDrip').addEventListener('click', e => { state.isDrip = true; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold"; document.getElementById('btnIncome').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold"; runBacktestEngine(); });
+
+        let valueChart = new Chart(document.getElementById('valueChart').getContext('2d'), { type: 'line', data: { labels: [], datasets: [{ label: '年底持仓现值', data: [], borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.05)', borderWidth: 2, fill: true }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: fmtUsdChart } } } } });
+        let dividendChart = new Chart(document.getElementById('dividendChart').getContext('2d'), { type: 'bar', data: { labels: [], datasets: [{ label: '当年股息现金流', data: [], backgroundColor: '#e9886e' }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: fmtUsdChart } } } } });
+
+        // 核心进化：自然生长引擎（无再平衡）
+        function runBacktestEngine() {
+            let totalWeight = 0;
+            for (const w of Object.values(state.portfolio)) totalWeight += w;
+            if (totalWeight === 0) totalWeight = 100;
+
+            // 1. 给每个 ETF 分配一个独立的“水桶”
+            let assetBuckets = {};
+            for (const [id, weight] of Object.entries(state.portfolio)) {
+                assetBuckets[id] = state.capital * (weight / totalWeight);
+            }
+
+            let chartLabels = [], chartDataValue = [], chartDataDividend = [];
+            let cumulativeDiv = 0;
+
+            // 2. 逐年推演：每个资产各自按照自己的涨幅复利，不再互相劫富济贫
+            for(let y = state.startYear; y <= state.currentYear; y++) {
+                let currentYearTotalAsset = 0;
+                let currentYearDiv = 0;
+
+                for (const id of Object.keys(assetBuckets)) {
+                    let [capReturn, divYield] = getAssetPerformance(y, id);
+
+                    // 每年注入新资金 (按初始比例划分)
+                    if (y > state.startYear) {
+                        assetBuckets[id] += state.annualAdd * (state.portfolio[id] / totalWeight);
+                    }
+
+                    // 资本自然生长
+                    assetBuckets[id] = assetBuckets[id] * (1 + capReturn);
+                    
+                    // 计算当年单独派发的股息
+                    let div = assetBuckets[id] * divYield;
+                    currentYearDiv += div;
+
+                    if (state.isDrip) assetBuckets[id] += div;
+                    
+                    currentYearTotalAsset += assetBuckets[id];
+                }
+                
+                cumulativeDiv += currentYearDiv;
+                chartLabels.push(y);
+                chartDataValue.push(currentYearTotalAsset);
+                chartDataDividend.push(currentYearDiv);
+            }
+
+            let finalValue = chartDataValue[chartDataValue.length - 1] || 0;
+            let finalDiv = chartDataDividend[chartDataDividend.length - 1] || 0;
+            let years = state.currentYear - state.startYear + 0.5;
+            let totalIn = state.capital + state.annualAdd * Math.max(0, state.currentYear - state.startYear);
+            
+            document.getElementById('valPresent').textContent = fmtUsd(finalValue);
+            document.getElementById('valPresentSub').textContent = `总投入 ${fmtUsd(totalIn)}`;
+            document.getElementById('valCagr').textContent = `+${((Math.pow(finalValue / state.capital, 1/years) - 1)*100).toFixed(1)}%`;
+            document.getElementById('valSalary').textContent = fmtUsd(finalDiv);
+            document.getElementById('valTotalDiv').textContent = fmtUsd(cumulativeDiv);
+
+            valueChart.data.labels = chartLabels;
+            valueChart.data.datasets[0].data = chartDataValue;
+            valueChart.update();
+            dividendChart.data.labels = chartLabels;
+            dividendChart.data.datasets[0].data = chartDataDividend;
+            dividendChart.update();
+        }
+
+        window.onload = () => { renderEtfGrid(); runBacktestEngine(); };
+    </script>
+</body>
+</html>
