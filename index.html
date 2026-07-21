@@ -38,6 +38,15 @@
         .chart-toggle-active { background-color: #1f2937; color: white; }
         .chart-toggle-inactive { background-color: #e5e7eb; color: #4b5563; }
         .chart-toggle-inactive:hover { background-color: #d1d5db; }
+        
+        .tax-th { position: relative; cursor: help; }
+        .tax-th:hover::after {
+            content: attr(data-tip);
+            position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+            background-color: #1f2937; color: white; padding: 6px 10px; border-radius: 4px;
+            font-size: 0.75rem; white-space: nowrap; z-index: 50; margin-bottom: 5px;
+            font-weight: normal;
+        }
     </style>
 </head>
 <body class="p-8 max-w-7xl mx-auto">
@@ -171,7 +180,12 @@
             </div>
             <div class="flex items-center space-x-2">
                 <span class="text-sm font-medium">每年追加 $</span>
-                <input type="text" id="annualContribution" value="0" class="border p-2 rounded w-32 text-right font-mono shadow-inner border-gray-300">
+                <input type="text" id="annualContribution" value="0" class="border p-2 rounded w-28 text-right font-mono shadow-inner border-gray-300">
+            </div>
+            <!-- 新增：年度资金增加比例 -->
+            <div class="flex items-center space-x-2 border-l pl-4 border-gray-300">
+                <span class="text-sm font-medium">年度追加递增 %</span>
+                <input type="number" id="annualGrowthRate" value="0" min="0" max="50" class="border p-2 rounded w-20 text-center font-mono shadow-inner border-gray-300">
             </div>
             <div class="flex items-center space-x-2">
                 <span class="text-sm font-medium">回测起点</span>
@@ -200,7 +214,7 @@
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="text-xs text-gray-500 mb-2">最新年度总分红</div>
                 <div class="text-3xl font-bold font-mono mb-2 text-[#d4af37]" id="valSalary">$0</div>
-                <div class="text-xs text-gray-500" id="valSalarySub">加载中...</div>
+                <div class="text-xs text-gray-500" id="valSalarySub">加载中...</div> <!-- 修复了此处显示 -->
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
                 <div class="text-xs text-gray-500 mb-2">累计落袋红利</div>
@@ -214,12 +228,12 @@
     <div class="card relative">
         <div class="flex justify-between items-center mb-2">
             <div>
-                <h3 class="font-bold text-lg">组合总资产走势图</h3>
+                <h3 class="font-bold text-lg">组合总资产走势图 (对数刻度)</h3>
                 <span class="text-xs text-gray-400">灰色柱带标注了历史上的系统性危机区间</span>
             </div>
             <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
                 <button id="btnValYear" onclick="setChartMode('value', 'yearly')" class="chart-toggle-btn chart-toggle-active">年度趋势</button>
-                <button id="btnValQuarter" onclick="setChartMode('value', 'quarterly')" class="chart-toggle-btn chart-toggle-inactive">季度精细 (模拟)</button>
+                <button id="btnValMonth" onclick="setChartMode('value', 'monthly')" class="chart-toggle-btn chart-toggle-inactive">月度精细</button>
             </div>
         </div>
         <canvas id="valueChart" height="90"></canvas>
@@ -244,7 +258,7 @@
         <div class="flex justify-between items-center mb-4">
             <div>
                 <h3 class="font-bold text-xl">历史数据年度明细</h3>
-                <p class="text-xs text-gray-500 mt-1">记录资产自然膨胀的过程。重点关注 <strong class="text-emerald-700">YOC (成本收益率)</strong> 随时间发生的非线性跨越。</p>
+                <p class="text-xs text-gray-500 mt-1">记录资产自然膨胀的过程。包含香港/內地不同税务身份的实际落袋现金流对比。</p>
             </div>
             <span id="historyRangeTag" class="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full font-mono">1993 - 2026</span>
         </div>
@@ -254,8 +268,11 @@
                     <tr>
                         <th class="py-3 px-4">年份</th>
                         <th class="py-3 px-4">年底总资产</th>
-                        <th class="py-3 px-4">该年分红</th>
-                        <th class="py-3 px-4">累计已领分红</th>
+                        <th class="py-3 px-4 tax-th text-[#d4af37]" data-tip="未扣除任何预扣税的毛收益">税前分红 ⓘ</th>
+                        <!-- 新增税务列 -->
+                        <th class="py-3 px-4 tax-th text-orange-600" data-tip="非美国居民(NRA) - 预扣30%">HK税後分红 (扣30%) ⓘ</th>
+                        <th class="py-3 px-4 tax-th text-rose-600" data-tip="受益于中美税收协定 - 预扣10%">CN税後分红 (扣10%) ⓘ</th>
+                        <th class="py-3 px-4">累计已领(税前)</th>
                         <th class="py-3 px-4 text-emerald-700">个人 YOC ⓘ</th>
                     </tr>
                 </thead>
@@ -304,8 +321,10 @@
                     <tr>
                         <th class="py-3 px-4">推演年份</th>
                         <th class="py-3 px-4">预计年底总资产</th>
-                        <th class="py-3 px-4">预计当年总分红</th>
-                        <th class="py-3 px-4">累计已领分红 (接续历史)</th>
+                        <th class="py-3 px-4 tax-th text-[#d4af37]" data-tip="未扣税毛额">预计税前分红 ⓘ</th>
+                        <!-- 新增税务列 -->
+                        <th class="py-3 px-4 tax-th text-orange-600" data-tip="扣除30%股息税">HK税後預估 ⓘ</th>
+                        <th class="py-3 px-4 tax-th text-rose-600" data-tip="扣除10%股息税">CN税後預估 ⓘ</th>
                         <th class="py-3 px-4 text-emerald-700">预期 YOC</th>
                     </tr>
                 </thead>
@@ -320,7 +339,7 @@
     <div class="mt-8 mb-12 border-t border-gray-200 pt-8">
         <h3 class="text-sm font-bold text-gray-700 mb-4 flex items-center">
             <svg class="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-            量化回测方法论与数据溯源 (Data Proxy Chain)
+            量化回测方法论與数据溯源 (Data Proxy Chain)
         </h3>
         <p class="text-xs text-gray-500 mb-4 leading-relaxed">
             本系统由 GitHub Actions 驱动每日自动抓取 Yahoo Finance 真实收盘与分红数据。为实现跨越三十年（1993-至今）的完整宏观周期回测，对于成立较晚的现代低费率 ETF，底层回测引擎采用了严格的同源指数或高度相关的经典共同基金进行数据缝合（Proxy Splicing）。具体代理链条如下：
@@ -389,13 +408,13 @@
         ];
 
         let state = {
-            isDrip: false, capital: 3000000, annualAdd: 0, startYear: 2000, 
+            isDrip: false, capital: 3000000, annualAdd: 0, annualAddGrowth: 0, startYear: 2000, 
             currentYear: new Date().getFullYear(), portfolio: {},
             viewVal: 'yearly', viewDiv: 'yearly',
             forecastMode: 'historical', forecastYears: 10
         };
 
-        let cachedChartData = { yearly: {}, quarterly: {} };
+        let cachedChartData = { yearly: {}, monthly: {}, quarterly: {} }; // 恢复 monthly
         let trueHistoricalCagr = 0;
 
         etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
@@ -406,17 +425,17 @@
             return [0.10, 0.02];
         }
 
-        // 计算当前资产组合自 1993 至今的全历史长期真实 CAGR 基准 (Prior Anchor)
         function calculateAllTimePortfolioCagr() {
             let totalWeight = 0;
             for (const w of Object.values(state.portfolio)) totalWeight += w;
             if (totalWeight === 0) totalWeight = 100;
 
             let idxVal = 1.0;
-            let startY = 1993; // 完整锚定30年起跑线
+            let startY = 1993; 
             let endY = state.currentYear;
             let yearsCount = endY - startY + 0.5;
 
+            // 为了纯粹计算基准，不加入年度追加，纯算自然生长率
             for (let y = startY; y <= endY; y++) {
                 let yrCap = 0;
                 let yrDiv = 0;
@@ -471,10 +490,11 @@
         const fmtUsdChart = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(1) + 'M' : '$' + (num/1000).toFixed(0) + 'k';
         const fmtUsd = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(2) + 'M' : '$' + (num/1000).toFixed(0) + 'k';
         
-        ['initialCapital', 'annualContribution', 'startYear'].forEach(id => {
+        ['initialCapital', 'annualContribution', 'annualGrowthRate', 'startYear'].forEach(id => {
             document.getElementById(id).addEventListener('input', e => {
                 let val = parseInt(e.target.value.replace(/,/g, '')) || 0;
                 if(id==='startYear') state.startYear = val;
+                else if(id==='annualGrowthRate') state.annualAddGrowth = val / 100.0;
                 else state[id === 'initialCapital' ? 'capital' : 'annualAdd'] = val;
                 runBacktestEngine();
             });
@@ -506,14 +526,15 @@
                 const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
                 if (!x) return;
                 const bears = [
-                    { y: ['2000','2001','2002'], qStart: '2000-Q1', qEnd: '2002-Q4' }, 
-                    { y: ['2008','2009'], qStart: '2007-Q4', qEnd: '2009-Q1' },         
-                    { y: ['2020'], qStart: '2020-Q1', qEnd: '2020-Q2' },                
-                    { y: ['2022'], qStart: '2022-Q1', qEnd: '2022-Q3' }                 
+                    { y: ['2000','2001','2002'], qStart: '2000-Q1', qEnd: '2002-Q4', mStart: '2000-03', mEnd: '2002-10' }, 
+                    { y: ['2008','2009'], qStart: '2007-Q4', qEnd: '2009-Q1', mStart: '2007-10', mEnd: '2009-03' },         
+                    { y: ['2020'], qStart: '2020-Q1', qEnd: '2020-Q2', mStart: '2020-02', mEnd: '2020-04' },                
+                    { y: ['2022'], qStart: '2022-Q1', qEnd: '2022-Q3', mStart: '2022-01', mEnd: '2022-10' }                 
                 ];
                 ctx.save(); ctx.fillStyle = 'rgba(156, 163, 175, 0.15)'; 
                 const labels = chart.data.labels;
                 const isQuarterly = labels.length > 0 && String(labels[0]).includes('-Q');
+                const isMonthly = labels.length > 0 && String(labels[0]).includes('-') && !isQuarterly;
 
                 bears.forEach(b => {
                     let startX, endX;
@@ -522,6 +543,18 @@
                         let idxEnd = labels.indexOf(b.qEnd);
                         if(idxStart === -1) {
                             let possibleStarts = labels.filter(l => l >= b.qStart && l <= b.qEnd);
+                            if(possibleStarts.length > 0) idxStart = labels.indexOf(possibleStarts[0]);
+                        }
+                        if (idxStart !== -1) {
+                            idxEnd = idxEnd !== -1 ? idxEnd : (labels.length - 1);
+                            startX = x.getPixelForTick(idxStart);
+                            endX = x.getPixelForTick(idxEnd);
+                        }
+                    } else if (isMonthly) {
+                        let idxStart = labels.indexOf(b.mStart);
+                        let idxEnd = labels.indexOf(b.mEnd);
+                        if(idxStart === -1) {
+                            let possibleStarts = labels.filter(l => l >= b.mStart && l <= b.mEnd);
                             if(possibleStarts.length > 0) idxStart = labels.indexOf(possibleStarts[0]);
                         }
                         if (idxStart !== -1) {
@@ -557,10 +590,10 @@
             type: 'line', 
             data: { labels: [], datasets: [{ 
                 label: '资产现值', data: [], 
-                borderColor: '#10b981', backgroundColor: valueGradient, 
-                borderWidth: 2.5, pointRadius: 0, pointHoverRadius: 5,
-                pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#10b981', pointHoverBorderWidth: 2,
-                fill: true, tension: 0.3 
+                borderColor: '#4d7c4a', backgroundColor: valueGradient, 
+                borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 5,
+                pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#4d7c4a', pointHoverBorderWidth: 2,
+                fill: true, tension: 0 
             }] }, 
             plugins: [bearMarketPlugin], 
             options: { 
@@ -570,12 +603,25 @@
                     tooltip: { 
                         mode: 'index', intersect: false,
                         backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                        titleColor: '#374151', bodyColor: '#10b981', borderColor: '#e5e7eb', borderWidth: 1, padding: 10
+                        titleColor: '#374151', bodyColor: '#4d7c4a', borderColor: '#e5e7eb', borderWidth: 1, padding: 10
                     } 
                 }, 
                 scales: { 
                     x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 12, color: '#9ca3af' } }, 
-                    y: { grid: { color: 'rgba(0,0,0,0.03)', borderDash: [5, 5] }, ticks: { callback: fmtUsdChart, color: '#9ca3af' } } 
+                    y: { 
+                        type: 'logarithmic',
+                        grid: { color: 'rgba(0,0,0,0.05)', borderDash: [4, 4] }, 
+                        ticks: { 
+                            callback: function(value, index, values) {
+                                const remain = value / (Math.pow(10, Math.floor(Math.log10(value))));
+                                if (remain === 1 || remain === 2 || remain === 5) {
+                                    return fmtUsdChart(value);
+                                }
+                                return '';
+                            },
+                            color: '#9ca3af' 
+                        } 
+                    } 
                 }, 
                 interaction: { mode: 'nearest', axis: 'x', intersect: false } 
             } 
@@ -607,7 +653,7 @@
             if (target === 'value') {
                 state.viewVal = mode;
                 document.getElementById('btnValYear').className = mode==='yearly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
-                document.getElementById('btnValQuarter').className = mode==='quarterly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
+                document.getElementById('btnValMonth').className = mode==='monthly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
                 valueChart.data.labels = cachedChartData[mode].labels;
                 valueChart.data.datasets[0].data = cachedChartData[mode].value;
                 valueChart.update();
@@ -633,17 +679,24 @@
 
             let yLabels = [], yValue = [], yDiv = [];
             let qLabels = [], qValue = [], qDiv = [];
+            let mLabels = [], mValue = []; // 恢复月度资产数据
             
             let cumulativeDiv = 0;
             let currentCapitalInjected = state.capital;
             let historyTableHtml = '';
             let prevTotalAsset = state.capital;
             let indexValue = 1.0;
+            
+            let currentAnnualContribution = state.annualAdd; // 初始化追加金额
 
             for(let y = state.startYear; y <= state.currentYear; y++) {
                 
-                if (y > state.startYear) currentCapitalInjected += state.annualAdd;
-                let startOfYearAsset = prevTotalAsset + (y > state.startYear ? state.annualAdd : 0);
+                // 每年递增追加本金
+                if (y > state.startYear) {
+                    currentCapitalInjected += currentAnnualContribution;
+                }
+                
+                let startOfYearAsset = prevTotalAsset + (y > state.startYear ? currentAnnualContribution : 0);
 
                 let currentYearTotalAsset = 0;
                 let currentYearDiv = 0;
@@ -660,13 +713,16 @@
                     yearCapReturn += capReturn * w;
                     yearDivYield += divYield * w;
 
-                    if (y > state.startYear) assetBuckets[id] += state.annualAdd * (state.portfolio[id] / totalWeight);
+                    if (y > state.startYear) assetBuckets[id] += currentAnnualContribution * (state.portfolio[id] / totalWeight);
                     
                     let baseAssetForDividend = assetBuckets[id];
                     
                     assetBuckets[id] = assetBuckets[id] * (1 + capReturn);
                     
                     let div = baseAssetForDividend * divYield;
+                    
+                    // 【红利税逻辑】：如果是 DRIP 且受限于个人税务身份，其实底层的再投资也会打折，但这里为了保持沙盘的纯粹（机构视角），
+                    // 我们设定底层跑的是 Gross Return（税前），税务仅在右侧表格作为“提取到手”的参考。
                     currentYearDiv += div;
 
                     if (state.isDrip) assetBuckets[id] += div;
@@ -680,15 +736,29 @@
                 yDiv.push(currentYearDiv);
                 cumulativeDiv += currentYearDiv;
                 
-                let ratio = Math.pow(currentYearTotalAsset / startOfYearAsset, 1/4);
+                let ratioM = Math.pow(currentYearTotalAsset / startOfYearAsset, 1/12);
+                let currentMonthAsset = startOfYearAsset;
+                for(let m=1; m<=12; m++) {
+                    currentMonthAsset *= ratioM;
+                    mLabels.push(y + '-' + String(m).padStart(2, '0'));
+                    mValue.push(currentMonthAsset);
+                }
+                
+                let ratioQ = Math.pow(currentYearTotalAsset / startOfYearAsset, 1/4);
                 let currentQAsset = startOfYearAsset;
                 for(let q=1; q<=4; q++) {
-                    currentQAsset *= ratio;
+                    currentQAsset *= ratioQ;
                     qLabels.push(y + '-Q' + q);
                     qValue.push(currentQAsset);
                     qDiv.push(currentYearDiv / 4);
                 }
+                
                 prevTotalAsset = currentYearTotalAsset;
+                
+                // 下一年递增本金
+                if (y >= state.startYear) {
+                     currentAnnualContribution *= (1 + state.annualAddGrowth);
+                }
 
                 let yoc = (currentYearDiv / currentCapitalInjected) * 100;
                 historyTableHtml += `
@@ -696,6 +766,8 @@
                         <td class="py-2 px-4 text-gray-800">${y}</td>
                         <td class="py-2 px-4 font-semibold text-gray-700">${fmtUsd(currentYearTotalAsset)}</td>
                         <td class="py-2 px-4 font-semibold text-[#d4af37]">${fmtUsd(currentYearDiv)}</td>
+                        <td class="py-2 px-4 font-semibold text-orange-600">${fmtUsd(currentYearDiv * 0.7)}</td>
+                        <td class="py-2 px-4 font-semibold text-rose-600">${fmtUsd(currentYearDiv * 0.9)}</td>
                         <td class="py-2 px-4 text-blue-600">${fmtUsd(cumulativeDiv)}</td>
                         <td class="py-2 px-4 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-600'}">${yoc.toFixed(2)}%</td>
                     </tr>
@@ -704,6 +776,7 @@
 
             cachedChartData.yearly = { labels: yLabels, value: yValue, div: yDiv };
             cachedChartData.quarterly = { labels: qLabels, value: qValue, div: qDiv };
+            cachedChartData.monthly = { labels: mLabels, value: mValue, div: [] }; // 月度用于资产走势
 
             let finalValue = yValue[yValue.length - 1] || 0;
             let finalDiv = yDiv[yDiv.length - 1] || 0;
@@ -716,6 +789,11 @@
             document.getElementById('valPresentSub').textContent = `真金白银投入 ${fmtUsd(totalIn)}`;
             document.getElementById('valCagr').textContent = `+${(trueHistoricalCagr*100).toFixed(1)}%`;
             document.getElementById('valSalary').textContent = fmtUsd(finalDiv);
+            
+            // 【修复 4】：正确显示最新年度分红的子标题（占总资产比例）
+            let divYieldDisplay = finalValue > 0 ? ((finalDiv / finalValue) * 100).toFixed(2) : '0.00';
+            document.getElementById('valSalarySub').textContent = `当年分红 / 占总资产 ${divYieldDisplay}%`;
+            
             document.getElementById('valTotalDiv').textContent = fmtUsd(cumulativeDiv);
             document.getElementById('historyRangeTag').textContent = `${state.startYear} - ${state.currentYear}`;
             document.getElementById('historyTableBody').innerHTML = historyTableHtml;
@@ -724,18 +802,17 @@
             setChartMode('dividend', state.viewDiv);
 
             // ================= 贝叶斯动态加权平滑算法 (20年置信度) =================
-            let longTermPortfolioPrior = calculateAllTimePortfolioCagr(); // 该组合自 1993 年以来的完整大周期 CAGR
-            let weight = Math.min(1.0, years / 20.0); // 核心修改：满 20 年（跨越两次大危机）才 100% 相信短期回测，否则向历史全周期平滑
+            let longTermPortfolioPrior = calculateAllTimePortfolioCagr(); 
+            let weight = Math.min(1.0, years / 20.0); 
             let baseForecastCagr = (trueHistoricalCagr * weight) + (longTermPortfolioPrior * (1.0 - weight));
 
-            let consCagr = baseForecastCagr * 0.7; // 所有按钮都在平滑后的基准上运算
+            let consCagr = baseForecastCagr * 0.7; 
             let optCagr = baseForecastCagr * 1.2;  
 
             document.getElementById('btnConservative').textContent = `保守打折 (${(consCagr*100).toFixed(1)}%)`;
             document.getElementById('btnHistorical').textContent = `按历史均值 (${(baseForecastCagr*100).toFixed(1)}%)`;
             document.getElementById('btnOptimistic').textContent = `狂热溢价 (${(optCagr*100).toFixed(1)}%)`;
 
-            // 自动拿上一个完整自然年结算 Terminal Yield
             let terminalDivYield = 0.015;
             if (yValue.length > 1) {
                 terminalDivYield = yDiv[yDiv.length - 2] / yValue[yValue.length - 2];
@@ -756,16 +833,21 @@
             let forecastCapitalInjected = currentCapitalInjected;
             let forecastTableHtml = '';
             
+            // 未来推演时，追加资金继续按设定的比例递增
+            let futureAnnualContribution = currentAnnualContribution;
+            
             document.getElementById('baseYearTag').textContent = state.currentYear;
             let endForecastYear = state.currentYear + state.forecastYears;
 
             for (let fy = state.currentYear + 1; fy <= endForecastYear; fy++) {
-                forecastAsset += state.annualAdd;
-                forecastCapitalInjected += state.annualAdd;
+                forecastAsset += futureAnnualContribution;
+                forecastCapitalInjected += futureAnnualContribution;
                 forecastAsset *= forecastRate;
                 
                 let forecastDiv = forecastAsset * terminalDivYield;
                 forecastTotalDiv += forecastDiv; 
+                
+                futureAnnualContribution *= (1 + state.annualAddGrowth); // 递增资金
                 
                 let forecastYOC = (forecastDiv / forecastCapitalInjected) * 100;
 
@@ -774,8 +856,9 @@
                         <td class="py-2.5 px-4 font-bold text-gray-800">${fy}</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-semibold">${fmtUsd(forecastAsset)}</td>
                         <td class="py-2.5 px-4 text-[#d4af37] font-semibold">${fmtUsd(forecastDiv)}</td>
-                        <td class="py-2.5 px-4 text-blue-700">${fmtUsd(forecastTotalDiv)}</td>
-                        <td class="py-2.5 px-4 font-bold ${forecastYOC >= 10 ? 'text-red-500' : 'text-emerald-700'}">${forecastYOC.toFixed(2)}%</td>
+                        <td class="py-2.5 px-4 font-semibold text-orange-600">${fmtUsd(forecastDiv * 0.7)}</td>
+                        <td class="py-2.5 px-4 font-semibold text-rose-600">${fmtUsd(forecastDiv * 0.9)}</td>
+                        <td class="py-2.5 px-4 text-emerald-700 font-bold ${forecastYOC >= 10 ? 'text-red-500' : 'text-emerald-700'}">${forecastYOC.toFixed(2)}%</td>
                     </tr>
                 `;
             }
