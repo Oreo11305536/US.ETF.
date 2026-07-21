@@ -6,7 +6,7 @@
     <title>FIRE 终极仪表盘</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- 每天自动更新的数据文件会在这里加载 -->
+    <!-- 每日由 GitHub Action 自动生成的真实数据文件 -->
     <script src="data.js"></script>
     <style>
         body { background-color: #f5f3ef; color: #333; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
@@ -14,28 +14,122 @@
         .tab-active { font-weight: bold; color: #000; border-bottom: 2px solid #e11d48; }
         .tab-inactive { color: #6b7280; cursor: pointer; }
         .tab-inactive:hover { color: #000; }
+        
         .etf-card { transition: all 0.2s; border: 2px solid transparent; cursor: pointer; }
         .etf-card.selected { border-color: #e9886e; background-color: #fffdfa; }
         .etf-checkbox { accent-color: #e9886e; width: 1.2rem; height: 1.2rem; cursor: pointer; }
         .weight-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 2px 4px; font-size: 0.875rem; }
         .weight-input:disabled { background-color: #f3f4f6; color: #9ca3af; }
+        
+        .badge-label { display: inline-block; width: 4.5rem; color: #9ca3af; font-size: 0.825rem; vertical-align: top; }
+        .badge-content { display: inline-block; width: calc(100% - 5rem); font-size: 0.875rem; color: #374151; }
     </style>
 </head>
 <body class="p-8 max-w-7xl mx-auto">
 
+    <!-- 1. 顶部：七只 ETF 四维度深度白皮书 -->
     <div class="card bg-[#fffdfa] border-b-4 border-[#e9886e]">
         <h1 class="font-bold text-2xl mb-2">Financial Independence, Retire Early (Buy & Hold)</h1>
-        <p class="text-sm text-gray-500 mb-6">全自动云端数据同步。采用自然生长（无强制再平衡）逻辑，让利润自由奔跑。</p>
+        <p class="text-sm text-gray-500 mb-6">全自动云端数据同步。采用自然生长（无强制再平衡）逻辑，让强力资产利润自由奔跑。</p>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="border rounded-lg p-4 bg-white shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-blue-800">SCHD</h3>
+                    <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入半区主力 · 费率 0.06%</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-3 font-medium">Schwab U.S. Dividend Equity ETF</p>
+                <div class="space-y-2 border-t pt-2">
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">道琼斯美国股息 100 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">连续分红 ≥10 年，按自由现金流/债务、ROE、股息率、5年股息增速打分选前 100。</span></div>
+                </div>
+            </div>
+
+            <div class="border rounded-lg p-4 bg-white shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-blue-800">DGRO</h3>
+                    <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入半区 · 费率 0.08%</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-3 font-medium">iShares Core Dividend Growth ETF</p>
+                <div class="space-y-2 border-t pt-2">
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">晨星美国股息成长指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">连续增发股息 ≥5 年，剔除股息率最高的前 10%（防陷阱），覆盖 MSFT、AAPL。</span></div>
+                </div>
+            </div>
+
+            <div class="border rounded-lg p-4 bg-white shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-blue-800">VPU</h3>
+                    <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">防御避险 · 费率 0.09%</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard Utilities ETF</p>
+                <div class="space-y-2 border-t pt-2">
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国公用事业指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">纯粹覆盖受监管的电力、天然气、供水等垄断公司。极强逆周期属性。</span></div>
+                </div>
+            </div>
+
+            <div class="border rounded-lg p-4 bg-white shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-slate-800">VOO</h3>
+                    <span class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded font-medium">大盘中枢 · 费率 0.03%</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard S&P 500 ETF</p>
+                <div class="space-y-2 border-t pt-2">
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">标普 500 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">锚定美国整体国运，市值加权。作为组合长期总市值的稳固中枢。</span></div>
+                </div>
+            </div>
+
+            <div class="border rounded-lg p-4 bg-white shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-[#e9886e]">QQQM</h3>
+                    <span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded font-medium">成长主力 · 费率 0.15%</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-3 font-medium">Invesco NASDAQ 100 ETF</p>
+                <div class="space-y-2 border-t pt-2">
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">纳斯达克 100 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">自动收编存活下来的科技与消费赢家，捕捉科技革命贝塔收益。</span></div>
+                </div>
+            </div>
+
+            <div class="border rounded-lg p-4 bg-white shadow-sm">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-[#e9886e]">SMH</h3>
+                    <span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded font-medium">成长锋刃 · 费率 0.35%</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-3 font-medium">VanEck Semiconductor ETF</p>
+                <div class="space-y-2 border-t pt-2">
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MVIS 半导体 25 指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">集中持仓全球半导体产业链前 25 大龙头，最锐利的进攻武器。</span></div>
+                </div>
+            </div>
+
+            <div class="border-2 border-[#e9886e] rounded-lg p-4 bg-[#fffdfa] shadow-sm md:col-span-2">
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-[#e9886e]">VGT</h3>
+                    <span class="text-xs bg-[#e9886e] text-white px-2 py-1 rounded font-medium">战术拓展 · 费率 0.10%</span>
+                </div>
+                <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard Information Technology ETF</p>
+                <div class="space-y-2 border-t pt-2">
+                    <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国信息技术指数</span></div>
+                    <div><span class="badge-label">选股逻辑</span><span class="badge-content">深度覆盖全美 IT 行业。依 GICS 标准不含 Alphabet/Meta 及 Amazon/Tesla。</span></div>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <!-- 2. 交互配置 -->
     <div class="card">
         <div class="flex justify-between items-center mb-4">
             <h2 class="font-bold text-xl">步骤 1：设置初始配比</h2>
             <div id="weightWarning" class="text-sm font-bold text-red-500 hidden">⚠️ 初始总权重不等于 100%</div>
         </div>
+        <p class="text-sm text-gray-500 mb-6">输入初始资金分配权重。系统将采用无再平衡逻辑（赢家通吃），演示真实的复利膨胀形态。</p>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="etfGrid"></div>
     </div>
 
+    <!-- 3. 主控台 -->
     <div class="card bg-[#faf9f6]">
         <div class="flex flex-wrap items-center gap-6 mb-6">
             <div class="bg-white rounded-full p-1 flex shadow-sm border">
@@ -87,13 +181,81 @@
         </div>
     </div>
 
+    <!-- 4. 双图表展示 -->
     <div class="card">
+        <h3 class="font-bold text-lg mb-2">持仓价值 (逐年曲线)</h3>
         <canvas id="valueChart" height="90"></canvas>
     </div>
     <div class="card">
+        <h3 class="font-bold text-lg mb-2">每年股息现金流 (当年领到的全部股息)</h3>
         <canvas id="dividendChart" height="90"></canvas>
     </div>
 
+    <!-- 5. 进化版：逐年历史数据明细表 -->
+    <div class="card">
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <h3 class="font-bold text-xl">逐年历史数据明细 (自然生长版)</h3>
+                <p class="text-xs text-gray-500 mt-1">记录资产自然膨胀的过程。<strong>个人成本收益率 (YOC)</strong> 反映了由于资产升值，你的初始投入最终产生了多高的利息。</p>
+            </div>
+            <span id="historyRangeTag" class="text-xs bg-gray-100 text-gray-600 px-3 py-1.5 rounded-full font-mono">1993 - 2026</span>
+        </div>
+
+        <div class="overflow-x-auto border rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                <thead class="bg-gray-100 text-gray-700 font-bold">
+                    <tr>
+                        <th class="py-3 px-4">年份</th>
+                        <th class="py-3 px-4">年底总资产</th>
+                        <th class="py-3 px-4">当年总股息</th>
+                        <th class="py-3 px-4">累计已领股息</th>
+                        <th class="py-3 px-4 text-emerald-700">当前成本收益率 (YOC) ⓘ</th>
+                    </tr>
+                </thead>
+                <tbody id="historyTableBody" class="divide-y divide-gray-100 bg-white font-mono">
+                    <!-- JS 动态填充表格行 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 6. 进化版：未来推演预测表 -->
+    <div class="card bg-[#fcfdfd] border-t-4 border-emerald-500">
+        <div class="flex flex-wrap justify-between items-center mb-4">
+            <div>
+                <div class="flex items-center space-x-2">
+                    <h3 class="font-bold text-xl text-gray-800">未来</h3>
+                    <input type="number" id="forecastYearsInput" value="10" min="1" max="60" class="border-2 border-emerald-500 p-1 rounded-md w-16 text-center font-mono font-bold text-emerald-700 shadow-sm focus:outline-none">
+                    <h3 class="font-bold text-xl text-gray-800">年动态延伸预测</h3>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">基于 <strong id="baseYearTag">2026</strong> 年底的实际资产规模，及各资产末期派息率，推演未来的复利现金流。</p>
+            </div>
+            <!-- 保守/乐观 切换按钮 -->
+            <div class="bg-gray-100 p-1 rounded-lg flex space-x-1 shadow-inner mt-4 sm:mt-0">
+                <button id="btnConservative" onclick="setForecastMode('conservative')" class="px-4 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-gray-800">保守估计 (组合均值 8%)</button>
+                <button id="btnOptimistic" onclick="setForecastMode('optimistic')" class="px-4 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800">乐观估计 (组合均值 14%)</button>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto border rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                <thead class="bg-emerald-50 text-emerald-900 font-bold">
+                    <tr>
+                        <th class="py-3 px-4">推演年份</th>
+                        <th class="py-3 px-4">预计年底总资产</th>
+                        <th class="py-3 px-4">预计当年总股息</th>
+                        <th class="py-3 px-4">累计已领股息 (接续历史)</th>
+                        <th class="py-3 px-4">成本收益率 (YOC)</th>
+                    </tr>
+                </thead>
+                <tbody id="forecastTableBody" class="divide-y divide-gray-100 bg-white font-mono">
+                    <!-- JS 动态填充预测表格行 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ================= 脚本与核心引擎 ================= -->
     <script>
         const etfLibrary = [
             { id: 'SCHD', name: '高股息质量', type: '收入', defaultWeight: 20 },
@@ -107,12 +269,12 @@
 
         let state = {
             isDrip: false, capital: 3000000, annualAdd: 0, startYear: 2000, 
-            currentYear: new Date().getFullYear(), portfolio: {} 
+            currentYear: new Date().getFullYear(), portfolio: {},
+            forecastMode: 'conservative', forecastYears: 10
         };
 
         etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
 
-        // 如果 data.js 还没生成，给个兜底保护
         if (typeof proxyDatabase === 'undefined') {
             window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
         }
@@ -166,22 +328,40 @@
                 runBacktestEngine();
             });
         });
+        
+        document.getElementById('forecastYearsInput').addEventListener('input', e => {
+            let val = parseInt(e.target.value) || 10;
+            state.forecastYears = val; runBacktestEngine();
+        });
 
         window.setYear = (year) => { document.getElementById('startYear').value = year; state.startYear = year; runBacktestEngine(); };
 
-        document.getElementById('btnIncome').addEventListener('click', e => { state.isDrip = false; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold"; document.getElementById('btnDrip').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold"; runBacktestEngine(); });
-        document.getElementById('btnDrip').addEventListener('click', e => { state.isDrip = true; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold"; document.getElementById('btnIncome').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold"; runBacktestEngine(); });
+        document.getElementById('btnIncome').addEventListener('click', e => { state.isDrip = false; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; document.getElementById('btnDrip').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; runBacktestEngine(); });
+        document.getElementById('btnDrip').addEventListener('click', e => { state.isDrip = true; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; document.getElementById('btnIncome').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; runBacktestEngine(); });
+
+        window.setForecastMode = function(mode) {
+            state.forecastMode = mode;
+            const btnC = document.getElementById('btnConservative');
+            const btnO = document.getElementById('btnOptimistic');
+            if(mode === 'conservative') {
+                btnC.className = "px-4 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-gray-800";
+                btnO.className = "px-4 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800";
+            } else {
+                btnO.className = "px-4 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-emerald-700";
+                btnC.className = "px-4 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800";
+            }
+            runBacktestEngine();
+        };
 
         let valueChart = new Chart(document.getElementById('valueChart').getContext('2d'), { type: 'line', data: { labels: [], datasets: [{ label: '年底持仓现值', data: [], borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.05)', borderWidth: 2, fill: true }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: fmtUsdChart } } } } });
-        let dividendChart = new Chart(document.getElementById('dividendChart').getContext('2d'), { type: 'bar', data: { labels: [], datasets: [{ label: '当年股息现金流', data: [], backgroundColor: '#e9886e' }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: fmtUsdChart } } } } });
+        let dividendChart = new Chart(document.getElementById('dividendChart').getContext('2d'), { type: 'bar', data: { labels: [], datasets: [{ label: '当年总股息', data: [], backgroundColor: '#e9886e' }] }, options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { ticks: { callback: fmtUsdChart } } } } });
 
-        // 核心进化：自然生长引擎（无再平衡）
+        // 自然生长引擎主循环
         function runBacktestEngine() {
             let totalWeight = 0;
             for (const w of Object.values(state.portfolio)) totalWeight += w;
             if (totalWeight === 0) totalWeight = 100;
 
-            // 1. 给每个 ETF 分配一个独立的“水桶”
             let assetBuckets = {};
             for (const [id, weight] of Object.entries(state.portfolio)) {
                 assetBuckets[id] = state.capital * (weight / totalWeight);
@@ -189,24 +369,27 @@
 
             let chartLabels = [], chartDataValue = [], chartDataDividend = [];
             let cumulativeDiv = 0;
+            let currentCapitalInjected = state.capital;
+            let historyTableHtml = '';
 
-            // 2. 逐年推演：每个资产各自按照自己的涨幅复利，不再互相劫富济贫
+            // ---- 1. 历史演变推演 ----
             for(let y = state.startYear; y <= state.currentYear; y++) {
                 let currentYearTotalAsset = 0;
                 let currentYearDiv = 0;
 
+                if (y > state.startYear) {
+                    currentCapitalInjected += state.annualAdd;
+                }
+
                 for (const id of Object.keys(assetBuckets)) {
                     let [capReturn, divYield] = getAssetPerformance(y, id);
 
-                    // 每年注入新资金 (按初始比例划分)
                     if (y > state.startYear) {
                         assetBuckets[id] += state.annualAdd * (state.portfolio[id] / totalWeight);
                     }
 
-                    // 资本自然生长
                     assetBuckets[id] = assetBuckets[id] * (1 + capReturn);
                     
-                    // 计算当年单独派发的股息
                     let div = assetBuckets[id] * divYield;
                     currentYearDiv += div;
 
@@ -219,6 +402,19 @@
                 chartLabels.push(y);
                 chartDataValue.push(currentYearTotalAsset);
                 chartDataDividend.push(currentYearDiv);
+
+                // 计算当年的 YOC (Yield on Cost)
+                let yoc = (currentYearDiv / currentCapitalInjected) * 100;
+
+                historyTableHtml += `
+                    <tr class="hover:bg-gray-50 transition">
+                        <td class="py-2.5 px-4 font-bold text-gray-800">${y}</td>
+                        <td class="py-2.5 px-4 text-emerald-700 font-semibold">${fmtUsd(currentYearTotalAsset)}</td>
+                        <td class="py-2.5 px-4 text-orange-600 font-semibold">${fmtUsd(currentYearDiv)}</td>
+                        <td class="py-2.5 px-4 text-blue-700">${fmtUsd(cumulativeDiv)}</td>
+                        <td class="py-2.5 px-4 font-bold ${yoc >= 10 ? 'text-red-600' : 'text-emerald-700'}">${yoc.toFixed(2)}%</td>
+                    </tr>
+                `;
             }
 
             let finalValue = chartDataValue[chartDataValue.length - 1] || 0;
@@ -226,11 +422,14 @@
             let years = state.currentYear - state.startYear + 0.5;
             let totalIn = state.capital + state.annualAdd * Math.max(0, state.currentYear - state.startYear);
             
+            // 更新看板与图表
             document.getElementById('valPresent').textContent = fmtUsd(finalValue);
             document.getElementById('valPresentSub').textContent = `总投入 ${fmtUsd(totalIn)}`;
             document.getElementById('valCagr').textContent = `+${((Math.pow(finalValue / state.capital, 1/years) - 1)*100).toFixed(1)}%`;
             document.getElementById('valSalary').textContent = fmtUsd(finalDiv);
             document.getElementById('valTotalDiv').textContent = fmtUsd(cumulativeDiv);
+            document.getElementById('historyRangeTag').textContent = `${state.startYear} - ${state.currentYear}`;
+            document.getElementById('historyTableBody').innerHTML = historyTableHtml;
 
             valueChart.data.labels = chartLabels;
             valueChart.data.datasets[0].data = chartDataValue;
@@ -238,6 +437,46 @@
             dividendChart.data.labels = chartLabels;
             dividendChart.data.datasets[0].data = chartDataDividend;
             dividendChart.update();
+
+            // ---- 2. 未来动态预测 ----
+            // 抓取历史最后一年的“混合真实股息率”，以准确反映 Buy & Hold 导致的高成长资产占比扩大的现状
+            let terminalDivYield = finalDiv / finalValue; 
+            if (terminalDivYield === 0) terminalDivYield = 0.015; // 兜底
+
+            let forecastCagr = state.forecastMode === 'conservative' ? 0.08 : 0.14;
+            let forecastRate = 1 + forecastCagr;
+            if (state.isDrip) forecastRate = 1 + forecastCagr + terminalDivYield;
+
+            let forecastAsset = finalValue;
+            let forecastTotalDiv = cumulativeDiv;
+            let forecastCapitalInjected = currentCapitalInjected;
+            let forecastTableHtml = '';
+            
+            document.getElementById('baseYearTag').textContent = state.currentYear;
+
+            let endForecastYear = state.currentYear + state.forecastYears;
+
+            for (let fy = state.currentYear + 1; fy <= endForecastYear; fy++) {
+                forecastAsset += state.annualAdd;
+                forecastCapitalInjected += state.annualAdd;
+                forecastAsset *= forecastRate;
+                
+                let forecastDiv = forecastAsset * terminalDivYield;
+                forecastTotalDiv += forecastDiv; 
+                
+                let forecastYOC = (forecastDiv / forecastCapitalInjected) * 100;
+
+                forecastTableHtml += `
+                    <tr class="hover:bg-emerald-50/50 transition">
+                        <td class="py-2.5 px-4 font-bold text-gray-800">${fy}</td>
+                        <td class="py-2.5 px-4 text-emerald-700 font-semibold">${fmtUsd(forecastAsset)}</td>
+                        <td class="py-2.5 px-4 text-orange-600 font-semibold">${fmtUsd(forecastDiv)}</td>
+                        <td class="py-2.5 px-4 text-blue-700">${fmtUsd(forecastTotalDiv)}</td>
+                        <td class="py-2.5 px-4 font-bold ${forecastYOC >= 10 ? 'text-red-600' : 'text-emerald-700'}">${forecastYOC.toFixed(2)}%</td>
+                    </tr>
+                `;
+            }
+            document.getElementById('forecastTableBody').innerHTML = forecastTableHtml;
         }
 
         window.onload = () => { renderEtfGrid(); runBacktestEngine(); };
