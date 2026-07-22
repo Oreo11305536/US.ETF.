@@ -3,99 +3,109 @@ import pandas as pd
 from datetime import datetime
 import json
 
-# ================= 新增：股票名称中文翻译字典 =================
-# 用于拦截 Yahoo Finance 的英文名，转换为更友好的中文格式
+# ================= 1. 股票名称中文翻译字典 =================
+# 统一转换为小写进行键匹配，确保绝对不会漏掉
 TICKER_TRANSLATIONS = {
-    "Apple Inc.": "苹果 (AAPL)",
-    "Apple": "苹果 (AAPL)",
-    "Microsoft Corporation": "微软 (MSFT)",
-    "Microsoft": "微软 (MSFT)",
-    "NVIDIA Corporation": "英伟达 (NVDA)",
-    "Nvidia": "英伟达 (NVDA)",
-    "Amazon.com, Inc.": "亚马逊 (AMZN)",
-    "Amazon": "亚马逊 (AMZN)",
-    "Meta Platforms, Inc.": "Meta (META)",
-    "Meta": "Meta (META)",
-    "Tesla, Inc.": "特斯拉 (TSLA)",
-    "Tesla": "特斯拉 (TSLA)",
-    "Broadcom Inc.": "博通 (AVGO)",
-    "Broadcom": "博通 (AVGO)",
-    "The Home Depot, Inc.": "家得宝 (HD)",
-    "Home Depot": "家得宝 (HD)",
-    "AbbVie Inc.": "艾伯维 (ABBV)",
-    "AbbVie": "艾伯维 (ABBV)",
-    "Texas Instruments Incorporated": "德州仪器 (TXN)",
-    "Texas Instruments": "德州仪器 (TXN)",
-    "Chevron Corporation": "雪佛龙 (CVX)",
-    "Chevron": "雪佛龙 (CVX)",
-    "Exxon Mobil Corporation": "埃克森美孚 (XOM)",
-    "Exxon Mobil": "埃克森美孚 (XOM)",
-    "JPMorgan Chase & Co.": "摩根大通 (JPM)",
-    "JPMorgan": "摩根大通 (JPM)",
-    "Johnson & Johnson": "强生 (JNJ)",
-    "Taiwan Semiconductor Manufacturing Company Limited": "台积电 (TSM)",
-    "TSMC": "台积电 (TSM)",
-    "ASML Holding N.V.": "阿斯麦 (ASML)",
-    "ASML": "阿斯麦 (ASML)",
-    "Advanced Micro Devices, Inc.": "超威半导体 (AMD)",
-    "AMD": "超威半导体 (AMD)",
-    "Salesforce, Inc.": "赛富时 (CRM)",
-    "Salesforce": "赛富时 (CRM)",
-    "NextEra Energy, Inc.": "新纪元能源 (NEE)",
-    "NextEra Energy": "新纪元能源 (NEE)",
-    "The Southern Company": "南方电力 (SO)",
-    "Southern Co": "南方电力 (SO)",
-    "Duke Energy Corporation": "杜克能源 (DUK)",
-    "Duke Energy": "杜克能源 (DUK)",
-    "Sempra": "桑普拉能源 (SRE)",
-    "American Electric Power Company, Inc.": "美国电力 (AEP)",
-    "AEP": "美国电力 (AEP)",
-    "Berkshire Hathaway Inc.": "伯克希尔 (BRK.B)",
-    "Alphabet Inc.": "谷歌 (GOOGL)",
-    "Eli Lilly and Company": "礼来 (LLY)",
-    "Walmart Inc.": "沃尔玛 (WMT)",
-    "UnitedHealth Group Incorporated": "联合健康 (UNH)",
-    "Visa Inc.": "维萨 (V)",
-    "Costco Wholesale Corporation": "好市多 (COST)",
-    "Netflix, Inc.": "网飞 (NFLX)",
-    "PepsiCo, Inc.": "百事可乐 (PEP)",
-    "Adobe Inc.": "奥多比 (ADBE)",
-    "Cisco Systems, Inc.": "思科 (CSCO)",
-    "Qualcomm Incorporated": "高通 (QCOM)",
-    "Applied Materials, Inc.": "应用材料 (AMAT)",
-    "Lam Research Corporation": "泛林集团 (LRCX)",
-    "Micron Technology, episodic.": "美光科技 (MU)",
-    "Analog Devices, Inc.": "亚德诺半导体 (ADI)",
-    "KLA Corporation": "科磊 (KLAC)",
-    "Intel Corporation": "英特尔 (INTC)",
-    "Marvell Technology, Inc.": "美满电子 (MRVL)",
-    "Microchip Technology Incorporated": "微芯科技 (MCHP)",
-    "Accenture plc": "埃森哲 (ACN)",
-    "Oracle Corporation": "甲骨文 (ORCL)",
-    "International Business Machines Corporation": "IBM (IBM)",
-    "Intuit Inc.": "直觉软件 (INTU)",
-    "BlackRock, Inc.": "贝莱德 (BLK)",
-    "Lockheed Martin Corporation": "洛克希德马丁 (LMT)",
-    "Amgen Inc.": "安进 (AMGN)",
-    "Pfizer Inc.": "辉瑞 (PFE)",
-    "United Parcel Service, Inc.": "联合包裹 (UPS)",
-    "Verizon Communications Inc.": "威瑞森 (VZ)",
-    "The Coca-Cola Company": "可口可乐 (KO)",
-    "Bristol-Myers Squibb Company": "百时美施贵宝 (BMY)",
-    "Emerson Electric Co.": "艾默生电气 (EMR)",
-    "Merck & Co., Inc.": "默沙东 (MRK)",
-    "Bank of America Corporation": "美国银行 (BAC)",
-    "Constellation Energy Corporation": "星座能源 (CEG)",
-    "Dominion Energy, Inc.": "自治领能源 (D)",
-    "Public Service Enterprise Group Incorporated": "公共服务企业 (PEG)",
-    "Consolidated Edison, Inc.": "爱迪生联合 (ED)",
-    "WEC Energy Group, Inc.": "WEC能源 (WEC)",
-    "Xcel Energy Inc.": "卓越能源 (XEL)",
-    "Edison International": "爱迪生国际 (EIX)",
-    "American Water Works Company, Inc.": "美国水务 (AWK)",
-    "DTE Energy Company": "DTE能源 (DTE)",
-    "PPL Corporation": "PPL电力 (PPL)"
+    "apple inc.": "苹果 (AAPL)",
+    "apple": "苹果 (AAPL)",
+    "microsoft corporation": "微软 (MSFT)",
+    "microsoft": "微软 (MSFT)",
+    "nvidia corporation": "英伟达 (NVDA)",
+    "nvidia": "英伟达 (NVDA)",
+    "amazon.com, inc.": "亚马逊 (AMZN)",
+    "amazon": "亚马逊 (AMZN)",
+    "meta platforms, inc.": "Meta (META)",
+    "meta": "Meta (META)",
+    "tesla, inc.": "特斯拉 (TSLA)",
+    "tesla": "特斯拉 (TSLA)",
+    "broadcom inc.": "博通 (AVGO)",
+    "broadcom": "博通 (AVGO)",
+    "the home depot, inc.": "家得宝 (HD)",
+    "home depot": "家得宝 (HD)",
+    "abbvie inc.": "艾伯维 (ABBV)",
+    "abbvie": "艾伯维 (ABBV)",
+    "texas instruments incorporated": "德州仪器 (TXN)",
+    "texas instruments": "德州仪器 (TXN)",
+    "chevron corporation": "雪佛龙 (CVX)",
+    "chevron": "雪佛龙 (CVX)",
+    "exxon mobil corporation": "埃克森美孚 (XOM)",
+    "exxon mobil": "埃克森美孚 (XOM)",
+    "jPMorgan chase & co.": "摩根大通 (JPM)",
+    "jpmorgan": "摩根大通 (JPM)",
+    "johnson & johnson": "强生 (JNJ)",
+    "taiwan semiconductor manufacturing company limited": "台积电 (TSM)",
+    "tsmc": "台积电 (TSM)",
+    "asml holding n.v.": "阿斯麦 (ASML)",
+    "asml": "阿斯麦 (ASML)",
+    "advanced micro devices, inc.": "超威半导体 (AMD)",
+    "amd": "超威半导体 (AMD)",
+    "salesforce, inc.": "赛富时 (CRM)",
+    "salesforce": "赛富时 (CRM)",
+    "nextera energy, inc.": "新纪元能源 (NEE)",
+    "nextera energy": "新纪元能源 (NEE)",
+    "the southern company": "南方电力 (SO)",
+    "southern co": "南方电力 (SO)",
+    "duke energy corporation": "杜克能源 (DUK)",
+    "duke energy": "杜克能源 (DUK)",
+    "sempra": "桑普拉能源 (SRE)",
+    "american electric power company, inc.": "美国电力 (AEP)",
+    "aep": "美国电力 (AEP)",
+    "berkshire hathaway inc.": "伯克希尔 (BRK.B)",
+    "alphabet inc.": "谷歌 (GOOGL)",
+    "eli lilly and company": "礼来 (LLY)",
+    "walmart inc.": "沃尔玛 (WMT)",
+    "unitedhealth group incorporated": "联合健康 (UNH)",
+    "visa inc.": "维萨 (V)",
+    "costco wholesale corporation": "好市多 (COST)",
+    "netflix, inc.": "网飞 (NFLX)",
+    "pepsico, inc.": "百事可乐 (PEP)",
+    "adobe inc.": "奥多比 (ADBE)",
+    "cisco systems, inc.": "思科 (CSCO)",
+    "qualcomm incorporated": "高通 (QCOM)",
+    "applied materials, inc.": "应用材料 (AMAT)",
+    "lam research corporation": "泛林集团 (LRCX)",
+    "micron technology, inc.": "美光科技 (MU)",
+    "analog devices, inc.": "亚德诺半导体 (ADI)",
+    "kla corporation": "科磊 (KLAC)",
+    "intel corporation": "英特尔 (INTC)",
+    "marvell technology, inc.": "美满电子 (MRVL)",
+    "microchip technology incorporated": "微芯科技 (MCHP)",
+    "accenture plc": "埃森哲 (ACN)",
+    "oracle corporation": "甲骨文 (ORCL)",
+    "international business machines corporation": "IBM (IBM)",
+    "intuit inc.": "直觉软件 (INTU)",
+    "blackrock, inc.": "贝莱德 (BLK)",
+    "lockheed martin corporation": "洛克希德马丁 (LMT)",
+    "amgen inc.": "安进 (AMGN)",
+    "pfizer inc.": "辉瑞 (PFE)",
+    "united parcel service, inc.": "联合包裹 (UPS)",
+    "verizon communications inc.": "威瑞森 (VZ)",
+    "the coca-cola company": "可口可乐 (KO)",
+    "bristol-myers squibb company": "百时美施贵宝 (BMY)",
+    "emerson electric co.": "艾默生电气 (EMR)",
+    "merck & co., inc.": "默沙东 (MRK)",
+    "bank of america corporation": "美国银行 (BAC)",
+    "constellation energy corporation": "星座能源 (CEG)",
+    "dominion energy, inc.": "自治领能源 (D)",
+    "public service enterprise group incorporated": "公共服务企业 (PEG)",
+    "consolidated edison, inc.": "爱迪生联合 (ED)",
+    "wec energy group, inc.": "WEC能源 (WEC)",
+    "xcel energy inc.": "卓越能源 (XEL)",
+    "edison international": "爱迪生国际 (EIX)",
+    "american water works company, inc.": "美国水务 (AWK)",
+    "dte energy company": "DTE能源 (DTE)",
+    "ppl corporation": "PPL电力 (PPL)"
 }
+
+def smart_translate(raw_name, symbol):
+    """智能翻译函数：去除前后空格、转小写并在字典中匹配，若无匹配则降级显示原名+代码"""
+    if not raw_name:
+        return symbol
+    cleaned_key = str(raw_name).strip().lower()
+    # 如果在字典中找到，返回翻译后的名称；否则组装一个默认的格式并返回
+    if cleaned_key in TICKER_TRANSLATIONS:
+        return TICKER_TRANSLATIONS[cleaned_key]
+    return f"{raw_name} ({symbol})"
 
 proxy_chains = {
     'SCHD': [(1993, 2006, 'VEIPX'), (2007, 2011, 'VYM'), (2012, 2030, 'SCHD')],
@@ -112,7 +122,6 @@ end_year = datetime.now().year
 database = {year: {} for year in range(start_year, end_year + 1)}
 
 def get_annual_data(ticker, start_y, end_y):
-    # 下载历史
     stock = yf.Ticker(ticker)
     df = stock.history(start=f"{start_y-1}-12-01", end=f"{end_y+1}-01-01")
     if df.empty: return {}
@@ -141,7 +150,7 @@ for asset, chain in proxy_chains.items():
         for y, metrics in data.items():
             database[y][asset] = metrics
 
-# ================= 新增：提取真实持仓，并应用字典翻译 =================
+# ================= 2. 抓取真实持仓并应用智能翻译 =================
 def get_etf_holdings_and_sectors(etf_tickers):
     holdings_dict = {}
     sectors_dict = {}
@@ -151,58 +160,53 @@ def get_etf_holdings_and_sectors(etf_tickers):
         try:
             etf = yf.Ticker(ticker)
             
-            # 1. 获取持仓 (Holdings)
+            # 获取持仓
             holdings = []
             try:
-                # 尝试新的 fund_data API
                 if hasattr(etf, 'funds_data') and hasattr(etf.funds_data, 'top_holdings'):
                     raw_holdings = etf.funds_data.top_holdings
                     if raw_holdings is not None and not raw_holdings.empty:
                         for symbol, row in raw_holdings.iterrows():
-                            # 获取英文名并尝试翻译
                             raw_name = row.get('Name', symbol)
-                            translated_name = TICKER_TRANSLATIONS.get(raw_name, raw_name)
+                            # 使用智能翻译函数拦截英文名
+                            translated_name = smart_translate(raw_name, symbol)
                             
                             weight = row.get('Holding Percent', 0)
                             if weight > 0:
                                 holdings.append({
                                     "ticker": symbol,
-                                    "name": translated_name, # 这里写入翻译后的名字
-                                    "weight": round(weight * 100, 2) # Yahoo API 返回的是小数，乘 100 变百分比
+                                    "name": translated_name,
+                                    "weight": round(weight * 100, 2)
                                 })
-                
-                # 降级方案：如果老 API 能用
                 elif hasattr(etf, 'info') and 'holdings' in etf.info:
                      raw_holdings = etf.info['holdings']
                      for h in raw_holdings:
-                         raw_name = h.get('holdingName', h.get('symbol', 'Unknown'))
-                         translated_name = TICKER_TRANSLATIONS.get(raw_name, raw_name)
+                         symbol = h.get('symbol', 'Unknown')
+                         raw_name = h.get('holdingName', symbol)
+                         translated_name = smart_translate(raw_name, symbol)
                          weight = h.get('holdingPercent', 0)
                          if weight > 0:
                              holdings.append({
-                                 "ticker": h.get('symbol', 'Unknown'),
-                                 "name": translated_name, # 这里写入翻译后的名字
+                                 "ticker": symbol,
+                                 "name": translated_name,
                                  "weight": round(weight * 100, 2)
                              })
             except Exception as e:
                 print(f"  Failed to fetch holdings for {ticker}: {e}")
             
-            # 如果抓到了，保存下来
             if holdings:
                 holdings_dict[ticker] = holdings
                 
-            # 2. 获取行业 (Sectors)
+            # 获取行业
             sectors = {}
             try:
                  if hasattr(etf, 'funds_data') and hasattr(etf.funds_data, 'sector_weightings'):
                      raw_sectors = etf.funds_data.sector_weightings
                      if raw_sectors is not None and not raw_sectors.empty:
                          for index, row in raw_sectors.iterrows():
-                             # 将 Yahoo 默认的行业英文翻译成你的前端分类
                              sector_name_en = index
                              weight = row.iloc[0] if isinstance(row, pd.Series) else row
                              
-                             # 简单的内置行业翻译
                              sector_mapping = {
                                  "Technology": "信息技术",
                                  "Financial Services": "金融",
@@ -217,7 +221,6 @@ def get_etf_holdings_and_sectors(etf_tickers):
                                  "Basic Materials": "原材料"
                              }
                              sector_name_cn = sector_mapping.get(sector_name_en, "其他")
-                             
                              if weight > 0:
                                  sectors[sector_name_cn] = round(weight * 100, 2)
             except Exception as e:
@@ -231,26 +234,18 @@ def get_etf_holdings_and_sectors(etf_tickers):
             
     return holdings_dict, sectors_dict
 
-# 抓取数据
 print("Starting live fetch of ETF composition data...")
 live_holdings, live_sectors = get_etf_holdings_and_sectors(proxy_chains.keys())
 
-# 生成最终的 JS 字符串
-# 这里做了一个极度优雅的降级处理：如果你没抓到，用我们在前端约定的格式输出
 def generate_js_object(py_dict):
     return json.dumps(py_dict, ensure_ascii=False, indent=4)
 
-# 动态组装 JS 文件内容
+# 动态组装 data.js 内容
 etf_holdings_js = f"""
-// 1. ETF 底层真实前 15 大持仓数据 (Top Holdings) - Live Fetched
 window.etfHoldings = {generate_js_object(live_holdings) if live_holdings else "{}"};
-
-// 2. ETF 真实行业分布数据 (Sector Weights %) - Live Fetched
 window.etfSectors = {generate_js_object(live_sectors) if live_sectors else "{}"};
 """
 
-
-# 把数据直接写入 JS 文件 (包含 X-Ray 数据 + 抓取的回测数据)
 with open("data.js", "w", encoding="utf-8") as f:
     f.write(etf_holdings_js + "\n\n")
     f.write("window.proxyDatabase = {\n")
