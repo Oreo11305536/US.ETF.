@@ -372,7 +372,7 @@
                     <tr>
                         <th class="py-3 px-4">推演年份</th>
                         <th class="py-3 px-4">预计年底总资产</th>
-                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="预测期内每年资产的复合增长率（包含涨幅与每年追加）。">资产年增长率</span></th>
+                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="当年由市场复利产生的真实利润（不含你存入的本金）。">当年纯利润 ($)</span></th>
                         <th class="py-3 px-4 text-amber-600"><span class="help-tip" data-tip="根据设定的自定义股息率计算出的税前金额。">自定义股息金额</span></th>
                         <th class="py-3 px-4 text-emerald-700"><span class="help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的累积总本金。衡量你真金白银掏出的钱，现在每年能产出多少比例的现金流利息。本列为税前。">预期税前 YOC</span></th>
                     </tr>
@@ -1240,36 +1240,41 @@
             let customCagr = (parseFloat(document.getElementById('fcIndCagr').value) || 0) / 100.0;
             let customDivYield = (parseFloat(document.getElementById('fcIndDivYield').value) || 0) / 100.0;
 
-            let forecastRate = 1 + customCagr;
-            if (state.isDrip) forecastRate = 1 + customCagr + customDivYield;
+            // 如果开启了分红再投(DRIP)，总涨幅要加上股息率
+            let forecastRate = customCagr;
+            if (state.isDrip) forecastRate = customCagr + customDivYield; 
 
             let asset = startAsset;
             let capitalInjected = startAsset;
             let currentAdd = annualAdd;
-            let prevAsset = startAsset;
             let tableHtml = '';
 
             for (let i = 1; i <= years; i++) {
-                asset += currentAdd;
+                // 1. 年初：把去年的钱和今年新加的钱放在一起准备投资
+                let startOfYearAsset = asset + currentAdd;
                 capitalInjected += currentAdd;
-                asset *= forecastRate;
+
+                // 2. 算纯利润（只算市场涨幅带来的钱生钱，完全剥离你的工资追加）
+                let pureProfit = startOfYearAsset * forecastRate;
+                
+                // 3. 年底总资产 = 年初投入 + 纯利润
+                asset = startOfYearAsset + pureProfit;
                 
                 let divAmount = asset * customDivYield;
-                let assetGrowthRate = prevAsset > 0 ? ((asset - prevAsset) / prevAsset) * 100 : 0;
-                prevAsset = asset;
-                currentAdd *= (1 + annualAddGrowth); 
-                
                 let yoc = capitalInjected > 0 ? (divAmount / capitalInjected) * 100 : 0;
 
                 tableHtml += `
                     <tr class="hover:bg-emerald-50/50 transition border-b border-gray-100">
                         <td class="py-2.5 px-4 font-bold text-gray-800">第 ${i} 年</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-semibold">${fmtUsd(asset)}</td>
-                        <td class="py-2.5 px-4 text-purple-700 font-semibold">${assetGrowthRate >= 0 ? '+' : ''}${assetGrowthRate.toFixed(2)}%</td>
+                        <td class="py-2.5 px-4 text-purple-700 font-bold">+ ${fmtUsd(pureProfit)}</td>
                         <td class="py-2.5 px-4 text-amber-600 font-semibold">${fmtUsd(divAmount)}</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-700'}">${yoc.toFixed(2)}%</td>
                     </tr>
                 `;
+                
+                // 为下一年准备（工资涨了，追加的本金也变多）
+                currentAdd *= (1 + annualAddGrowth); 
             }
             if(document.getElementById('forecastTableBodyInd')) {
                 document.getElementById('forecastTableBodyInd').innerHTML = tableHtml;
