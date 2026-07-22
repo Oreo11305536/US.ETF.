@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -406,11 +406,11 @@
                         <!-- 核心修改：本金前置 -->
                         <th class="py-3 px-4">预计累计本金</th>
                         <th class="py-3 px-4">预计年底总资产</th>
-                        <th class="py-3 px-4">累计总收益率</th>
-                        <th class="py-3 px-4">预计税前分红</th>
+                        <th class="py-3 px-4"><span class="help-tip" data-tip="从历史起点延伸至未来推演年份的累计总回报表现（已自动匹配当前的取现或复投模式）。">累计总收益率</span></th>
+                        <th class="py-3 px-4"><span class="help-tip" data-tip="未扣税毛额。">预计税前分红</span></th>
                         <th class="py-3 px-4">HK税後預估</th>
                         <th class="py-3 px-4">CN税後預估</th>
-                        <th class="py-3 px-4">预期税前 YOC</th>
+                        <th class="py-3 px-4"><span class="help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的累积总本金。衡量你真金白银掏出的钱，现在每年能产出多少比例的现金流利息。本列为税前。">预期税前 YOC</span></th>
                     </tr>
                 </thead>
                 <tbody id="forecastTableBodyHistory" class="divide-y divide-gray-100 bg-white font-mono"></tbody>
@@ -764,10 +764,10 @@
         let trueHistoricalCagr = 0;
 
         etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
-        if (typeof window.proxyDatabase === 'undefined') window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
+        if (typeof proxyDatabase === 'undefined') window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
 
-        // 核心修复：完美的降级兜底数据，匹配 Python 脚本的【对象数组】结构
-        if (typeof window.etfHoldings === 'undefined') {
+        // 默认 X-Ray 数据 (防报错降级数据：完美兼容 Array 或 Object 格式)
+        if (typeof etfHoldings === 'undefined') {
             window.etfHoldings = {
                 'VOO': [ {name: 'Apple Inc.', weight: 6.8}, {name: 'Microsoft', weight: 6.5}, {name: 'Nvidia', weight: 5.0}, {name: 'Amazon', weight: 3.5}, {name: 'Meta', weight: 2.0} ],
                 'QQQM': [ {name: 'Apple Inc.', weight: 8.5}, {name: 'Microsoft', weight: 8.0}, {name: 'Nvidia', weight: 6.5}, {name: 'Amazon', weight: 5.0}, {name: 'Meta', weight: 4.5}, {name: 'Tesla', weight: 3.0} ],
@@ -778,20 +778,26 @@
                 'VPU': [ {name: 'NextEra Energy', weight: 8.5}, {name: 'Southern Co', weight: 8.0}, {name: 'Duke Energy', weight: 7.5}, {name: 'Sempra', weight: 5.0}, {name: 'AEP', weight: 4.5} ]
             };
         }
-        if (typeof window.etfSectors === 'undefined') {
+        if (typeof etfSectors === 'undefined') {
             window.etfSectors = {
                 'VOO': {'信息技术': 30, '金融': 13, '医疗保健': 12, '可选消费': 10, '通信服务': 9, '工业': 8, '必选消费': 6, '能源': 4, '房地产': 3, '公用事业': 3, '原材料': 2},
                 'QQQM': {'信息技术': 50, '通信服务': 15, '可选消费': 14, '医疗保健': 7, '工业': 5, '必选消费': 4, '其他': 5},
                 'SCHD': {'工业': 18, '医疗保健': 16, '金融': 15, '必选消费': 13, '信息技术': 11, '能源': 9, '可选消费': 8, '通信服务': 5, '原材料': 5},
                 'DGRO': {'金融': 19, '医疗保健': 18, '信息技术': 17, '工业': 12, '必选消费': 10, '能源': 7, '公用事业': 6, '可选消费': 5, '其他': 6},
-                'SMH': {'信息技术(半导体)': 100},
+                'SMH': {'信息技术': 100},
                 'VGT': {'信息技术': 100},
                 'VPU': {'公用事业': 100}
             };
         }
 
-        // ================= X-Ray 计算引擎 (数据结构修复版) =================
+        // ================= X-Ray 计算引擎 =================
         let sectorChartInstance = null;
+
+        // 股票名字提取器：兼容纯字符串或对象格式
+        function formatStockName(stock) {
+            let name = typeof stock === 'object' && stock !== null ? stock.name : stock;
+            return String(name || "Unknown");
+        }
 
         function updateXRay() {
             let totalW = 0;
@@ -805,18 +811,28 @@
             for (const [etfId, weight] of Object.entries(state.portfolio)) {
                 let ratio = weight / totalW;
                 
-                // 计算持仓 (兼容 Python 脚本导出的对象数组)
-                if (window.etfHoldings[etfId] && Array.isArray(window.etfHoldings[etfId])) {
-                    window.etfHoldings[etfId].forEach(stock => {
-                        let name = stock.name || stock.ticker;
-                        aggregatedHoldings[name] = (aggregatedHoldings[name] || 0) + (stock.weight * ratio);
+                // 计算持仓 (兼容 Python 字典或数组格式)
+                if (window.etfHoldings[etfId]) {
+                    let holdingsData = window.etfHoldings[etfId];
+                    let holdingsArray = Array.isArray(holdingsData) ? holdingsData : Object.entries(holdingsData).map(([k,v]) => ({name: k, weight: v}));
+                    
+                    holdingsArray.forEach(stock => {
+                        let displayName = formatStockName(stock);
+                        aggregatedHoldings[displayName] = (aggregatedHoldings[displayName] || 0) + ((stock.weight || 0) * ratio);
                     });
                 }
                 
                 // 计算行业
                 if (window.etfSectors[etfId]) {
                     for (const [sector, pct] of Object.entries(window.etfSectors[etfId])) {
-                        aggregatedSectors[sector] = (aggregatedSectors[sector] || 0) + (pct * ratio);
+                        // 处理别名映射，统一归类
+                        let mappedSector = sector;
+                        if (sector === '医疗健康') mappedSector = '医疗保健';
+                        if (sector === '非必需消费') mappedSector = '可选消费';
+                        if (sector === '必需消费') mappedSector = '必选消费';
+                        if (sector === '信息技术(半导体)') mappedSector = '信息技术';
+                        
+                        aggregatedSectors[mappedSector] = (aggregatedSectors[mappedSector] || 0) + (pct * ratio);
                     }
                 }
             }
@@ -828,6 +844,7 @@
             renderTop15List(aggregatedHoldings);
         }
 
+        // 包含同义词的色彩映射表
         const SECTOR_COLORS = {
             '信息技术': '#3b82f6', // blue-500
             '金融': '#f59e0b', // amber-500
@@ -835,11 +852,11 @@
             '可选消费': '#8b5cf6', // indigo-500
             '通信服务': '#10b981', // emerald-500
             '工业': '#64748b', // slate-500
-            '必选消费': '#14b8a6', // emerald-400
+            '必选消费': '#14b8a6', // teal-400
             '能源': '#f97316', // orange-500
             '公用事业': '#0ea5e9', // teal-500
             '房地产': '#a855f7', // purple-500
-            '原材料': '#84cc16', // teal-400
+            '原材料': '#84cc16', // lime-500
             '其他': '#cbd5e1' // slate-300
         };
 
@@ -914,6 +931,9 @@
             let top15 = sortedHoldings.slice(0, 15);
             let tailSum = 0;
             for (let i = 15; i < sortedHoldings.length; i++) tailSum += sortedHoldings[i][1];
+            
+            // 累加前 15 名合计
+            let top15Sum = top15.reduce((sum, item) => sum + item[1], 0);
 
             const listDiv = document.getElementById('xrayTop15List');
             if (!listDiv) return;
@@ -927,15 +947,25 @@
                 listDiv.innerHTML += `
                     <div class="mb-3 break-inside-avoid">
                         <div class="flex justify-between items-end mb-1 px-1">
-                            <span class="font-bold text-slate-700 truncate mr-2">${idx + 1}. ${name}</span>
+                            <span class="font-bold text-slate-700 truncate mr-2" title="${name}">${idx + 1}. ${name}</span>
                             <span class="font-mono font-bold text-slate-900">${pct.toFixed(2)}%</span>
                         </div>
                         <div class="energy-bar-bg">
-                            <div class="energy-bar-fill" style="width: ${barWidth}%; background-color: ${idx < 5 ? '#b8860b' : '#cbd5e1'}; opacity: 0.4;"></div>
+                            <div class="energy-bar-fill" style="width: ${barWidth}%; background-color: #cbd5e1; opacity: 0.6;"></div>
                         </div>
                     </div>
                 `;
             });
+
+            // 增加 Top 15 专属合计行
+            listDiv.innerHTML += `
+                <div class="mb-3 break-inside-avoid pt-2 border-t border-gray-200 mt-2">
+                    <div class="flex justify-between items-end px-1 text-slate-800 font-bold">
+                        <span>Top 15 合计占比</span>
+                        <span class="font-mono">${top15Sum.toFixed(2)}%</span>
+                    </div>
+                </div>
+            `;
 
             if (tailSum > 0) {
                 listDiv.innerHTML += `
@@ -949,7 +979,7 @@
             }
         }
 
-        // 渲染 ETF 盲盒数据 (修复数据结构解析)
+        // 渲染 ETF 盲盒数据
         function renderBlindboxes() {
             etfLibrary.forEach(etf => {
                 const box = document.getElementById(`blindbox-${etf.id}`);
@@ -960,13 +990,16 @@
                                 <span class="text-slate-400 font-normal text-[10px]">权重</span>
                             </div>`;
                 
-                if (window.etfHoldings[etf.id] && Array.isArray(window.etfHoldings[etf.id])) {
-                    let sorted = [...window.etfHoldings[etf.id]].sort((a, b) => b.weight - a.weight).slice(0, 10);
+                if (window.etfHoldings[etf.id]) {
+                    let holdingsData = window.etfHoldings[etf.id];
+                    let holdingsArray = Array.isArray(holdingsData) ? holdingsData : Object.entries(holdingsData).map(([k,v]) => ({name: k, weight: v}));
+                    
+                    let sorted = holdingsArray.sort((a, b) => (b.weight || 0) - (a.weight || 0)).slice(0, 10);
                     sorted.forEach(stock => {
-                        let name = stock.name || stock.ticker;
+                        let displayName = formatStockName(stock);
                         html += `<div class="blindbox-row">
-                                    <span class="truncate pr-2">${name}</span>
-                                    <span class="font-mono text-emerald-400">${stock.weight.toFixed(2)}%</span>
+                                    <span class="truncate pr-2" title="${displayName}">${displayName}</span>
+                                    <span class="font-mono text-emerald-400">${(stock.weight || 0).toFixed(2)}%</span>
                                  </div>`;
                     });
                 } else {
@@ -1382,7 +1415,7 @@
                 yDiv.push(currentYearDiv);
                 cumulativeDiv += currentYearDiv;
                 
-                // === 智能时间切分与权重平滑（仅保留股息季度逻辑） ===
+                // === 智能时间切分与权重平滑 ===
                 let isCurrentYear = (y === state.currentYear);
                 let currentMonthNum = new Date().getMonth() + 1;
                 let quartersToRun = isCurrentYear ? Math.ceil(currentMonthNum / 3) : 4;
@@ -1480,7 +1513,7 @@
             if(document.getElementById('historyRangeTag')) document.getElementById('historyRangeTag').textContent = `${state.startYear} - ${state.currentYear}`;
             if(document.getElementById('historyTableBody')) document.getElementById('historyTableBody').innerHTML = historyTableHtml;
 
-            // 强制走势图为 yearly，恢复分红图的视角切换
+            // 强制走势图为 yearly
             setChartMode('value', 'yearly');
             setChartMode('dividend', state.viewDiv);
 
