@@ -38,6 +38,7 @@
         .chart-toggle-inactive:hover { background-color: #d1d5db; }
         
         .help-tip { cursor: help; border-bottom: 1px dashed #9ca3af; display: inline-block; position: relative; z-index: 50; }
+        button.help-tip { border-bottom: none; } /* 修复按钮上的虚线 */
         .icon-tip { display: inline-flex; justify-content: center; align-items: center; width: 1.1rem; height: 1.1rem; background-color: #10b981; color: white; border-radius: 50%; font-size: 0.7rem; font-family: serif; font-weight: bold; cursor: help; margin-left: 4px; transition: transform 0.2s; }
         .icon-tip:hover { transform: scale(1.15); }
 
@@ -186,9 +187,9 @@
     <!-- 主控台 -->
     <div id="section-control" class="card bg-[#faf9f6]">
         <div class="flex flex-wrap items-center gap-6 mb-6">
-            <div class="bg-white rounded-full p-1 flex shadow-sm border">
-                <button id="btnIncome" class="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition">取出分红</button>
-                <button id="btnDrip" class="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100">分红再投 (DRIP)</button>
+            <div class="bg-white rounded-full p-1 flex shadow-sm border relative">
+                <button id="btnIncome" class="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition help-tip" data-tip="累计收益率包含已拿走的现金分红：(总资产 + 累计分红 - 累计本金) ÷ 累计本金">取出分红</button>
+                <button id="btnDrip" class="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100 help-tip" data-tip="分红已化为复利直接滚动：(总资产 - 累计本金) ÷ 累计本金">分红再投 (DRIP)</button>
             </div>
             <div class="flex items-center space-x-2">
                 <span class="text-sm font-medium">初始本金 $</span>
@@ -254,8 +255,9 @@
         <canvas id="valueChart" height="90"></canvas>
         
         <div class="flex justify-between items-center mt-8 mb-2">
-            <div>
+            <div class="flex items-center">
                 <h3 class="font-bold text-lg">现金流 (股息) 增长趋势</h3>
+                <span class="icon-tip ml-2 help-tip" data-tip="美股公司习惯在年底(Q4)集中结算或派发特别股息。图表已引入美股季节性权重模型平滑，当前年仅展示已走完的真实季度。">i</span>
             </div>
             <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
                 <button id="btnDivYear" onclick="setChartMode('dividend', 'yearly')" class="chart-toggle-btn chart-toggle-active">年度分红</button>
@@ -280,7 +282,7 @@
                     <tr>
                         <th class="py-3 px-4">年份</th>
                         <th class="py-3 px-4">年底总资产</th>
-                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="相比上一年底总资产的增长幅度（含每年追加本金及复利）。">资产年增长率</span></th>
+                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="从所选起点至今，你投入的累积总本金，被市场总共放大了多少倍的总回报率（已自动匹配当前的取现或复投模式）。">累计总收益率</span></th>
                         <th class="py-3 px-4 text-[#d4af37]"><span class="help-tip" data-tip="你名下资产产生的全部股息毛利，还未交税。">税前分红</span></th>
                         <th class="py-3 px-4 text-orange-600"><span class="help-tip" data-tip="假设你是香港税务居民(非美国居民)，美国政府会强行扣走 30% 股息税。本列为你真正拿到手的钱。">HK实际到手 (扣30%)</span></th>
                         <th class="py-3 px-4 text-rose-600"><span class="help-tip" data-tip="假设你是内地税务居民，因中美有税收协定，填写 W-8BEN 表格后仅扣 10% 股息税。本列为你真正拿到手的钱。">CN实际到手 (扣10%)</span></th>
@@ -316,7 +318,7 @@
                     <tr>
                         <th class="py-3 px-4">推演年份</th>
                         <th class="py-3 px-4">预计年底总资产</th>
-                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="预测期内每年资产的复合增长率。">资产年增长率</span></th>
+                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="从历史起点延伸至未来推演年份的累计总回报表现（已自动匹配当前的取现或复投模式）。">累计总收益率</span></th>
                         <th class="py-3 px-4 text-[#d4af37]"><span class="help-tip" data-tip="未扣税毛额。">预计税前分红</span></th>
                         <th class="py-3 px-4 text-orange-600">HK税後預估</th>
                         <th class="py-3 px-4 text-rose-600">CN税後預估</th>
@@ -334,6 +336,7 @@
             <div>
                 <div class="flex items-center space-x-2">
                     <h3 class="font-bold text-xl text-gray-800">独立未来推演沙盘</h3>
+                    <span id="sandboxDripTag"></span>
                 </div>
                 <p class="text-xs text-gray-500 mt-2">完全自由独立的数学推演，不影响上方任何回测。修改参数立即生效。</p>
             </div>
@@ -372,7 +375,7 @@
                     <tr>
                         <th class="py-3 px-4">推演年份</th>
                         <th class="py-3 px-4">预计年底总资产</th>
-                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="当年由市场复利产生的真实利润（不含你存入的本金）。">当年纯利润 ($)</span></th>
+                        <th class="py-3 px-4 text-purple-700"><span class="help-tip" data-tip="从第一年至今，你投入的所有真金白银本金，被市场总共放大了百分之多少（已自动匹配顶部的取现或复投模式）。">累计总收益率</span></th>
                         <th class="py-3 px-4 text-amber-600"><span class="help-tip" data-tip="根据设定的自定义股息率计算出的税前金额。">自定义股息金额</span></th>
                         <th class="py-3 px-4 text-emerald-700"><span class="help-tip" data-tip="Yield on Cost (成本收益率) = 当年分红 ÷ 投入的累积总本金。衡量你真金白银掏出的钱，现在每年能产出多少比例的现金流利息。本列为税前。">预期税前 YOC</span></th>
                     </tr>
@@ -714,7 +717,7 @@
 
         function renderEtfGrid() {
             const grid = document.getElementById('etfGrid');
-            if (!grid) return; // 护城河拦截
+            if (!grid) return; 
             grid.innerHTML = '';
             etfLibrary.forEach(etf => {
                 const isSelected = state.portfolio[etf.id] !== undefined;
@@ -767,7 +770,6 @@
             }
         }
 
-        // 绑定输入框监听器，增加判空防护
         ['initialCapital', 'annualContribution', 'annualGrowthRate', 'startYear'].forEach(id => {
             const el = document.getElementById(id);
             if(el) {
@@ -809,14 +811,14 @@
         if (btnIncome && btnDrip) {
             btnIncome.addEventListener('click', e => { 
                 state.isDrip = false; 
-                e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; 
-                btnDrip.className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; 
+                e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition help-tip"; 
+                btnDrip.className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100 help-tip"; 
                 runBacktestEngine(); 
             });
             btnDrip.addEventListener('click', e => { 
                 state.isDrip = true; 
-                e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; 
-                btnIncome.className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; 
+                e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition help-tip"; 
+                btnIncome.className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100 help-tip"; 
                 runBacktestEngine(); 
             });
         }
@@ -884,7 +886,6 @@
             }
         };
 
-        // 安全获取 Canvas 上下文 (防弹设计)
         let valueChart = null;
         const valCanvasEl = document.getElementById('valueChart');
         if (valCanvasEl) {
@@ -1026,6 +1027,7 @@
             
             let currentAnnualContribution = state.annualAdd; 
             let lastYearAssetForGrowth = state.capital;
+            let dripTag = state.isDrip ? `<span class="text-[0.65rem] text-gray-400 font-normal ml-1 whitespace-nowrap">(已自动再投)</span>` : '';
 
             for(let y = state.startYear; y <= state.currentYear; y++) {
                 if (y > state.startYear) {
@@ -1069,24 +1071,48 @@
                 yDiv.push(currentYearDiv);
                 cumulativeDiv += currentYearDiv;
                 
-                let ratioM = startOfYearAsset > 0 ? Math.pow(currentYearTotalAsset / startOfYearAsset, 1/12) : 1;
+                // === 智能时间切分与权重平滑（修复当年数据腰斩）===
+                let isCurrentYear = (y === state.currentYear);
+                let currentMonthNum = new Date().getMonth() + 1;
+                let monthsToRun = isCurrentYear ? currentMonthNum : 12;
+                if (monthsToRun < 1) monthsToRun = 1;
+                let quartersToRun = isCurrentYear ? Math.ceil(currentMonthNum / 3) : 4;
+                if (quartersToRun < 1) quartersToRun = 1;
+
+                let ratioM = startOfYearAsset > 0 ? Math.pow(currentYearTotalAsset / startOfYearAsset, 1/monthsToRun) : 1;
                 let currentMonthAsset = startOfYearAsset;
-                for(let m=1; m<=12; m++) {
+                for(let m=1; m<=monthsToRun; m++) {
                     currentMonthAsset *= ratioM;
                     mLabels.push(y + '-' + String(m).padStart(2, '0'));
                     mValue.push(currentMonthAsset);
                 }
                 
-                let ratioQ = startOfYearAsset > 0 ? Math.pow(currentYearTotalAsset / startOfYearAsset, 1/4) : 1;
+                let ratioQ = startOfYearAsset > 0 ? Math.pow(currentYearTotalAsset / startOfYearAsset, 1/quartersToRun) : 1;
                 let currentQAsset = startOfYearAsset;
-                for(let q=1; q<=4; q++) {
+                // 美股季节性派息权重平滑
+                let baseWeights = [0.23, 0.23, 0.24, 0.30];
+                let passedWeightSum = 0;
+                for(let i=0; i<quartersToRun; i++) passedWeightSum += baseWeights[i];
+
+                for(let q=1; q<=quartersToRun; q++) {
                     currentQAsset *= ratioQ;
                     qLabels.push(y + '-Q' + q);
                     qValue.push(currentQAsset);
-                    qDiv.push(currentYearDiv / 4);
+                    let w = isCurrentYear ? (baseWeights[q-1] / passedWeightSum) : baseWeights[q-1];
+                    qDiv.push(currentYearDiv * w);
+                }
+                // ===============================================
+                
+                // 【核心模块2：DRIP公式重构】
+                let cumulativeROI = 0;
+                if (currentCapitalInjected > 0) {
+                    if (state.isDrip) {
+                        cumulativeROI = (currentYearTotalAsset - currentCapitalInjected) / currentCapitalInjected * 100;
+                    } else {
+                        cumulativeROI = (currentYearTotalAsset + cumulativeDiv - currentCapitalInjected) / currentCapitalInjected * 100;
+                    }
                 }
                 
-                let assetGrowthRate = (y === state.startYear || lastYearAssetForGrowth === 0) ? 0 : ((currentYearTotalAsset - lastYearAssetForGrowth) / lastYearAssetForGrowth) * 100;
                 lastYearAssetForGrowth = currentYearTotalAsset;
                 prevTotalAsset = currentYearTotalAsset;
                 
@@ -1099,10 +1125,10 @@
                     <tr class="hover:bg-gray-50 transition border-b border-gray-100">
                         <td class="py-2 px-4 text-gray-800">${y}</td>
                         <td class="py-2 px-4 font-semibold text-gray-700">${fmtUsd(currentYearTotalAsset)}</td>
-                        <td class="py-2 px-4 font-semibold text-purple-700">${y === state.startYear ? '-' : (assetGrowthRate >= 0 ? '+' : '') + assetGrowthRate.toFixed(2) + '%'}</td>
-                        <td class="py-2 px-4 font-semibold text-[#d4af37]">${fmtUsd(currentYearDiv)}</td>
-                        <td class="py-2 px-4 font-semibold text-orange-600">${fmtUsd(currentYearDiv * 0.7)}</td>
-                        <td class="py-2 px-4 font-semibold text-rose-600">${fmtUsd(currentYearDiv * 0.9)}</td>
+                        <td class="py-2 px-4 font-bold text-purple-700">${y === state.startYear ? '-' : (cumulativeROI >= 0 ? '+' : '') + cumulativeROI.toFixed(2) + '%'}</td>
+                        <td class="py-2 px-4 font-semibold text-[#d4af37]">${fmtUsd(currentYearDiv)} ${dripTag}</td>
+                        <td class="py-2 px-4 font-semibold text-orange-600">${fmtUsd(currentYearDiv * 0.7)} ${dripTag}</td>
+                        <td class="py-2 px-4 font-semibold text-rose-600">${fmtUsd(currentYearDiv * 0.9)} ${dripTag}</td>
                         <td class="py-2 px-4 text-blue-600">${fmtUsd(cumulativeDiv)}</td>
                         <td class="py-2 px-4 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-600'}">${yoc.toFixed(2)}%</td>
                     </tr>
@@ -1174,6 +1200,7 @@
             let forecastCapitalInjectedHist = currentCapitalInjected;
             let futureAnnualContHist = currentAnnualContribution;
             let prevForecastAssetHist = finalValue;
+            let forecastCumulativeDiv = cumulativeDiv;
             let forecastTableHtmlHistory = '';
             
             if(document.getElementById('baseYearTagHistory')) document.getElementById('baseYearTagHistory').textContent = state.currentYear;
@@ -1185,7 +1212,18 @@
                 forecastAssetHist *= forecastRateHistory;
                 
                 let forecastDiv = forecastAssetHist * forecastEngineData.terminalDivYield;
-                let assetGrowthRateForecast = prevForecastAssetHist > 0 ? ((forecastAssetHist - prevForecastAssetHist) / prevForecastAssetHist) * 100 : 0;
+                forecastCumulativeDiv += forecastDiv;
+                
+                // 【核心模块2：DRIP公式重构预测版】
+                let forecastCumulativeROI = 0;
+                if (forecastCapitalInjectedHist > 0) {
+                    if (state.isDrip) {
+                        forecastCumulativeROI = (forecastAssetHist - forecastCapitalInjectedHist) / forecastCapitalInjectedHist * 100;
+                    } else {
+                        forecastCumulativeROI = (forecastAssetHist + forecastCumulativeDiv - forecastCapitalInjectedHist) / forecastCapitalInjectedHist * 100;
+                    }
+                }
+                
                 prevForecastAssetHist = forecastAssetHist;
                 futureAnnualContHist *= (1 + state.annualAddGrowth); 
                 
@@ -1195,10 +1233,10 @@
                     <tr class="hover:bg-blue-50/50 transition border-b border-gray-100">
                         <td class="py-2.5 px-4 font-bold text-gray-800">${fy}</td>
                         <td class="py-2.5 px-4 text-blue-700 font-semibold">${fmtUsd(forecastAssetHist)}</td>
-                        <td class="py-2.5 px-4 text-purple-700 font-semibold">+${assetGrowthRateForecast.toFixed(2)}%</td>
-                        <td class="py-2.5 px-4 text-[#d4af37] font-semibold">${fmtUsd(forecastDiv)}</td>
-                        <td class="py-2.5 px-4 font-semibold text-orange-600">${fmtUsd(forecastDiv * 0.7)}</td>
-                        <td class="py-2.5 px-4 font-semibold text-rose-600">${fmtUsd(forecastDiv * 0.9)}</td>
+                        <td class="py-2.5 px-4 text-purple-700 font-bold">${(forecastCumulativeROI >= 0 ? '+' : '') + forecastCumulativeROI.toFixed(2)}%</td>
+                        <td class="py-2.5 px-4 text-[#d4af37] font-semibold">${fmtUsd(forecastDiv)} ${dripTag}</td>
+                        <td class="py-2.5 px-4 font-semibold text-orange-600">${fmtUsd(forecastDiv * 0.7)} ${dripTag}</td>
+                        <td class="py-2.5 px-4 font-semibold text-rose-600">${fmtUsd(forecastDiv * 0.9)} ${dripTag}</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-bold ${forecastYOC >= 10 ? 'text-red-500' : 'text-emerald-700'}">${forecastYOC.toFixed(2)}%</td>
                     </tr>
                 `;
@@ -1233,6 +1271,18 @@
             const elCap = document.getElementById('fcIndCapital');
             if(!elCap) return; // 护城河
 
+            // 【核心模块5：独立沙盘状态联动】
+            const sandboxTag = document.getElementById('sandboxDripTag');
+            if(sandboxTag) {
+                if(state.isDrip) {
+                    sandboxTag.className = "text-xs bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded font-bold ml-3";
+                    sandboxTag.textContent = "当前继承模式：分红再投 (DRIP)";
+                } else {
+                    sandboxTag.className = "text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded font-bold ml-3";
+                    sandboxTag.textContent = "当前继承模式：取出分红";
+                }
+            }
+
             let startAsset = parseFloat(elCap.value.replace(/,/g, '')) || 0;
             let annualAdd = parseFloat(document.getElementById('fcIndAdd').value.replace(/,/g, '')) || 0;
             let annualAddGrowth = (parseFloat(document.getElementById('fcIndAddGrowth').value) || 0) / 100.0;
@@ -1240,40 +1290,47 @@
             let customCagr = (parseFloat(document.getElementById('fcIndCagr').value) || 0) / 100.0;
             let customDivYield = (parseFloat(document.getElementById('fcIndDivYield').value) || 0) / 100.0;
 
-            // 如果开启了分红再投(DRIP)，总涨幅要加上股息率
-            let forecastRate = customCagr;
-            if (state.isDrip) forecastRate = customCagr + customDivYield; 
+            let forecastRate = 1 + customCagr;
+            if (state.isDrip) forecastRate = 1 + customCagr + customDivYield; 
 
             let asset = startAsset;
             let capitalInjected = startAsset;
             let currentAdd = annualAdd;
+            let indCumulativeDiv = 0;
             let tableHtml = '';
+            let dripTag = state.isDrip ? `<span class="text-[0.65rem] text-gray-400 font-normal ml-1 whitespace-nowrap">(已自动再投)</span>` : '';
 
             for (let i = 1; i <= years; i++) {
-                // 1. 年初：把去年的钱和今年新加的钱放在一起准备投资
                 let startOfYearAsset = asset + currentAdd;
                 capitalInjected += currentAdd;
 
-                // 2. 算纯利润（只算市场涨幅带来的钱生钱，完全剥离你的工资追加）
-                let pureProfit = startOfYearAsset * forecastRate;
-                
-                // 3. 年底总资产 = 年初投入 + 纯利润
-                asset = startOfYearAsset + pureProfit;
+                asset = startOfYearAsset * forecastRate;
                 
                 let divAmount = asset * customDivYield;
+                indCumulativeDiv += divAmount;
+                
+                // 【核心模块2：DRIP公式重构沙盘版】
+                let indCumulativeROI = 0;
+                if (capitalInjected > 0) {
+                    if (state.isDrip) {
+                        indCumulativeROI = (asset - capitalInjected) / capitalInjected * 100;
+                    } else {
+                        indCumulativeROI = (asset + indCumulativeDiv - capitalInjected) / capitalInjected * 100;
+                    }
+                }
+                
                 let yoc = capitalInjected > 0 ? (divAmount / capitalInjected) * 100 : 0;
 
                 tableHtml += `
                     <tr class="hover:bg-emerald-50/50 transition border-b border-gray-100">
                         <td class="py-2.5 px-4 font-bold text-gray-800">第 ${i} 年</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-semibold">${fmtUsd(asset)}</td>
-                        <td class="py-2.5 px-4 text-purple-700 font-bold">+ ${fmtUsd(pureProfit)}</td>
-                        <td class="py-2.5 px-4 text-amber-600 font-semibold">${fmtUsd(divAmount)}</td>
+                        <td class="py-2.5 px-4 text-purple-700 font-bold">${(indCumulativeROI >= 0 ? '+' : '') + indCumulativeROI.toFixed(2)}%</td>
+                        <td class="py-2.5 px-4 text-amber-600 font-semibold">${fmtUsd(divAmount)} ${dripTag}</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-700'}">${yoc.toFixed(2)}%</td>
                     </tr>
                 `;
                 
-                // 为下一年准备（工资涨了，追加的本金也变多）
                 currentAdd *= (1 + annualAddGrowth); 
             }
             if(document.getElementById('forecastTableBodyInd')) {
