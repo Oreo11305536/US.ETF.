@@ -1,6 +1,101 @@
 import yfinance as yf
 import pandas as pd
 from datetime import datetime
+import json
+
+# ================= 新增：股票名称中文翻译字典 =================
+# 用于拦截 Yahoo Finance 的英文名，转换为更友好的中文格式
+TICKER_TRANSLATIONS = {
+    "Apple Inc.": "苹果 (AAPL)",
+    "Apple": "苹果 (AAPL)",
+    "Microsoft Corporation": "微软 (MSFT)",
+    "Microsoft": "微软 (MSFT)",
+    "NVIDIA Corporation": "英伟达 (NVDA)",
+    "Nvidia": "英伟达 (NVDA)",
+    "Amazon.com, Inc.": "亚马逊 (AMZN)",
+    "Amazon": "亚马逊 (AMZN)",
+    "Meta Platforms, Inc.": "Meta (META)",
+    "Meta": "Meta (META)",
+    "Tesla, Inc.": "特斯拉 (TSLA)",
+    "Tesla": "特斯拉 (TSLA)",
+    "Broadcom Inc.": "博通 (AVGO)",
+    "Broadcom": "博通 (AVGO)",
+    "The Home Depot, Inc.": "家得宝 (HD)",
+    "Home Depot": "家得宝 (HD)",
+    "AbbVie Inc.": "艾伯维 (ABBV)",
+    "AbbVie": "艾伯维 (ABBV)",
+    "Texas Instruments Incorporated": "德州仪器 (TXN)",
+    "Texas Instruments": "德州仪器 (TXN)",
+    "Chevron Corporation": "雪佛龙 (CVX)",
+    "Chevron": "雪佛龙 (CVX)",
+    "Exxon Mobil Corporation": "埃克森美孚 (XOM)",
+    "Exxon Mobil": "埃克森美孚 (XOM)",
+    "JPMorgan Chase & Co.": "摩根大通 (JPM)",
+    "JPMorgan": "摩根大通 (JPM)",
+    "Johnson & Johnson": "强生 (JNJ)",
+    "Taiwan Semiconductor Manufacturing Company Limited": "台积电 (TSM)",
+    "TSMC": "台积电 (TSM)",
+    "ASML Holding N.V.": "阿斯麦 (ASML)",
+    "ASML": "阿斯麦 (ASML)",
+    "Advanced Micro Devices, Inc.": "超威半导体 (AMD)",
+    "AMD": "超威半导体 (AMD)",
+    "Salesforce, Inc.": "赛富时 (CRM)",
+    "Salesforce": "赛富时 (CRM)",
+    "NextEra Energy, Inc.": "新纪元能源 (NEE)",
+    "NextEra Energy": "新纪元能源 (NEE)",
+    "The Southern Company": "南方电力 (SO)",
+    "Southern Co": "南方电力 (SO)",
+    "Duke Energy Corporation": "杜克能源 (DUK)",
+    "Duke Energy": "杜克能源 (DUK)",
+    "Sempra": "桑普拉能源 (SRE)",
+    "American Electric Power Company, Inc.": "美国电力 (AEP)",
+    "AEP": "美国电力 (AEP)",
+    "Berkshire Hathaway Inc.": "伯克希尔 (BRK.B)",
+    "Alphabet Inc.": "谷歌 (GOOGL)",
+    "Eli Lilly and Company": "礼来 (LLY)",
+    "Walmart Inc.": "沃尔玛 (WMT)",
+    "UnitedHealth Group Incorporated": "联合健康 (UNH)",
+    "Visa Inc.": "维萨 (V)",
+    "Costco Wholesale Corporation": "好市多 (COST)",
+    "Netflix, Inc.": "网飞 (NFLX)",
+    "PepsiCo, Inc.": "百事可乐 (PEP)",
+    "Adobe Inc.": "奥多比 (ADBE)",
+    "Cisco Systems, Inc.": "思科 (CSCO)",
+    "Qualcomm Incorporated": "高通 (QCOM)",
+    "Applied Materials, Inc.": "应用材料 (AMAT)",
+    "Lam Research Corporation": "泛林集团 (LRCX)",
+    "Micron Technology, episodic.": "美光科技 (MU)",
+    "Analog Devices, Inc.": "亚德诺半导体 (ADI)",
+    "KLA Corporation": "科磊 (KLAC)",
+    "Intel Corporation": "英特尔 (INTC)",
+    "Marvell Technology, Inc.": "美满电子 (MRVL)",
+    "Microchip Technology Incorporated": "微芯科技 (MCHP)",
+    "Accenture plc": "埃森哲 (ACN)",
+    "Oracle Corporation": "甲骨文 (ORCL)",
+    "International Business Machines Corporation": "IBM (IBM)",
+    "Intuit Inc.": "直觉软件 (INTU)",
+    "BlackRock, Inc.": "贝莱德 (BLK)",
+    "Lockheed Martin Corporation": "洛克希德马丁 (LMT)",
+    "Amgen Inc.": "安进 (AMGN)",
+    "Pfizer Inc.": "辉瑞 (PFE)",
+    "United Parcel Service, Inc.": "联合包裹 (UPS)",
+    "Verizon Communications Inc.": "威瑞森 (VZ)",
+    "The Coca-Cola Company": "可口可乐 (KO)",
+    "Bristol-Myers Squibb Company": "百时美施贵宝 (BMY)",
+    "Emerson Electric Co.": "艾默生电气 (EMR)",
+    "Merck & Co., Inc.": "默沙东 (MRK)",
+    "Bank of America Corporation": "美国银行 (BAC)",
+    "Constellation Energy Corporation": "星座能源 (CEG)",
+    "Dominion Energy, Inc.": "自治领能源 (D)",
+    "Public Service Enterprise Group Incorporated": "公共服务企业 (PEG)",
+    "Consolidated Edison, Inc.": "爱迪生联合 (ED)",
+    "WEC Energy Group, Inc.": "WEC能源 (WEC)",
+    "Xcel Energy Inc.": "卓越能源 (XEL)",
+    "Edison International": "爱迪生国际 (EIX)",
+    "American Water Works Company, Inc.": "美国水务 (AWK)",
+    "DTE Energy Company": "DTE能源 (DTE)",
+    "PPL Corporation": "PPL电力 (PPL)"
+}
 
 proxy_chains = {
     'SCHD': [(1993, 2006, 'VEIPX'), (2007, 2011, 'VYM'), (2012, 2030, 'SCHD')],
@@ -46,44 +141,114 @@ for asset, chain in proxy_chains.items():
         for y, metrics in data.items():
             database[y][asset] = metrics
 
-# ================= 新增：X-Ray 穿透所需的基础持仓与行业数据 =================
-etf_holdings_js = """
-// 1. ETF 底层真实前 15 大持仓数据 (Top Holdings)
-window.etfHoldings = {
-    SCHD: [
-        { ticker: 'HD', name: '家得宝 (Home Depot)', weight: 4.35 }, { ticker: 'BLK', name: '贝莱德 (BlackRock)', weight: 4.21 }, { ticker: 'CSCO', name: '思科 (Cisco)', weight: 4.15 }, { ticker: 'CVX', name: '雪佛龙 (Chevron)', weight: 4.08 }, { ticker: 'ABBV', name: '艾伯维 (AbbVie)', weight: 4.02 }, { ticker: 'TXN', name: '德州仪器 (TI)', weight: 3.95 }, { ticker: 'LMT', name: '洛克希德马丁', weight: 3.88 }, { ticker: 'AMGN', name: '安进 (Amgen)', weight: 3.75 }, { ticker: 'PEP', name: '百事可乐', weight: 3.62 }, { ticker: 'PFE', name: '辉瑞 (Pfizer)', weight: 3.51 }, { ticker: 'UPS', name: '联合包裹', weight: 3.20 }, { ticker: 'VZ', name: '威瑞森', weight: 3.10 }, { ticker: 'KO', name: '可口可乐', weight: 2.95 }, { ticker: 'BMY', name: '百时美施贵宝', weight: 2.80 }, { ticker: 'EMR', name: '艾默生电气', weight: 2.65 }
-    ],
-    DGRO: [
-        { ticker: 'MSFT', name: '微软 (Microsoft)', weight: 3.12 }, { ticker: 'AAPL', name: '苹果 (Apple)', weight: 2.98 }, { ticker: 'JNJ', name: '强生 (J&J)', weight: 2.75 }, { ticker: 'JPM', name: '摩根大通', weight: 2.65 }, { ticker: 'AVGO', name: '博通 (Broadcom)', weight: 2.58 }, { ticker: 'XOM', name: '埃克森美孚', weight: 2.42 }, { ticker: 'HD', name: '家得宝', weight: 2.30 }, { ticker: 'PG', name: '宝洁', weight: 2.21 }, { ticker: 'ABBV', name: '艾伯维', weight: 2.10 }, { ticker: 'CVX', name: '雪佛龙', weight: 2.02 }, { ticker: 'MRK', name: '默沙东', weight: 1.95 }, { ticker: 'BAC', name: '美国银行', weight: 1.85 }, { ticker: 'COST', name: '好市多', weight: 1.78 }, { ticker: 'CSCO', name: '思科', weight: 1.65 }, { ticker: 'PEP', name: '百事可乐', weight: 1.55 }
-    ],
-    VPU: [
-        { ticker: 'NEE', name: '新纪元能源', weight: 12.15 }, { ticker: 'SO', name: '南方电力', weight: 7.25 }, { ticker: 'DUK', name: '杜克能源', weight: 6.80 }, { ticker: 'CEG', name: '星座能源', weight: 5.40 }, { ticker: 'AEP', name: '美国电力', weight: 4.35 }, { ticker: 'SRE', name: '桑普拉能源', weight: 3.85 }, { ticker: 'D', name: '自治领能源', weight: 3.50 }, { ticker: 'PEG', name: '公共服务企业', weight: 3.25 }, { ticker: 'ED', name: '爱迪生联合', weight: 2.95 }, { ticker: 'WEC', name: 'WEC能源', weight: 2.70 }, { ticker: 'XEL', name: '卓越能源', weight: 2.50 }, { ticker: 'EIX', name: '爱迪生国际', weight: 2.35 }, { ticker: 'AWK', name: '美国水务', weight: 2.10 }, { ticker: 'DTE', name: 'DTE能源', weight: 1.95 }, { ticker: 'PPL', name: 'PPL电力', weight: 1.80 }
-    ],
-    VOO: [
-        { ticker: 'MSFT', name: '微软 (Microsoft)', weight: 7.15 }, { ticker: 'AAPL', name: '苹果 (Apple)', weight: 6.85 }, { ticker: 'NVDA', name: '英伟达 (NVIDIA)', weight: 6.20 }, { ticker: 'AMZN', name: '亚马逊 (Amazon)', weight: 3.65 }, { ticker: 'META', name: 'Meta (脸书)', weight: 2.45 }, { ticker: 'GOOGL', name: '谷歌-A (Alphabet)', weight: 2.05 }, { ticker: 'BRK.B', name: '伯克希尔哈撒韦', weight: 1.72 }, { ticker: 'GOOG', name: '谷歌-C (Alphabet)', weight: 1.70 }, { ticker: 'LLY', name: '礼来', weight: 1.55 }, { ticker: 'AVGO', name: '博通', weight: 1.48 }, { ticker: 'TSLA', name: '特斯拉', weight: 1.35 }, { ticker: 'JPM', name: '摩根大通', weight: 1.25 }, { ticker: 'WMT', name: '沃尔玛', weight: 1.10 }, { ticker: 'UNH', name: '联合健康', weight: 1.05 }, { ticker: 'V', name: '维萨', weight: 0.98 }
-    ],
-    QQQM: [
-        { ticker: 'AAPL', name: '苹果 (Apple)', weight: 8.85 }, { ticker: 'MSFT', name: '微软 (Microsoft)', weight: 8.45 }, { ticker: 'NVDA', name: '英伟达 (NVIDIA)', weight: 7.65 }, { ticker: 'AMZN', name: '亚马逊 (Amazon)', weight: 5.25 }, { ticker: 'META', name: 'Meta (脸书)', weight: 4.85 }, { ticker: 'AVGO', name: '博通', weight: 4.15 }, { ticker: 'GOOGL', name: '谷歌-A', weight: 2.85 }, { ticker: 'GOOG', name: '谷歌-C', weight: 2.75 }, { ticker: 'TSLA', name: '特斯拉', weight: 2.65 }, { ticker: 'COST', name: '好市多', weight: 2.45 }, { ticker: 'NFLX', name: '网飞', weight: 1.95 }, { ticker: 'AMD', name: '超威半导体', weight: 1.65 }, { ticker: 'TMUS', name: 'T-Mobile', weight: 1.45 }, { ticker: 'PEP', name: '百事可乐', weight: 1.35 }, { ticker: 'ADBE', name: '奥多比', weight: 1.25 }
-    ],
-    SMH: [
-        { ticker: 'NVDA', name: '英伟达 (NVIDIA)', weight: 20.45 }, { ticker: 'TSM', name: '台积电 (TSMC)', weight: 12.85 }, { ticker: 'AVGO', name: '博通 (Broadcom)', weight: 7.65 }, { ticker: 'ASML', name: '阿斯麦 (ASML)', weight: 4.85 }, { ticker: 'AMD', name: '超威半导体', weight: 4.45 }, { ticker: 'QCOM', name: '高通', weight: 4.25 }, { ticker: 'AMAT', name: '应用材料', weight: 4.10 }, { ticker: 'LRCX', name: '泛林集团', weight: 3.85 }, { ticker: 'TXN', name: '德州仪器', weight: 3.65 }, { ticker: 'MU', name: '美光科技', weight: 3.45 }, { ticker: 'ADI', name: '亚德诺半导体', weight: 3.15 }, { ticker: 'KLAC', name: '科磊', weight: 2.95 }, { ticker: 'INTC', name: '英特尔', weight: 2.65 }, { ticker: 'MRVL', name: '美满电子', weight: 2.35 }, { ticker: 'MCHP', name: '微芯科技', weight: 2.05 }
-    ],
-    VGT: [
-        { ticker: 'MSFT', name: '微软 (Microsoft)', weight: 16.45 }, { ticker: 'AAPL', name: '苹果 (Apple)', weight: 15.85 }, { ticker: 'NVDA', name: '英伟达 (NVIDIA)', weight: 13.75 }, { ticker: 'AVGO', name: '博通', weight: 4.55 }, { ticker: 'CRM', name: '赛富时', weight: 2.35 }, { ticker: 'AMD', name: '超威半导体', weight: 2.15 }, { ticker: 'ACN', name: '埃森哲', weight: 1.95 }, { ticker: 'CSCO', name: '思科', weight: 1.85 }, { ticker: 'ORCL', name: '甲骨文', weight: 1.75 }, { ticker: 'ADBE', name: '奥多比', weight: 1.65 }, { ticker: 'TXN', name: '德州仪器', weight: 1.45 }, { ticker: 'QCOM', name: '高通', weight: 1.35 }, { ticker: 'IBM', name: 'IBM', weight: 1.25 }, { ticker: 'AMAT', name: '应用材料', weight: 1.15 }, { ticker: 'INTU', name: '直觉软件', weight: 1.05 }
-    ]
-};
+# ================= 新增：提取真实持仓，并应用字典翻译 =================
+def get_etf_holdings_and_sectors(etf_tickers):
+    holdings_dict = {}
+    sectors_dict = {}
+    
+    for ticker in etf_tickers:
+        print(f"Fetching holdings and sectors for {ticker}...")
+        try:
+            etf = yf.Ticker(ticker)
+            
+            # 1. 获取持仓 (Holdings)
+            holdings = []
+            try:
+                # 尝试新的 fund_data API
+                if hasattr(etf, 'funds_data') and hasattr(etf.funds_data, 'top_holdings'):
+                    raw_holdings = etf.funds_data.top_holdings
+                    if raw_holdings is not None and not raw_holdings.empty:
+                        for symbol, row in raw_holdings.iterrows():
+                            # 获取英文名并尝试翻译
+                            raw_name = row.get('Name', symbol)
+                            translated_name = TICKER_TRANSLATIONS.get(raw_name, raw_name)
+                            
+                            weight = row.get('Holding Percent', 0)
+                            if weight > 0:
+                                holdings.append({
+                                    "ticker": symbol,
+                                    "name": translated_name, # 这里写入翻译后的名字
+                                    "weight": round(weight * 100, 2) # Yahoo API 返回的是小数，乘 100 变百分比
+                                })
+                
+                # 降级方案：如果老 API 能用
+                elif hasattr(etf, 'info') and 'holdings' in etf.info:
+                     raw_holdings = etf.info['holdings']
+                     for h in raw_holdings:
+                         raw_name = h.get('holdingName', h.get('symbol', 'Unknown'))
+                         translated_name = TICKER_TRANSLATIONS.get(raw_name, raw_name)
+                         weight = h.get('holdingPercent', 0)
+                         if weight > 0:
+                             holdings.append({
+                                 "ticker": h.get('symbol', 'Unknown'),
+                                 "name": translated_name, # 这里写入翻译后的名字
+                                 "weight": round(weight * 100, 2)
+                             })
+            except Exception as e:
+                print(f"  Failed to fetch holdings for {ticker}: {e}")
+            
+            # 如果抓到了，保存下来
+            if holdings:
+                holdings_dict[ticker] = holdings
+                
+            # 2. 获取行业 (Sectors)
+            sectors = {}
+            try:
+                 if hasattr(etf, 'funds_data') and hasattr(etf.funds_data, 'sector_weightings'):
+                     raw_sectors = etf.funds_data.sector_weightings
+                     if raw_sectors is not None and not raw_sectors.empty:
+                         for index, row in raw_sectors.iterrows():
+                             # 将 Yahoo 默认的行业英文翻译成你的前端分类
+                             sector_name_en = index
+                             weight = row.iloc[0] if isinstance(row, pd.Series) else row
+                             
+                             # 简单的内置行业翻译
+                             sector_mapping = {
+                                 "Technology": "信息技术",
+                                 "Financial Services": "金融",
+                                 "Healthcare": "医疗健康",
+                                 "Consumer Cyclical": "可选消费",
+                                 "Consumer Defensive": "必需消费",
+                                 "Industrials": "工业",
+                                 "Communication Services": "通信服务",
+                                 "Energy": "能源",
+                                 "Utilities": "公用事业",
+                                 "Real Estate": "房地产",
+                                 "Basic Materials": "原材料"
+                             }
+                             sector_name_cn = sector_mapping.get(sector_name_en, "其他")
+                             
+                             if weight > 0:
+                                 sectors[sector_name_cn] = round(weight * 100, 2)
+            except Exception as e:
+                print(f"  Failed to fetch sectors for {ticker}: {e}")
+                
+            if sectors:
+                sectors_dict[ticker] = sectors
+                
+        except Exception as e:
+            print(f"Error processing {ticker}: {e}")
+            
+    return holdings_dict, sectors_dict
 
-// 2. ETF 真实行业分布数据 (Sector Weights %)
-window.etfSectors = {
-    SCHD: { '金融': 38.5, '工业': 16.2, '医疗健康': 14.8, '必需消费': 11.5, '信息技术': 9.2, '能源': 8.5, '其他': 1.3 },
-    DGRO: { '信息技术': 32.5, '金融': 18.2, '医疗健康': 16.5, '工业': 11.8, '必需消费': 9.5, '能源': 6.2, '其他': 5.3 },
-    VPU:  { '公用事业': 100.0 },
-    VOO:  { '信息技术': 31.5, '金融': 13.2, '医疗健康': 11.8, '非必需消费': 10.2, '通信服务': 8.9, '工业': 8.2, '其他': 16.2 },
-    QQQM: { '信息技术': 51.2, '通信服务': 15.5, '非必需消费': 13.8, '医疗健康': 6.2, '必需消费': 5.8, '工业': 4.5, '其他': 3.0 },
-    SMH:  { '信息技术(半导体)': 100.0 },
-    VGT:  { '信息技术': 100.0 }
-};
+# 抓取数据
+print("Starting live fetch of ETF composition data...")
+live_holdings, live_sectors = get_etf_holdings_and_sectors(proxy_chains.keys())
+
+# 生成最终的 JS 字符串
+# 这里做了一个极度优雅的降级处理：如果你没抓到，用我们在前端约定的格式输出
+def generate_js_object(py_dict):
+    return json.dumps(py_dict, ensure_ascii=False, indent=4)
+
+# 动态组装 JS 文件内容
+etf_holdings_js = f"""
+// 1. ETF 底层真实前 15 大持仓数据 (Top Holdings) - Live Fetched
+window.etfHoldings = {generate_js_object(live_holdings) if live_holdings else "{}"};
+
+// 2. ETF 真实行业分布数据 (Sector Weights %) - Live Fetched
+window.etfSectors = {generate_js_object(live_sectors) if live_sectors else "{}"};
 """
+
 
 # 把数据直接写入 JS 文件 (包含 X-Ray 数据 + 抓取的回测数据)
 with open("data.js", "w", encoding="utf-8") as f:
@@ -96,3 +261,5 @@ with open("data.js", "w", encoding="utf-8") as f:
             assets.append(f"'{asset}': [{m[0]:.4f}, {m[1]:.4f}]")
         f.write(f"    {year}: {{ {', '.join(assets)} }},\n")
     f.write("};\n")
+
+print("Update completed successfully! Check data.js.")
