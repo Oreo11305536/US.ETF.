@@ -19,32 +19,44 @@
         .weight-input { width: 50px; text-align: center; border: 1px solid #ccc; border-radius: 4px; padding: 2px 4px; font-size: 0.875rem; }
         .badge-label { display: inline-block; width: 4.5rem; color: #9ca3af; font-size: 0.825rem; vertical-align: top; }
         .badge-content { display: inline-block; width: calc(100% - 5rem); font-size: 0.875rem; color: #374151; }
+        
         .veteran-tooltip { position: relative; display: inline-block; }
         .veteran-tooltip .tooltip-text {
-            visibility: hidden; opacity: 0; transition: opacity 0.2s; position: absolute; z-index: 999; top: 100%; left: 0; margin-top: 8px;
-            width: 360px; background-color: #1f2937; color: #e5e7eb; text-align: left; border-radius: 8px; padding: 16px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); font-size: 0.825rem; line-height: 1.5; border: 1px solid #374151;
+            visibility: hidden; opacity: 0; transition: opacity 0.2s;
+            position: absolute; z-index: 999; top: 100%; left: 0; margin-top: 8px;
+            width: 360px; background-color: #1f2937; color: #e5e7eb;
+            text-align: left; border-radius: 8px; padding: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); font-size: 0.825rem; line-height: 1.5;
+            border: 1px solid #374151;
         }
         .veteran-tooltip:hover .tooltip-text { visibility: visible; opacity: 1; }
         .tooltip-title { font-weight: bold; color: #d4af37; border-bottom: 1px solid #4b5563; padding-bottom: 6px; margin-bottom: 8px; font-size: 0.95rem; display: flex; justify-content: space-between;}
+
         .chart-toggle-btn { padding: 4px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
         .chart-toggle-active { background-color: #1f2937; color: white; }
         .chart-toggle-inactive { background-color: #e5e7eb; color: #4b5563; }
         .chart-toggle-inactive:hover { background-color: #d1d5db; }
+        
         .help-tip { cursor: help; border-bottom: 1px dashed #9ca3af; display: inline-block; position: relative; z-index: 50; }
         .icon-tip { display: inline-flex; justify-content: center; align-items: center; width: 1.1rem; height: 1.1rem; background-color: #10b981; color: white; border-radius: 50%; font-size: 0.7rem; font-family: serif; font-weight: bold; cursor: help; margin-left: 4px; transition: transform 0.2s; }
         .icon-tip:hover { transform: scale(1.15); }
+
         .side-bookmarks {
-            position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 100; background: white; padding: 10px 8px; border-radius: 12px;
+            position: fixed; left: 20px; top: 50%; transform: translateY(-50%);
+            z-index: 100; background: white; padding: 10px 8px; border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1); display: flex; flex-direction: column; gap: 8px;
         }
-        .side-bookmarks a { font-size: 0.75rem; color: #4b5563; text-decoration: none; padding: 6px 8px; border-radius: 6px; transition: all 0.2s; text-align: center; font-weight: 500; }
+        .side-bookmarks a {
+            font-size: 0.75rem; color: #4b5563; text-decoration: none; padding: 6px 8px;
+            border-radius: 6px; transition: all 0.2s; text-align: center; font-weight: 500;
+        }
         .side-bookmarks a:hover { background-color: #f3f4f6; color: #e11d48; }
         @media (max-width: 1400px) { .side-bookmarks { display: none; } }
     </style>
 </head>
 <body class="p-8 max-w-7xl mx-auto">
 
+    <!-- 左侧悬浮书签导航栏 -->
     <div class="side-bookmarks">
         <a href="#section-whitepaper">📊 ETF白皮书</a>
         <a href="#section-weights">⚖️ 初始配比</a>
@@ -62,7 +74,10 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="border rounded-lg p-4 bg-white shadow-sm">
-                <div class="flex justify-between items-center mb-2"><h3 class="font-bold text-lg text-blue-800">SCHD</h3><span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入半区主力 · 费率 0.06%</span></div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-blue-800">SCHD</h3>
+                    <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入半区主力 · 费率 0.06%</span>
+                </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Schwab U.S. Dividend Equity ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">道琼斯美国股息 100 指数</span></div>
@@ -71,8 +86,12 @@
                     <div><span class="badge-label">组合角色</span><span class="badge-content">现金流压舱石。提供组合中最稳定、初始收益率最高的当期工资来源。</span></div>
                 </div>
             </div>
+            
             <div class="border rounded-lg p-4 bg-white shadow-sm">
-                <div class="flex justify-between items-center mb-2"><h3 class="font-bold text-lg text-blue-800">DGRO</h3><span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入半区 · 费率 0.08%</span></div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-blue-800">DGRO</h3>
+                    <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入半区 · 费率 0.08%</span>
+                </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">iShares Core Dividend Growth ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">晨星美国股息成长指数</span></div>
@@ -81,8 +100,12 @@
                     <div><span class="badge-label">组合角色</span><span class="badge-content">抵御通胀，推动未来工资购买力的持续阶梯式增长，危机中派息韧性极强。</span></div>
                 </div>
             </div>
+
             <div class="border rounded-lg p-4 bg-white shadow-sm">
-                <div class="flex justify-between items-center mb-2"><h3 class="font-bold text-lg text-blue-800">VPU</h3><span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入防御 · 费率 0.09%</span></div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-blue-800">VPU</h3>
+                    <span class="text-xs bg-blue-50 text-blue-700 px-2 py-1 rounded font-medium">收入防御 · 费率 0.09%</span>
+                </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard Utilities ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国公用事业 25/50 指数</span></div>
@@ -91,8 +114,12 @@
                     <div><span class="badge-label">组合角色</span><span class="badge-content">组合的“左侧装甲”。08-09 年金融危机中少数依然能逆势上调股息的特仓。</span></div>
                 </div>
             </div>
+
             <div class="border rounded-lg p-4 bg-white shadow-sm">
-                <div class="flex justify-between items-center mb-2"><h3 class="font-bold text-lg text-slate-800">VOO</h3><span class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded font-medium">平衡中枢 · 费率 0.03%</span></div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-slate-800">VOO</h3>
+                    <span class="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded font-medium">平衡中枢 · 费率 0.03%</span>
+                </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard S&P 500 ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">标普 500 指数</span></div>
@@ -101,8 +128,12 @@
                     <div><span class="badge-label">组合角色</span><span class="badge-content">锚定美国国运。不押注单一风格，兼顾增值与分红，作为长期市值的稳固中枢。</span></div>
                 </div>
             </div>
+
             <div class="border rounded-lg p-4 bg-white shadow-sm">
-                <div class="flex justify-between items-center mb-2"><h3 class="font-bold text-lg text-[#e9886e]">QQQM</h3><span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded font-medium">成长半区主力 · 费率 0.15%</span></div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-[#e9886e]">QQQM</h3>
+                    <span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded font-medium">成长半区主力 · 费率 0.15%</span>
+                </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Invesco NASDAQ 100 ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">纳斯达克 100 指数</span></div>
@@ -111,8 +142,12 @@
                     <div><span class="badge-label">组合角色</span><span class="badge-content">成长半区基座。负责捕捉科技革命收益，市值冲顶后向收入侧反哺。</span></div>
                 </div>
             </div>
+
             <div class="border rounded-lg p-4 bg-white shadow-sm">
-                <div class="flex justify-between items-center mb-2"><h3 class="font-bold text-lg text-[#e9886e]">SMH</h3><span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded font-medium">成长锋刃 · 费率 0.35%</span></div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-[#e9886e]">SMH</h3>
+                    <span class="text-xs bg-red-50 text-red-600 px-2 py-1 rounded font-medium">成长锋刃 · 费率 0.35%</span>
+                </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">VanEck Semiconductor ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MVIS 美国上市半导体 25 指数</span></div>
@@ -121,8 +156,12 @@
                     <div><span class="badge-label">组合角色</span><span class="badge-content">最锐利的进攻武器。利用半导体高周期弹性积累巨额超额收益。</span></div>
                 </div>
             </div>
+
             <div class="border-2 border-[#d4af37] rounded-lg p-4 bg-[#fffdfa] shadow-sm md:col-span-2">
-                <div class="flex justify-between items-center mb-2"><h3 class="font-bold text-lg text-[#d4af37]">VGT</h3><span class="text-xs bg-[#d4af37] text-white px-2 py-1 rounded font-medium">战术拓展 · 费率 0.10%</span></div>
+                <div class="flex justify-between items-center mb-2">
+                    <h3 class="font-bold text-lg text-[#d4af37]">VGT</h3>
+                    <span class="text-xs bg-[#d4af37] text-white px-2 py-1 rounded font-medium">战术拓展 · 费率 0.10%</span>
+                </div>
                 <p class="text-sm text-gray-500 mb-3 font-medium">Vanguard Information Technology ETF</p>
                 <div class="space-y-2 border-t pt-2">
                     <div><span class="badge-label">跟踪指数</span><span class="badge-content font-medium">MSCI 美国信息技术指数</span></div>
@@ -213,6 +252,17 @@
             </div>
         </div>
         <canvas id="valueChart" height="90"></canvas>
+        
+        <div class="flex justify-between items-center mt-8 mb-2">
+            <div>
+                <h3 class="font-bold text-lg">现金流 (股息) 增长趋势</h3>
+            </div>
+            <div class="flex space-x-2 bg-gray-100 p-1 rounded-lg">
+                <button id="btnDivYear" onclick="setChartMode('dividend', 'yearly')" class="chart-toggle-btn chart-toggle-active">年度分红</button>
+                <button id="btnDivQuarter" onclick="setChartMode('dividend', 'quarterly')" class="chart-toggle-btn chart-toggle-inactive">季度视角</button>
+            </div>
+        </div>
+        <canvas id="dividendChart" height="60"></canvas>
     </div>
 
     <!-- 历史明细表 -->
@@ -253,6 +303,11 @@
                     <h3 class="font-bold text-xl text-gray-800">年</h3>
                 </div>
                 <p class="text-xs text-gray-500 mt-2">基于上方组合的历史置信度自动向后推演。起点为 <strong id="baseYearTagHistory">2026</strong> 年。</p>
+            </div>
+            <div class="bg-gray-100 p-1 rounded-lg flex space-x-1 shadow-inner sm:mt-0 mt-4">
+                <button id="btnConservative" onclick="setForecastMode('conservative')" class="px-3 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800 hover:bg-white/50 help-tip" data-tip="在历史均值上再打7折，模拟剔除通货膨胀后的真实购买力增长。">保守打折</button>
+                <button id="btnHistorical" onclick="setForecastMode('historical')" class="px-3 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-gray-800">按历史均值</button>
+                <button id="btnOptimistic" onclick="setForecastMode('optimistic')" class="px-3 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800 hover:bg-white/50 help-tip" data-tip="在历史均值上乘1.2倍，模拟极度宽松与AI科技泡沫期的乐观景气预期。">狂热溢价</button>
             </div>
         </div>
         <div class="overflow-x-auto border rounded-lg">
@@ -330,7 +385,7 @@
     <!-- ================= 全新：进阶财富计算器 (硅谷居士) ================= -->
     <h2 id="section-toolbox" class="font-bold text-2xl mt-12 mb-6 text-gray-800 border-l-4 border-[#d4af37] pl-3"> 进阶财富规划工具箱 (硅谷居士)</h2>
     
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <!-- 工具一：理财指数评估器 -->
         <div class="card mb-0 bg-white border border-gray-100 shadow-md flex flex-col h-full">
             <h3 class="font-bold text-lg text-blue-900 mb-2">工具一：个人理财指数</h3>
@@ -359,117 +414,174 @@
             </div>
         </div>
 
-        <!-- 工具四：FIRE 倒推计算器 -->
-        <div class="card mb-0 bg-white border border-indigo-100 shadow-md flex flex-col h-full lg:col-span-2">
-            <h3 class="font-bold text-lg text-indigo-900 mb-2">工具二：4%法则与 FIRE 倒计时</h3>
-            <p class="text-xs text-gray-500 mb-4 h-8">算算你距离“不用上班的财富自由”到底还需要奋斗多少年。</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm flex-grow">
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600">预期退休每月生活费 ($)</span>
-                        <input type="text" id="fireMonthly" value="5,000" class="border p-1 w-24 text-right font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="formatAndCalcFire(this)">
+        <!-- 工具二：退休提款压力测试 -->
+        <div class="card mb-0 bg-white border border-gray-100 shadow-md flex flex-col h-full">
+            <h3 class="font-bold text-lg text-emerald-900 mb-2">工具二：90/10 退休防崩盘测试</h3>
+            <p class="text-xs text-gray-500 mb-4 h-12">退休后还要买高风险股票吗？对比“巴菲特激进派”与“传统保守派”在连续取钱30年后的真实结局。</p>
+            <div class="space-y-2 text-sm flex-grow">
+                <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                    <div class="flex justify-between font-bold text-gray-700 mb-2 border-b pb-1">
+                        <span>配置买法</span><span>破产率</span><span>30年后剩多少钱</span>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600 help-tip" data-tip="Safe Withdrawal Rate (安全提款率)。基于Trinity Study，每年提取投资组合的4%并根据通胀调整，在30年内有极大极大概率不会破产。保守者可设为3.5%。">安全提款率 SWR %</span>
-                        <input type="number" id="fireSwr" value="4.0" step="0.1" class="border p-1 w-20 text-center font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="calcFire()">
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600">你手头现有启动本金 ($)</span>
-                        <input type="text" id="fireCapital" value="100,000" class="border p-1 w-28 text-right font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="formatAndCalcFire(this)">
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-gray-600">你每年预期还能攒下追加 ($)</span>
-                        <input type="text" id="fireAnnualAdd" value="20,000" class="border p-1 w-28 text-right font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="formatAndCalcFire(this)">
-                    </div>
-                    <div class="flex justify-between items-center pb-3 border-b">
-                        <span class="text-gray-600">预期年化收益率 %</span>
-                        <input type="number" id="fireReturn" value="10.0" step="0.1" class="border p-1 w-20 text-center font-mono rounded bg-indigo-50 text-indigo-700 font-bold focus:outline-indigo-500" oninput="calcFire()">
-                    </div>
-                </div>
-                <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100 flex flex-col justify-center">
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-gray-700 font-bold">🎯 FIRE 终极目标金额：</span>
-                        <span id="fireTargetOutput" class="text-xl font-mono font-bold text-indigo-700">$1.50M</span>
-                    </div>
-                    <div class="flex justify-between items-center mb-3">
-                        <span class="text-gray-600 text-sm">目前资金缺口：</span>
-                        <span id="fireGapOutput" class="text-base font-mono text-gray-500">$1.40M</span>
-                    </div>
-                    <div class="flex justify-between items-center border-t border-indigo-200 pt-3 mt-1">
-                        <span class="text-gray-800 font-bold text-lg">⏳ 预计还需奋斗：</span>
-                        <span id="fireYearsOutput" class="text-3xl font-mono font-bold text-red-500">16 年</span>
-                    </div>
-                </div>
-            </div>
-            <p class="text-xs text-gray-500 leading-relaxed pt-4">
-                <strong class="text-gray-700">沙盘解析：</strong>按照著名的 Trinity Study 4% 法则，只要你的总资产达到你<strong class="text-indigo-600">年度总开销的 25 倍</strong>，你就可以随时退休。无论遇到大萧条还是通货膨胀，靠着组合内部的复利生长，这笔钱这辈子都花不完。
-            </p>
-        </div>
-    </div>
-
-    <!-- 工具五：买房 vs 租房 -->
-    <div class="card mb-12 bg-white border border-teal-100 shadow-md flex flex-col h-full">
-        <h3 class="font-bold text-lg text-teal-900 mb-2">工具三：“买房 vs 租房+全投美股”机会成本沙盘</h3>
-        <p class="text-xs text-gray-500 mb-4">对比30年后，是全款买下的房子净资产高，还是“租房过日子 + 差额定投指数”的净资产高。</p>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm flex-grow">
-            <!-- 左：买房派 -->
-            <div class="space-y-3 md:border-r md:pr-8 border-teal-100">
-                <div class="font-bold text-teal-800 mb-4 border-b border-teal-200 pb-2 text-base">🏠 砸钱买房路线</div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">房屋总价 $</span>
-                    <input type="text" id="rvbHousePrice" value="1,000,000" class="border p-1.5 w-24 text-right font-mono rounded bg-gray-50" oninput="formatAndCalcRvb(this)">
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">首付比例 %</span>
-                    <input type="number" id="rvbDownPct" value="20" class="border p-1.5 w-20 text-center font-mono rounded bg-gray-50" oninput="calcRvb()">
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">房贷利率 %</span>
-                    <input type="number" id="rvbMortgageRate" value="5.0" step="0.1" class="border p-1.5 w-20 text-center font-mono rounded bg-gray-50" oninput="calcRvb()">
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600 help-tip" data-tip="刨去折旧后的房屋自然升值率">房子年涨幅 %</span>
-                    <input type="number" id="rvbHouseAppr" value="4.0" step="0.1" class="border p-1.5 w-20 text-center font-mono rounded bg-gray-50" oninput="calcRvb()">
-                </div>
-                <div class="mt-4 pt-4 border-t border-gray-100 text-center">
-                    <span class="text-gray-500 text-xs">拥有一套无贷的房子净资产：</span><br>
-                    <span id="rvbHouseNetWorth" class="text-2xl font-mono font-bold text-teal-700">$3.24M</span>
-                </div>
-            </div>
-
-            <!-- 右：租房派 -->
-            <div class="space-y-3">
-                <div class="font-bold text-amber-700 mb-4 border-b border-amber-200 pb-2 text-base">💸 租房 + 定投路线</div>
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-600">每月租金 $</span>
-                    <input type="text" id="rvbRent" value="3,000" class="border p-1.5 w-24 text-right font-mono rounded bg-gray-50" oninput="formatAndCalcRvb(this)">
-                </div>
-                
-                <div class="mt-4 pt-4 border-t border-dashed border-amber-200">
                     <div class="flex justify-between items-center mb-2">
-                        <span class="text-sm font-bold text-gray-700">差额定投指数年化 %：</span>
-                        <div class="flex space-x-2">
-                            <button onclick="setRvbInvest(10)" class="bg-amber-100 hover:bg-amber-200 text-amber-800 text-xs px-2 py-1 rounded transition help-tip" data-tip="美股标普500长期的年化历史均值大约为10%。">标普500 (10%)</button>
-                            <button id="btnRvbCustom" onclick="setRvbInvest(11.5)" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-xs px-2 py-1 rounded transition help-tip" data-tip="一键抓取并填入你在最上方配置的专属ETF组合的历史真实年化收益率。">专属组合</button>
-                        </div>
+                        <span class="text-emerald-700 font-bold help-tip" data-tip="资产的 90% 全买股票，10% 留作债券保底。">90%股 / 10%债</span>
+                        <span class="text-gray-600">2.3%</span>
+                        <span class="font-mono font-bold">$2.64M</span>
                     </div>
-                    <input type="number" id="rvbInvestReturn" value="10.0" step="0.1" class="border-2 border-amber-400 p-2 w-full text-center font-mono rounded bg-amber-50 text-amber-800 font-bold focus:outline-amber-600 text-lg" oninput="calcRvb()">
+                    <div class="flex justify-between items-center">
+                        <span class="text-blue-700 font-bold help-tip" data-tip="传统理财教你的：退休后留 40% 的钱买稳健债券。">60%股 / 40%债</span>
+                        <span class="text-gray-600">0.0%</span>
+                        <span class="font-mono font-bold">$1.27M</span>
+                    </div>
                 </div>
-                <div class="mt-4 pt-4 border-t border-gray-100 text-center">
-                    <span class="text-gray-500 text-xs">租房+满手指数基金净资产：</span><br>
-                    <span id="rvbInvestNetWorth" class="text-2xl font-mono font-bold text-amber-700">$5.12M</span>
-                </div>
+                <p class="text-xs text-gray-500 leading-relaxed pt-2">
+                    <strong class="text-gray-700">沙盘解析：</strong>传统保守买法确实能 100% 保证钱花不完，但 <strong class="text-emerald-600">90% 股票</strong> 买法的复利太猛，就算遇到股灾，在 30 年长跑里它依然能多赚出 <strong class="text-emerald-600">一倍以上</strong> 的钱抵抗通胀。
+                </p>
             </div>
         </div>
 
-        <div class="mt-8 bg-gray-50 p-4 rounded-xl border border-gray-200 text-center">
-            <div class="font-bold text-gray-500 text-sm mb-2">🔥 30 年后净资产终极对决 🔥</div>
-            <div class="text-lg font-bold" id="rvbWinnerMsg">租房派多赚了 <span class="text-red-500 font-mono text-2xl">$1.88M</span></div>
+        <!-- 工具三：房贷杠杆投资模拟器 -->
+        <div class="card mb-0 bg-white border border-gray-100 shadow-md flex flex-col h-full">
+            <h3 class="font-bold text-lg text-rose-900 mb-2">工具三：房产套现赚差价器</h3>
+            <p class="text-xs text-gray-500 mb-4 h-12">如果你有一套房，把里面涨价的钱从银行重新贷出来去买美股，到底能多赚多少？</p>
+            <div class="space-y-3 text-sm flex-grow">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600 help-tip" data-tip="你房子就算啥都不干，放着每年平均自然涨多少？">房子自己涨 (R) %</span>
+                    <input type="number" id="levHouseReturn" value="5" class="border p-1 w-16 text-center rounded bg-gray-50 focus:outline-none" oninput="calcLeverage()">
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600 help-tip" data-tip="你重新去找银行借钱，银行收你多少利息？">借钱利息 (D) %</span>
+                    <input type="number" id="levMortgageRate" value="4" class="border p-1 w-16 text-center rounded bg-gray-50 focus:outline-none" oninput="calcLeverage()">
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600 text-rose-700 font-medium help-tip" data-tip="你拿着借出来的钱跑去买指数，每年能赚多少？">买美股赚 (S) %</span>
+                    <input type="number" id="levEtfReturn" value="10" class="border p-1 w-16 text-center rounded bg-rose-50 font-bold text-rose-700 focus:outline-none" oninput="calcLeverage()">
+                </div>
+                <div class="flex justify-between items-center pb-2 border-b">
+                    <span class="text-gray-600 help-tip" data-tip="你胆子多大？借出相当于房子当前净值多少倍的钱。">借钱杠杆倍数 (N)</span>
+                    <input type="number" id="levN" value="1.5" step="0.1" class="border p-1 w-16 text-center rounded bg-gray-50 focus:outline-none" oninput="calcLeverage()">
+                </div>
+                <div class="pt-1">
+                    <div class="flex justify-between items-end mb-1">
+                        <span class="font-bold text-gray-800">总收益率飙升至：</span>
+                        <span id="levResult" class="text-xl font-mono font-bold text-rose-600">14.00%</span>
+                    </div>
+                    <div class="text-right text-xs font-bold text-emerald-600">比房子干放着多赚: <span id="levAlpha">+ 9.00%</span></div>
+                </div>
+            </div>
         </div>
-        <p class="text-xs text-gray-500 leading-relaxed pt-4">
-            <strong class="text-gray-700">沙盘解析：</strong>买房最大的隐形成本是<strong class="text-red-500">首付的机会成本</strong>。租房派一开始就把等额的首付买了指数基金，并且每个月把“原本要还的高额月供与廉价房租的差额”继续定投买入。只要指数长期的复利超过了房子的涨幅，时间拉长到30年，租房派积累的液态财富往往会大幅碾压拥有死资产的买房派。
-        </p>
     </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+        <!-- 工具四：FIRE 倒推计算器 -->
+        <div class="card mb-0 bg-white border border-indigo-100 shadow-md flex flex-col h-full">
+            <h3 class="font-bold text-lg text-indigo-900 mb-2">工具四：4%法则与 FIRE 倒计时</h3>
+            <p class="text-xs text-gray-500 mb-4 h-8">算算你距离“不用上班的财富自由”到底还需要奋斗多少年。</p>
+            <div class="space-y-3 text-sm flex-grow">
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">预期退休每月生活费 ($)</span>
+                    <input type="text" id="fireMonthly" value="5,000" class="border p-1 w-24 text-right font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="formatAndCalcFire(this)">
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600 help-tip" data-tip="Safe Withdrawal Rate (安全提款率)。基于Trinity Study，每年提取投资组合的4%并根据通胀调整，在30年内有极大极大概率不会破产。保守者可设为3.5%。">安全提款率 SWR %</span>
+                    <input type="number" id="fireSwr" value="4.0" step="0.1" class="border p-1 w-20 text-center font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="calcFire()">
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">你手头现有启动本金 ($)</span>
+                    <input type="text" id="fireCapital" value="100,000" class="border p-1 w-28 text-right font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="formatAndCalcFire(this)">
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-gray-600">你每年预期还能攒下追加 ($)</span>
+                    <input type="text" id="fireAnnualAdd" value="20,000" class="border p-1 w-28 text-right font-mono rounded bg-gray-50 focus:outline-indigo-500" oninput="formatAndCalcFire(this)">
+                </div>
+                <div class="flex justify-between items-center pb-3 border-b">
+                    <span class="text-gray-600">预期年化收益率 %</span>
+                    <input type="number" id="fireReturn" value="10.0" step="0.1" class="border p-1 w-20 text-center font-mono rounded bg-indigo-50 text-indigo-700 font-bold focus:outline-indigo-500" oninput="calcFire()">
+                </div>
+                <div class="pt-2 bg-indigo-50/50 p-3 rounded-lg border border-indigo-100">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-700 font-bold">🎯 FIRE 终极目标：</span>
+                        <span id="fireTargetOutput" class="text-lg font-mono font-bold text-indigo-700">$1.50M</span>
+                    </div>
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-600 text-xs">目前资金缺口：</span>
+                        <span id="fireGapOutput" class="text-sm font-mono text-gray-500">$1.40M</span>
+                    </div>
+                    <div class="flex justify-between items-center border-t border-indigo-200 pt-2 mt-2">
+                        <span class="text-gray-800 font-bold text-base">⏳ 预计还需奋斗：</span>
+                        <span id="fireYearsOutput" class="text-2xl font-mono font-bold text-red-500">16 年</span>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed pt-2">
+                    <strong class="text-gray-700">沙盘解析：</strong>按照著名的 Trinity Study 4% 法则，只要你的总资产达到你<strong class="text-indigo-600">年度总开销的 25 倍</strong>，你就可以随时退休。靠着组合内部的复利生长，这笔钱这辈子都花不完。
+                </p>
+            </div>
+        </div>
+
+        <!-- 工具五：买房 vs 租房 -->
+        <div class="card mb-0 bg-white border border-teal-100 shadow-md flex flex-col h-full">
+            <h3 class="font-bold text-lg text-teal-900 mb-2">工具五：“买房 vs 租房+全投指数”机会成本</h3>
+            <p class="text-xs text-gray-500 mb-4 h-8">对比30年后，是全款买下的房子净资产高，还是“租房过日子 + 差额定投指数”的净资产高。</p>
+            
+            <div class="grid grid-cols-2 gap-4 text-sm flex-grow">
+                <!-- 左：买房派 -->
+                <div class="space-y-2 border-r pr-4">
+                    <div class="font-bold text-teal-800 mb-3 border-b border-teal-200 pb-1">🏠 砸钱买房路线</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">房屋总价 $</span>
+                        <input type="text" id="rvbHousePrice" value="1,000,000" class="border p-1 w-20 text-right font-mono rounded bg-gray-50" oninput="formatAndCalcRvb(this)">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">首付比例 %</span>
+                        <input type="number" id="rvbDownPct" value="20" class="border p-1 w-16 text-center font-mono rounded bg-gray-50" oninput="calcRvb()">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">房贷利率 %</span>
+                        <input type="number" id="rvbMortgageRate" value="5.0" step="0.1" class="border p-1 w-16 text-center font-mono rounded bg-gray-50" oninput="calcRvb()">
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600 help-tip" data-tip="刨去折旧后的房屋自然升值率">房子年涨幅 %</span>
+                        <input type="number" id="rvbHouseAppr" value="4.0" step="0.1" class="border p-1 w-16 text-center font-mono rounded bg-gray-50" oninput="calcRvb()">
+                    </div>
+                </div>
+
+                <!-- 右：租房派 -->
+                <div class="space-y-2 pl-2">
+                    <div class="font-bold text-amber-700 mb-3 border-b border-amber-200 pb-1">💸 租房 + 定投路线</div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-gray-600">每月租金 $</span>
+                        <input type="text" id="rvbRent" value="3,000" class="border p-1 w-20 text-right font-mono rounded bg-gray-50" oninput="formatAndCalcRvb(this)">
+                    </div>
+                    
+                    <div class="mt-4 pt-2 border-t border-dashed">
+                        <span class="text-xs font-bold text-gray-700 block mb-1">差额定投指数年化 %：</span>
+                        <div class="flex space-x-1 mb-1">
+                            <button onclick="setRvbInvest(10)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-[0.65rem] px-2 py-1 rounded transition help-tip" data-tip="美股标普500长期的年化历史均值大约为10%。">标普500</button>
+                            <button id="btnRvbCustom" onclick="setRvbInvest(11.5)" class="bg-gray-100 hover:bg-gray-200 text-gray-700 text-[0.65rem] px-2 py-1 rounded transition help-tip" data-tip="一键填入你在最上方配置的专属组合的回测收益率。">专属组合</button>
+                        </div>
+                        <input type="number" id="rvbInvestReturn" value="10.0" step="0.1" class="border p-1 w-full text-center font-mono rounded bg-amber-50 text-amber-800 font-bold focus:outline-amber-500" oninput="calcRvb()">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 结果对决面板 -->
+            <div class="mt-4 bg-gray-50 p-3 rounded-lg border border-gray-200">
+                <div class="text-center font-bold text-gray-500 text-xs mb-2">🔥 30 年后净资产终极对决 🔥</div>
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-teal-800 font-bold text-sm">拥有一套无贷房子：</span>
+                    <span id="rvbHouseNetWorth" class="text-base font-mono font-bold text-teal-700">$3.24M</span>
+                </div>
+                <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-300">
+                    <span class="text-amber-800 font-bold text-sm">租房+满手指数基金：</span>
+                    <span id="rvbInvestNetWorth" class="text-base font-mono font-bold text-amber-700">$5.12M</span>
+                </div>
+                <div class="text-center text-sm font-bold mt-1" id="rvbWinnerMsg">
+                    租房派多赚了 <span class="text-red-500 font-mono text-lg">$1.88M</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- ================= 附录 ================= -->
     <div class="mt-8 mb-12 border-t border-gray-200 pt-8">
@@ -480,6 +592,7 @@
         <p class="text-xs text-gray-500 mb-4 leading-relaxed">
             本系统由 GitHub Actions 驱动每日自动抓取 Yahoo Finance 真实收盘与分红数据。为实现跨越三十年（1993-至今）的完整宏观周期回测，对于成立较晚的现代低费率 ETF，底层回测引擎采用了严格的同源指数或高度相关的经典共同基金进行数据缝合 (Proxy Splicing)。具体代理链条如下：
         </p>
+        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3 text-xs font-mono text-gray-600 bg-gray-50 p-4 rounded-lg border">
             <div><strong class="text-gray-800">SCHD</strong> (2011成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VYM</span> (2006-2011) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VEIPX</span> (1993-2006)</div>
             <div><strong class="text-gray-800">DGRO</strong> (2014成立) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VIG</span> (2006-2014) <span class="text-gray-400 mx-1">←</span> <span class="text-blue-600">VDIGX</span> (1993-2006)</div>
@@ -491,28 +604,58 @@
         </div>
     </div>
 
+    <!-- ================= 核心 JavaScript 引擎 ================= -->
     <script>
         const etfLibrary = [
             { id: 'SCHD', name: '高息质量', type: '收入', defaultWeight: 20, color: 'blue', 
-              ws: `<div class="tooltip-title"><span>SCHD</span><span class="text-gray-400 font-normal">成立: 2011年</span></div><div class="mb-2"><span class="font-bold text-white">【介绍】</span>严格跟踪道琼斯美国股息100指数。并非简单追求高息，而是通过四大基本面指标，层层筛选连续10年分红的优质企业。</div><div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>成分股财务极为健康，具备强劲下行保护能力，股息增长长期跑赢通胀。</div><div class="mb-2"><span class="font-bold text-red-400">【局限】</span>极度缺乏高成长的科技股，在狂热牛市中会显著跑输大盘。</div><div><span class="font-bold text-blue-400">【买入逻辑】</span>组合的“现金流压舱石”，提供高确定性且初始占比较高的股息收入。</div>` },
+              ws: `<div class="tooltip-title"><span>SCHD</span><span class="text-gray-400 font-normal">成立: 2011年</span></div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>严格跟踪道琼斯美国股息100指数。并非简单追求高息，而是通过四大基本面指标，层层筛选连续10年分红的优质企业。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>成分股财务极为健康，具备强劲下行保护能力，股息增长长期跑赢通胀。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>极度缺乏高成长的科技股，在狂热牛市中会显著跑输大盘。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>组合的“现金流压舱石”，提供高确定性且初始占比较高的股息收入。</div>` },
             { id: 'DGRO', name: '股息成长', type: '收入', defaultWeight: 10, color: 'blue',
-              ws: `<div class="tooltip-title"><span>DGRO</span><span class="text-gray-400 font-normal">成立: 2014年</span></div><div class="mb-2"><span class="font-bold text-white">【介绍】</span>专注具有5年以上股息增长历史的公司，强制要求派息率低于75%，同时剔除收益率最高的前10%规避“高息陷阱”。</div><div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>捕获具备持续造血能力的科技巨头（如微软、苹果），实现双击。</div><div class="mb-2"><span class="font-bold text-red-400">【局限】</span>初始股息率相对偏低（约2%），需要较长的时间周期让复利发酵。</div><div><span class="font-bold text-blue-400">【买入逻辑】</span>长期抗通胀引擎，确保未来的现金流购买力逐年阶梯上升。</div>` },
+              ws: `<div class="tooltip-title"><span>DGRO</span><span class="text-gray-400 font-normal">成立: 2014年</span></div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>专注具有5年以上股息增长历史的公司，强制要求派息率低于75%，同时剔除收益率最高的前10%规避“高息陷阱”。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>捕获具备持续造血能力的科技巨头（如微软、苹果），实现双击。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>初始股息率相对偏低（约2%），需要较长的时间周期让复利发酵。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>长期抗通胀引擎，确保未来的现金流购买力逐年阶梯上升。</div>` },
             { id: 'VPU', name: '公用事业', type: '收入', defaultWeight: 5, color: 'blue',
-              ws: `<div class="tooltip-title"><span>VPU</span><span class="text-gray-400 font-normal">成立: 2004年</span></div><div class="mb-2"><span class="font-bold text-white">【介绍】</span>专门投资受政府监管的美国电力、天然气和水务等垄断公用事业公司。</div><div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>极强的逆周期防御属性，收入由监管电价保障，与宏观经济衰退关联度极低。</div><div class="mb-2"><span class="font-bold text-red-400">【局限】</span>对利率敏感，在加息周期表现疲软；完全缺乏进攻性。</div><div><span class="font-bold text-blue-400">【买入逻辑】</span>防御避险配置，在系统性崩盘时提供稳定的股息和心理支撑。</div>` },
+              ws: `<div class="tooltip-title"><span>VPU</span><span class="text-gray-400 font-normal">成立: 2004年</span></div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>专门投资受政府监管的美国电力、天然气和水务等垄断公用事业公司。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>极强的逆周期防御属性，收入由监管电价保障，与宏观经济衰退关联度极低。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>对利率敏感，在加息周期表现疲软；完全缺乏进攻性。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>防御避险配置，在系统性崩盘时提供稳定的股息和心理支撑。</div>` },
             { id: 'VOO', name: '标普500', type: '收入', defaultWeight: 15, color: 'slate',
-              ws: `<div class="tooltip-title"><span>VOO</span><span class="text-gray-400 font-normal">成立: 2010年</span></div><div class="mb-2"><span class="font-bold text-white">【介绍】</span>按市值加权跟踪标普500指数，覆盖美国最具代表性的500家跨国企业。</div><div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>极致的分散与优胜劣汰机制，费率极低（0.03%），代表最纯正的市场贝塔收益。</div><div class="mb-2"><span class="font-bold text-red-400">【局限】</span>前十大科技巨头集中度过高（达30%以上），整体分红率被拉低。</div><div><span class="font-bold text-blue-400">【买入逻辑】</span>作为组合的总市值中枢，不押注单一风格，平抑极端波动。</div>` },
+              ws: `<div class="tooltip-title"><span>VOO</span><span class="text-gray-400 font-normal">成立: 2010年</span></div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>按市值加权跟踪标普500指数，覆盖美国最具代表性的500家跨国企业。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>极致的分散与优胜劣汰机制，费率极低（0.03%），代表最纯正的市场贝塔收益。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>前十大科技巨头集中度过高（达30%以上），整体分红率被拉低。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>作为组合的总市值中枢，不押注单一风格，平抑极端波动。</div>` },
             { id: 'QQQM', name: '纳指100', type: '成长', defaultWeight: 25, color: 'red',
-              ws: `<div class="tooltip-title"><span>QQQM</span><span class="text-gray-400 font-normal">成立: 2020年</span></div><div class="mb-2"><span class="font-bold text-white">【介绍】</span>跟踪纳斯达克100指数，包含上市市值最大的100家非金融类创新企业。</div><div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>深度绑定科技革命，长期展现极强的进攻性和超额收益能力。</div><div class="mb-2"><span class="font-bold text-red-400">【局限】</span>波动率极大，在估值泡沫破裂期（如2000、2022年）会遭遇毁灭性回撤。</div><div><span class="font-bold text-blue-400">【买入逻辑】</span>绝对的成长半区核心，承担拉升整个资产包长期总市值的重任。</div>` },
+              ws: `<div class="tooltip-title"><span>QQQM</span><span class="text-gray-400 font-normal">成立: 2020年</span></div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>跟踪纳斯达克100指数，包含上市市值最大的100家非金融类创新企业。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>深度绑定科技革命，长期展现极强的进攻性和超额收益能力。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>波动率极大，在估值泡沫破裂期（如2000、2022年）会遭遇毁灭性回撤。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>绝对的成长半区核心，承担拉升整个资产包长期总市值的重任。</div>` },
             { id: 'SMH', name: '半导体', type: '成长', defaultWeight: 25, color: 'red',
-              ws: `<div class="tooltip-title"><span>SMH</span><span class="text-gray-400 font-normal">成立: 2011年</span></div><div class="mb-2"><span class="font-bold text-white">【介绍】</span>集中持仓全球半导体产业链最核心的前25大龙头企业，单股上限达20%+。</div><div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>爆发力冠绝美股，处于AI、云计算和智能硬件革命的最底层刚需环节。</div><div class="mb-2"><span class="font-bold text-red-400">【局限】</span>高周期行业，受库存与地缘政治影响深远，回撤惨烈。</div><div><span class="font-bold text-blue-400">【买入逻辑】</span>组合中最尖锐的战术长矛，利用高弹性博取最高额的阿尔法收益。</div>` },
+              ws: `<div class="tooltip-title"><span>SMH</span><span class="text-gray-400 font-normal">成立: 2011年</span></div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>集中持仓全球半导体产业链最核心的前25大龙头企业，单股上限达20%+。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>爆发力冠绝美股，处于AI、云计算和智能硬件革命的最底层刚需环节。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>高周期行业，受库存与地缘政治影响深远，回撤惨烈。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>组合中最尖锐的战术长矛，利用高弹性博取最高额的阿尔法收益。</div>` },
             { id: 'VGT', name: '纯净科技', type: '成长', defaultWeight: 0, color: 'red',
-              ws: `<div class="tooltip-title"><span>VGT</span><span class="text-gray-400 font-normal">成立: 2004年</span></div><div class="mb-2"><span class="font-bold text-white">【介绍】</span>深度覆盖全美 IT 行业。依GICS标准不含Alphabet、Meta及亚马逊、特斯拉。</div><div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>纯度极高，专注软件服务与硬件制造，费率极低（0.10%）。</div><div class="mb-2"><span class="font-bold text-red-400">【局限】</span>行业定义死板，错过了数家具备强科技属性的万亿级互联网巨头。</div><div><span class="font-bold text-blue-400">【买入逻辑】</span>灵活替代或补充QQQM，强化对纯粹软硬件领域的垂直配置。</div>` }
+              ws: `<div class="tooltip-title"><span>VGT</span><span class="text-gray-400 font-normal">成立: 2004年</span></div>
+                   <div class="mb-2"><span class="font-bold text-white">【介绍】</span>深度覆盖全美 IT 行业。依 GICS 标准不含 Alphabet/Meta 及 Amazon/Tesla。</div>
+                   <div class="mb-2"><span class="font-bold text-emerald-400">【优势】</span>纯度极高，专注软件服务与硬件制造，费率极低（0.10%）。</div>
+                   <div class="mb-2"><span class="font-bold text-red-400">【局限】</span>行业定义死板，错过了数家具备强科技属性的万亿级互联网巨头。</div>
+                   <div><span class="font-bold text-blue-400">【买入逻辑】</span>战术扩展位。可灵活替代或稀释部分 QQQM 权重，强化科技轮动。</div>` }
         ];
 
         let state = {
             isDrip: false, capital: 3000000, annualAdd: 0, annualAddGrowth: 0, startYear: 2000, 
             currentYear: new Date().getFullYear(), portfolio: {},
-            viewVal: 'yearly', viewDiv: 'yearly', forecastMode: 'historical', forecastYearsHistory: 10
+            viewVal: 'yearly', viewDiv: 'yearly',
+            forecastMode: 'historical', forecastYearsHistory: 10
         };
 
         let forecastEngineData = { baseCagr: 0.10, consCagr: 0.07, optCagr: 0.12, terminalDivYield: 0.015 };
@@ -538,7 +681,8 @@
             let yearsCount = endY - startY + 0.5;
 
             for (let y = startY; y <= endY; y++) {
-                let yrCap = 0; let yrDiv = 0;
+                let yrCap = 0;
+                let yrDiv = 0;
                 for (const [id, weight] of Object.entries(state.portfolio)) {
                     let [capReturn, divYield] = getAssetPerformance(y, id);
                     let w = weight / totalWeight;
@@ -570,11 +714,13 @@
 
         function renderEtfGrid() {
             const grid = document.getElementById('etfGrid');
+            if (!grid) return; // 护城河拦截
             grid.innerHTML = '';
             etfLibrary.forEach(etf => {
                 const isSelected = state.portfolio[etf.id] !== undefined;
                 const weight = isSelected ? state.portfolio[etf.id] : 0;
                 const colorHex = etf.color === 'red' ? '#e9886e' : (etf.color === 'blue' ? '#1e3a8a' : '#1e293b');
+                
                 grid.innerHTML += `
                     <div class="border rounded-lg p-3 bg-white etf-card ${isSelected ? 'selected' : ''}" onclick="toggleEtf('${etf.id}')">
                         <div class="flex justify-between items-center mb-2">
@@ -601,50 +747,94 @@
             else state.portfolio[id] = 10;
             renderEtfGrid(); runBacktestEngine();
         }
+        
         function updateWeight(id, value) {
-            if (state.portfolio[id] !== undefined) { state.portfolio[id] = parseInt(value) || 0; updateWeightStatus(); runBacktestEngine(); }
+            if (state.portfolio[id] !== undefined) { 
+                state.portfolio[id] = parseInt(value) || 0; 
+                updateWeightStatus(); 
+                runBacktestEngine(); 
+            }
         }
 
         const fmtUsdChart = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(2) + 'M' : (num >= 1000 ? '$' + (num/1000).toFixed(2) + 'k' : '$' + num.toFixed(2));
         const fmtUsd = (num) => num >= 1000000 ? '$' + (num/1000000).toFixed(2) + 'M' : (num >= 1000 ? '$' + (num/1000).toFixed(2) + 'k' : '$' + num.toFixed(2));
         
         function formatInputCommas(inputEl) {
+            if (!inputEl) return;
             let val = inputEl.value.replace(/,/g, '');
-            if(!isNaN(val) && val !== '') inputEl.value = Number(val).toLocaleString('en-US');
+            if(!isNaN(val) && val !== '') {
+                inputEl.value = Number(val).toLocaleString('en-US');
+            }
         }
 
+        // 绑定输入框监听器，增加判空防护
         ['initialCapital', 'annualContribution', 'annualGrowthRate', 'startYear'].forEach(id => {
-            document.getElementById(id).addEventListener('input', e => {
-                let val = parseFloat(e.target.value.replace(/,/g, '')) || 0;
-                if (id === 'initialCapital' || id === 'annualContribution') formatInputCommas(e.target);
-                if(id==='startYear') state.startYear = parseInt(val);
-                else if(id==='annualGrowthRate') state.annualAddGrowth = val / 100.0;
-                else state[id === 'initialCapital' ? 'capital' : 'annualAdd'] = Math.max(val, 0.01); 
+            const el = document.getElementById(id);
+            if(el) {
+                el.addEventListener('input', e => {
+                    let val = parseFloat(e.target.value.replace(/,/g, '')) || 0;
+                    if (id === 'initialCapital' || id === 'annualContribution') {
+                        formatInputCommas(e.target);
+                    }
+                    if(id === 'startYear') state.startYear = parseInt(val);
+                    else if(id === 'annualGrowthRate') state.annualAddGrowth = val / 100.0;
+                    else state[id === 'initialCapital' ? 'capital' : 'annualAdd'] = Math.max(val, 0.01); 
+                    runBacktestEngine();
+                });
+            }
+        });
+
+        const forecastInputHist = document.getElementById('forecastYearsInputHistory');
+        if(forecastInputHist) {
+            forecastInputHist.addEventListener('input', e => {
+                state.forecastYearsHistory = parseInt(e.target.value) || 10;
                 runBacktestEngine();
             });
-        });
+        }
 
-        document.getElementById('forecastYearsInputHistory').addEventListener('input', e => {
-            state.forecastYearsHistory = parseInt(e.target.value) || 10;
-            runBacktestEngine();
-        });
+        window.formatAndRunIndForecast = function(el) {
+            formatInputCommas(el);
+            runIndForecast();
+        };
 
-        window.formatAndRunIndForecast = function(el) { formatInputCommas(el); runIndForecast(); };
-        window.setYear = (year) => { document.getElementById('startYear').value = year; state.startYear = year; runBacktestEngine(); };
-        document.getElementById('btnIncome').addEventListener('click', e => { state.isDrip = false; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; document.getElementById('btnDrip').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; runBacktestEngine(); });
-        document.getElementById('btnDrip').addEventListener('click', e => { state.isDrip = true; e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; document.getElementById('btnIncome').className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; runBacktestEngine(); });
+        window.setYear = (year) => { 
+            const el = document.getElementById('startYear');
+            if(el) el.value = year; 
+            state.startYear = year; 
+            runBacktestEngine(); 
+        };
 
+        const btnIncome = document.getElementById('btnIncome');
+        const btnDrip = document.getElementById('btnDrip');
+        if (btnIncome && btnDrip) {
+            btnIncome.addEventListener('click', e => { 
+                state.isDrip = false; 
+                e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; 
+                btnDrip.className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; 
+                runBacktestEngine(); 
+            });
+            btnDrip.addEventListener('click', e => { 
+                state.isDrip = true; 
+                e.target.className="bg-black text-white px-5 py-2 rounded-full text-sm font-bold transition"; 
+                btnIncome.className="text-gray-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-gray-100"; 
+                runBacktestEngine(); 
+            });
+        }
+
+        // ================= Chart.js 初始化区 =================
         const bearMarketPlugin = {
             id: 'bearMarketShading',
             beforeDraw(chart) {
                 const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
                 if (!x) return;
+                
                 const bears = [
                     { name: '互联网泡沫', y: ['2000','2001','2002'], qStart: '2000-Q1', qEnd: '2002-Q4', mStart: '2000-03', mEnd: '2002-10' }, 
                     { name: '次贷危机', y: ['2008','2009'], qStart: '2007-Q4', qEnd: '2009-Q1', mStart: '2007-10', mEnd: '2009-03' },         
                     { name: '新冠熔断', y: ['2020'], qStart: '2020-Q1', qEnd: '2020-Q2', mStart: '2020-02', mEnd: '2020-04' },                
                     { name: '加息熊市', y: ['2022'], qStart: '2022-Q1', qEnd: '2022-Q3', mStart: '2022-01', mEnd: '2022-10' }                 
                 ];
+                
                 const labels = chart.data.labels;
                 const isQuarterly = labels.length > 0 && String(labels[0]).includes('-Q');
                 const isMonthly = labels.length > 0 && String(labels[0]).includes('-') && !isQuarterly;
@@ -652,121 +842,257 @@
                 bears.forEach(b => {
                     let startX, endX;
                     if (isQuarterly) {
-                        let idxStart = labels.indexOf(b.qStart); let idxEnd = labels.indexOf(b.qEnd);
-                        if (idxStart !== -1) { idxEnd = idxEnd !== -1 ? idxEnd : (labels.length - 1); startX = x.getPixelForTick(idxStart); endX = x.getPixelForTick(idxEnd); }
+                        let idxStart = labels.indexOf(b.qStart);
+                        let idxEnd = labels.indexOf(b.qEnd);
+                        if (idxStart !== -1) {
+                            idxEnd = idxEnd !== -1 ? idxEnd : (labels.length - 1);
+                            startX = x.getPixelForTick(idxStart);
+                            endX = x.getPixelForTick(idxEnd);
+                        }
                     } else if (isMonthly) {
-                        let idxStart = labels.indexOf(b.mStart); let idxEnd = labels.indexOf(b.mEnd);
-                        if (idxStart !== -1) { idxEnd = idxEnd !== -1 ? idxEnd : (labels.length - 1); startX = x.getPixelForTick(idxStart); endX = x.getPixelForTick(idxEnd); }
+                        let idxStart = labels.indexOf(b.mStart);
+                        let idxEnd = labels.indexOf(b.mEnd);
+                        if (idxStart !== -1) {
+                            idxEnd = idxEnd !== -1 ? idxEnd : (labels.length - 1);
+                            startX = x.getPixelForTick(idxStart);
+                            endX = x.getPixelForTick(idxEnd);
+                        }
                     } else {
-                        let idxStart = labels.indexOf(b.y[0] || b.y); let idxEnd = labels.indexOf(b.y[b.y.length-1] || b.y);
-                        if (idxStart !== -1) { startX = x.getPixelForTick(idxStart) - 15; endX = idxEnd !== -1 ? x.getPixelForTick(idxEnd) + 15 : x.getPixelForTick(labels.length-1); }
+                        let idxStart = labels.indexOf(b.y[0] || b.y);
+                        let idxEnd = labels.indexOf(b.y[b.y.length-1] || b.y);
+                        if (idxStart !== -1) {
+                            startX = x.getPixelForTick(idxStart) - 15;
+                            endX = idxEnd !== -1 ? x.getPixelForTick(idxEnd) + 15 : x.getPixelForTick(labels.length-1);
+                        }
                     }
+                    
                     if (startX && endX) {
                         let width = Math.max(endX - startX, 25); 
-                        ctx.save(); ctx.fillStyle = 'rgba(156, 163, 175, 0.15)'; ctx.fillRect(startX, top, width, bottom - top);
-                        ctx.fillStyle = 'rgba(75, 85, 99, 0.8)'; ctx.font = 'bold 11px system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-                        if (width > 20) ctx.fillText(b.name, startX + width / 2, top + 5);
+                        ctx.save(); 
+                        ctx.fillStyle = 'rgba(156, 163, 175, 0.15)'; 
+                        ctx.fillRect(startX, top, width, bottom - top);
+                        ctx.fillStyle = 'rgba(75, 85, 99, 0.8)';
+                        ctx.font = 'bold 11px system-ui, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'top';
+                        if (width > 20) {
+                            ctx.fillText(b.name, startX + width / 2, top + 5);
+                        }
                         ctx.restore();
                     }
                 });
             }
         };
 
-        const valueCtx = document.getElementById('valueChart').getContext('2d');
-        let valueGradient = valueCtx.createLinearGradient(0, 0, 0, 220);
-        valueGradient.addColorStop(0, 'rgba(16, 185, 129, 0.35)'); valueGradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)'); 
+        // 安全获取 Canvas 上下文 (防弹设计)
+        let valueChart = null;
+        const valCanvasEl = document.getElementById('valueChart');
+        if (valCanvasEl) {
+            const valueCtx = valCanvasEl.getContext('2d');
+            let valueGradient = valueCtx.createLinearGradient(0, 0, 0, 220);
+            valueGradient.addColorStop(0, 'rgba(16, 185, 129, 0.35)'); 
+            valueGradient.addColorStop(1, 'rgba(16, 185, 129, 0.0)'); 
+            
+            valueChart = new Chart(valueCtx, { 
+                type: 'line', 
+                data: { labels: [], datasets: [{ 
+                    label: '资产现值', data: [], 
+                    borderColor: '#4d7c4a', backgroundColor: valueGradient, 
+                    borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 5,
+                    pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#4d7c4a', pointHoverBorderWidth: 2,
+                    fill: true, tension: 0 
+                }] }, 
+                plugins: [bearMarketPlugin], 
+                options: { 
+                    responsive: true, 
+                    plugins: { 
+                        legend: { display: false }, 
+                        tooltip: { 
+                            mode: 'index', intersect: false,
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#374151', bodyColor: '#4d7c4a', borderColor: '#e5e7eb', borderWidth: 1, padding: 10
+                        } 
+                    }, 
+                    scales: { 
+                        x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 12, color: '#9ca3af' } }, 
+                        y: { 
+                            type: 'logarithmic',
+                            grid: { color: 'rgba(0,0,0,0.05)', borderDash: [4, 4] }, 
+                            ticks: { 
+                                callback: function(value) {
+                                    const remain = value / (Math.pow(10, Math.floor(Math.log10(value))));
+                                    if (remain === 1 || remain === 2 || remain === 5) return fmtUsdChart(value);
+                                    return '';
+                                },
+                                color: '#9ca3af' 
+                            } 
+                        } 
+                    }, 
+                    interaction: { mode: 'nearest', axis: 'x', intersect: false } 
+                } 
+            });
+        }
 
-        const divCtx = document.getElementById('dividendChart').getContext('2d');
-        let divGradient = divCtx.createLinearGradient(0, 0, 0, 220);
-        divGradient.addColorStop(0, 'rgba(212, 175, 55, 0.85)'); divGradient.addColorStop(1, 'rgba(212, 175, 55, 0.15)'); 
+        let dividendChart = null;
+        const divCanvasEl = document.getElementById('dividendChart');
+        if (divCanvasEl) {
+            const divCtx = divCanvasEl.getContext('2d');
+            let divGradient = divCtx.createLinearGradient(0, 0, 0, 220);
+            divGradient.addColorStop(0, 'rgba(212, 175, 55, 0.85)'); 
+            divGradient.addColorStop(1, 'rgba(212, 175, 55, 0.15)'); 
 
-        let valueChart = new Chart(valueCtx, { 
-            type: 'line', 
-            data: { labels: [], datasets: [{ 
-                label: '资产现值', data: [], borderColor: '#4d7c4a', backgroundColor: valueGradient, borderWidth: 1.5, pointRadius: 0, pointHoverRadius: 5, pointHoverBackgroundColor: '#ffffff', pointHoverBorderColor: '#4d7c4a', pointHoverBorderWidth: 2, fill: true, tension: 0 
-            }] }, 
-            plugins: [bearMarketPlugin], 
-            options: { responsive: true, plugins: { legend: { display: false }, tooltip: { mode: 'index', intersect: false, backgroundColor: 'rgba(255, 255, 255, 0.95)', titleColor: '#374151', bodyColor: '#4d7c4a', borderColor: '#e5e7eb', borderWidth: 1, padding: 10 } }, scales: { x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 12, color: '#9ca3af' } }, y: { type: 'logarithmic', grid: { color: 'rgba(0,0,0,0.05)', borderDash: [4, 4] }, ticks: { callback: function(value) { const remain = value / (Math.pow(10, Math.floor(Math.log10(value)))); if (remain === 1 || remain === 2 || remain === 5) return fmtUsdChart(value); return ''; }, color: '#9ca3af' } } }, interaction: { mode: 'nearest', axis: 'x', intersect: false } } 
-        });
-
-        let dividendChart = new Chart(divCtx, { 
-            type: 'bar', 
-            data: { labels: [], datasets: [{ label: '现金流', data: [], backgroundColor: divGradient, hoverBackgroundColor: '#d4af37', borderRadius: 3 }] }, 
-            options: { responsive: true, plugins: { legend: { display: false }, tooltip: { backgroundColor: 'rgba(255, 255, 255, 0.95)', titleColor: '#374151', bodyColor: '#d4af37', borderColor: '#e5e7eb', borderWidth: 1, padding: 10 } }, scales: { x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 12, color: '#9ca3af' } }, y: { grid: { color: 'rgba(0,0,0,0.03)', borderDash: [5, 5] }, ticks: { callback: fmtUsdChart, color: '#9ca3af' } } } } 
-        });
+            dividendChart = new Chart(divCtx, { 
+                type: 'bar', 
+                data: { labels: [], datasets: [{ 
+                    label: '现金流', data: [], 
+                    backgroundColor: divGradient, hoverBackgroundColor: '#d4af37', borderRadius: 3 
+                }] }, 
+                options: { 
+                    responsive: true, 
+                    plugins: { 
+                        legend: { display: false },
+                        tooltip: { 
+                            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                            titleColor: '#374151', bodyColor: '#d4af37', borderColor: '#e5e7eb', borderWidth: 1, padding: 10
+                        }
+                    }, 
+                    scales: { 
+                        x: { grid: { display: false }, ticks: { autoSkip: true, maxTicksLimit: 12, color: '#9ca3af' } }, 
+                        y: { grid: { color: 'rgba(0,0,0,0.03)', borderDash: [5, 5] }, ticks: { callback: fmtUsdChart, color: '#9ca3af' } } 
+                    } 
+                } 
+            });
+        }
 
         window.setChartMode = function(target, mode) {
-            if (target === 'value') {
+            if (target === 'value' && valueChart) {
                 state.viewVal = mode;
-                document.getElementById('btnValYear').className = mode==='yearly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive'; document.getElementById('btnValMonth').className = mode==='monthly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
-                valueChart.data.labels = cachedChartData[mode].labels; valueChart.data.datasets[0].data = cachedChartData[mode].value; valueChart.update();
-            } else {
+                const btnYear = document.getElementById('btnValYear');
+                const btnMonth = document.getElementById('btnValMonth');
+                if (btnYear) btnYear.className = mode === 'yearly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
+                if (btnMonth) btnMonth.className = mode === 'monthly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
+                
+                valueChart.data.labels = cachedChartData[mode].labels;
+                valueChart.data.datasets[0].data = cachedChartData[mode].value;
+                valueChart.update();
+            } else if (target === 'dividend' && dividendChart) {
                 state.viewDiv = mode;
-                document.getElementById('btnDivYear').className = mode==='yearly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive'; document.getElementById('btnDivQuarter').className = mode==='quarterly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
-                dividendChart.data.labels = cachedChartData[mode].labels; dividendChart.data.datasets[0].data = cachedChartData[mode].div; dividendChart.update();
+                const btnYear = document.getElementById('btnDivYear');
+                const btnQuarter = document.getElementById('btnDivQuarter');
+                if (btnYear) btnYear.className = mode === 'yearly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
+                if (btnQuarter) btnQuarter.className = mode === 'quarterly' ? 'chart-toggle-btn chart-toggle-active' : 'chart-toggle-btn chart-toggle-inactive';
+                
+                dividendChart.data.labels = cachedChartData[mode].labels;
+                dividendChart.data.datasets[0].data = cachedChartData[mode].div;
+                dividendChart.update();
             }
         };
 
         window.setForecastMode = function(mode) {
             state.forecastMode = mode;
-            ['btnConservative', 'btnHistorical', 'btnOptimistic'].forEach(id => { document.getElementById(id).className = "px-3 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800 hover:bg-white/50 help-tip"; });
+            ['btnConservative', 'btnHistorical', 'btnOptimistic'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.className = "px-3 py-1.5 rounded-md text-xs font-bold transition text-gray-500 hover:text-gray-800 hover:bg-white/50 help-tip";
+            });
             const activeBtn = mode === 'conservative' ? 'btnConservative' : (mode === 'historical' ? 'btnHistorical' : 'btnOptimistic');
-            let activeClasses = document.getElementById(activeBtn).className.replace('text-gray-500 hover:text-gray-800 hover:bg-white/50', '');
-            document.getElementById(activeBtn).className = activeClasses + " bg-white shadow text-gray-800";
+            const elActive = document.getElementById(activeBtn);
+            if(elActive) {
+                let activeClasses = elActive.className.replace('text-gray-500 hover:text-gray-800 hover:bg-white/50', '');
+                elActive.className = activeClasses + " bg-white shadow text-gray-800";
+            }
             runBacktestEngine(); 
         };
 
+        // ================= 核心计算引擎 =================
         function runBacktestEngine() {
             let totalWeight = 0;
             for (const w of Object.values(state.portfolio)) totalWeight += w;
             if (totalWeight === 0) totalWeight = 100;
 
             let assetBuckets = {};
-            for (const [id, weight] of Object.entries(state.portfolio)) assetBuckets[id] = state.capital * (weight / totalWeight);
+            for (const [id, weight] of Object.entries(state.portfolio)) {
+                assetBuckets[id] = state.capital * (weight / totalWeight);
+            }
 
             let yLabels = [], yValue = [], yDiv = [];
             let qLabels = [], qValue = [], qDiv = [];
             let mLabels = [], mValue = []; 
             
-            let cumulativeDiv = 0; let currentCapitalInjected = state.capital; let historyTableHtml = ''; let prevTotalAsset = state.capital; let indexValue = 1.0;
-            let currentAnnualContribution = state.annualAdd; let lastYearAssetForGrowth = state.capital;
+            let cumulativeDiv = 0;
+            let currentCapitalInjected = state.capital;
+            let historyTableHtml = '';
+            let prevTotalAsset = state.capital;
+            let indexValue = 1.0;
+            
+            let currentAnnualContribution = state.annualAdd; 
+            let lastYearAssetForGrowth = state.capital;
 
             for(let y = state.startYear; y <= state.currentYear; y++) {
-                if (y > state.startYear) currentCapitalInjected += currentAnnualContribution;
+                if (y > state.startYear) {
+                    currentCapitalInjected += currentAnnualContribution;
+                }
+                
                 let startOfYearAsset = prevTotalAsset + (y > state.startYear ? currentAnnualContribution : 0);
-                let currentYearTotalAsset = 0; let currentYearDiv = 0;
+                let currentYearTotalAsset = 0;
+                let currentYearDiv = 0;
                 
                 let weightSum = 0;
                 for (const val of Object.values(assetBuckets)) weightSum += val;
-                let yearCapReturn = 0; let yearDivYield = 0;
+                
+                let yearCapReturn = 0;
+                let yearDivYield = 0;
 
                 for (const id of Object.keys(assetBuckets)) {
                     let [capReturn, divYield] = getAssetPerformance(y, id);
+                    
                     let w = weightSum > 0 ? (assetBuckets[id] / weightSum) : (state.portfolio[id] / totalWeight);
-                    yearCapReturn += capReturn * w; yearDivYield += divYield * w;
-                    if (y > state.startYear) assetBuckets[id] += currentAnnualContribution * (state.portfolio[id] / totalWeight);
+                    yearCapReturn += capReturn * w;
+                    yearDivYield += divYield * w;
+
+                    if (y > state.startYear) {
+                        assetBuckets[id] += currentAnnualContribution * (state.portfolio[id] / totalWeight);
+                    }
+                    
                     let baseAssetForDividend = assetBuckets[id];
                     assetBuckets[id] = assetBuckets[id] * (1 + capReturn);
                     let div = baseAssetForDividend * divYield;
                     currentYearDiv += div;
+
                     if (state.isDrip) assetBuckets[id] += div;
                     currentYearTotalAsset += assetBuckets[id];
                 }
                 
                 indexValue *= (1 + yearCapReturn + (state.isDrip ? yearDivYield : 0));
-                yLabels.push(y.toString()); yValue.push(currentYearTotalAsset); yDiv.push(currentYearDiv); cumulativeDiv += currentYearDiv;
+
+                yLabels.push(y.toString());
+                yValue.push(currentYearTotalAsset);
+                yDiv.push(currentYearDiv);
+                cumulativeDiv += currentYearDiv;
                 
                 let ratioM = startOfYearAsset > 0 ? Math.pow(currentYearTotalAsset / startOfYearAsset, 1/12) : 1;
                 let currentMonthAsset = startOfYearAsset;
-                for(let m=1; m<=12; m++) { currentMonthAsset *= ratioM; mLabels.push(y + '-' + String(m).padStart(2, '0')); mValue.push(currentMonthAsset); }
+                for(let m=1; m<=12; m++) {
+                    currentMonthAsset *= ratioM;
+                    mLabels.push(y + '-' + String(m).padStart(2, '0'));
+                    mValue.push(currentMonthAsset);
+                }
                 
                 let ratioQ = startOfYearAsset > 0 ? Math.pow(currentYearTotalAsset / startOfYearAsset, 1/4) : 1;
                 let currentQAsset = startOfYearAsset;
-                for(let q=1; q<=4; q++) { currentQAsset *= ratioQ; qLabels.push(y + '-Q' + q); qValue.push(currentQAsset); qDiv.push(currentYearDiv / 4); }
+                for(let q=1; q<=4; q++) {
+                    currentQAsset *= ratioQ;
+                    qLabels.push(y + '-Q' + q);
+                    qValue.push(currentQAsset);
+                    qDiv.push(currentYearDiv / 4);
+                }
                 
                 let assetGrowthRate = (y === state.startYear || lastYearAssetForGrowth === 0) ? 0 : ((currentYearTotalAsset - lastYearAssetForGrowth) / lastYearAssetForGrowth) * 100;
-                lastYearAssetForGrowth = currentYearTotalAsset; prevTotalAsset = currentYearTotalAsset;
-                if (y >= state.startYear) currentAnnualContribution *= (1 + state.annualAddGrowth);
+                lastYearAssetForGrowth = currentYearTotalAsset;
+                prevTotalAsset = currentYearTotalAsset;
+                
+                if (y >= state.startYear) {
+                     currentAnnualContribution *= (1 + state.annualAddGrowth);
+                }
 
                 let yoc = currentCapitalInjected > 0 ? (currentYearDiv / currentCapitalInjected) * 100 : 0;
                 historyTableHtml += `
@@ -779,81 +1105,135 @@
                         <td class="py-2 px-4 font-semibold text-rose-600">${fmtUsd(currentYearDiv * 0.9)}</td>
                         <td class="py-2 px-4 text-blue-600">${fmtUsd(cumulativeDiv)}</td>
                         <td class="py-2 px-4 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-600'}">${yoc.toFixed(2)}%</td>
-                    </tr>`;
+                    </tr>
+                `;
             }
 
             cachedChartData.yearly = { labels: yLabels, value: yValue, div: yDiv };
             cachedChartData.quarterly = { labels: qLabels, value: qValue, div: qDiv };
             cachedChartData.monthly = { labels: mLabels, value: mValue, div: [] }; 
 
-            let finalValue = yValue[yValue.length - 1] || 0; let finalDiv = yDiv[yDiv.length - 1] || 0;
-            let years = state.currentYear - state.startYear + 0.5; let totalIn = currentCapitalInjected;
+            let finalValue = yValue[yValue.length - 1] || 0;
+            let finalDiv = yDiv[yDiv.length - 1] || 0;
+            let years = state.currentYear - state.startYear + 0.5;
+            let totalIn = currentCapitalInjected;
+            
             trueHistoricalCagr = Math.pow(indexValue, 1/years) - 1;
             
-            document.getElementById('valPresent').textContent = fmtUsd(finalValue); document.getElementById('valPresentSub').textContent = `真金白银投入 ${fmtUsd(totalIn)}`;
-            document.getElementById('valCagr').textContent = `+${(trueHistoricalCagr*100).toFixed(2)}%`; document.getElementById('valSalary').textContent = fmtUsd(finalDiv);
+            // 安全更新主面板数据
+            if(document.getElementById('valPresent')) document.getElementById('valPresent').textContent = fmtUsd(finalValue);
+            if(document.getElementById('valPresentSub')) document.getElementById('valPresentSub').textContent = `真金白银投入 ${fmtUsd(totalIn)}`;
+            if(document.getElementById('valCagr')) document.getElementById('valCagr').textContent = `+${(trueHistoricalCagr*100).toFixed(2)}%`;
+            if(document.getElementById('valSalary')) document.getElementById('valSalary').textContent = fmtUsd(finalDiv);
             
             let divYieldDisplay = finalValue > 0 ? ((finalDiv / finalValue) * 100).toFixed(2) : '0.00';
-            document.getElementById('valSalarySub').innerHTML = `<span>占总资产比: <strong class="text-gray-800">${divYieldDisplay}%</strong></span> <span class="text-orange-600">HK到手: ${fmtUsd(finalDiv * 0.7)}</span> <span class="text-rose-600">CN到手: ${fmtUsd(finalDiv * 0.9)}</span>`;
-            document.getElementById('valTotalDiv').textContent = fmtUsd(cumulativeDiv);
-            document.getElementById('valTotalDivSub').innerHTML = `<span>占总投入比: <strong class="text-gray-800">${totalIn > 0 ? ((cumulativeDiv/totalIn)*100).toFixed(2) : 0}%</strong></span> <span class="text-orange-600">HK到手: ${fmtUsd(cumulativeDiv * 0.7)}</span> <span class="text-rose-600">CN到手: ${fmtUsd(cumulativeDiv * 0.9)}</span>`;
-            document.getElementById('historyRangeTag').textContent = `${state.startYear} - ${state.currentYear}`;
-            document.getElementById('historyTableBody').innerHTML = historyTableHtml;
+            if(document.getElementById('valSalarySub')) {
+                document.getElementById('valSalarySub').innerHTML = `
+                    <span>占总资产比: <strong class="text-gray-800">${divYieldDisplay}%</strong></span>
+                    <span class="text-orange-600">HK到手: ${fmtUsd(finalDiv * 0.7)}</span>
+                    <span class="text-rose-600">CN到手: ${fmtUsd(finalDiv * 0.9)}</span>
+                `;
+            }
+            
+            if(document.getElementById('valTotalDiv')) document.getElementById('valTotalDiv').textContent = fmtUsd(cumulativeDiv);
+            if(document.getElementById('valTotalDivSub')) {
+                document.getElementById('valTotalDivSub').innerHTML = `
+                    <span>占总投入比: <strong class="text-gray-800">${totalIn > 0 ? ((cumulativeDiv/totalIn)*100).toFixed(2) : 0}%</strong></span>
+                    <span class="text-orange-600">HK到手: ${fmtUsd(cumulativeDiv * 0.7)}</span>
+                    <span class="text-rose-600">CN到手: ${fmtUsd(cumulativeDiv * 0.9)}</span>
+                `;
+            }
+            
+            if(document.getElementById('historyRangeTag')) document.getElementById('historyRangeTag').textContent = `${state.startYear} - ${state.currentYear}`;
+            if(document.getElementById('historyTableBody')) document.getElementById('historyTableBody').innerHTML = historyTableHtml;
 
-            setChartMode('value', state.viewVal); setChartMode('dividend', state.viewDiv);
+            setChartMode('value', state.viewVal);
+            setChartMode('dividend', state.viewDiv);
 
-            // ================= 贝叶斯平滑计算 (承接历史延展预测) =================
+            // 贝叶斯平滑预测
             let longTermPortfolioPrior = calculateAllTimePortfolioCagr(); 
             let weight = Math.min(1.0, years / 20.0); 
             forecastEngineData.baseCagr = (trueHistoricalCagr * weight) + (longTermPortfolioPrior * (1.0 - weight));
-            forecastEngineData.consCagr = forecastEngineData.baseCagr * 0.7; forecastEngineData.optCagr = forecastEngineData.baseCagr * 1.2;
-            if (yValue.length > 1) { forecastEngineData.terminalDivYield = yDiv[yDiv.length - 2] / yValue[yValue.length - 2]; } 
-            else if (finalValue > 0) { forecastEngineData.terminalDivYield = (finalDiv * 2) / finalValue; }
+            forecastEngineData.consCagr = forecastEngineData.baseCagr * 0.7; 
+            forecastEngineData.optCagr = forecastEngineData.baseCagr * 1.2;
             
-            document.getElementById('btnConservative').textContent = `保守打折 (${(forecastEngineData.consCagr*100).toFixed(2)}%)`;
-            document.getElementById('btnHistorical').textContent = `按历史均值 (${(forecastEngineData.baseCagr*100).toFixed(2)}%)`;
-            document.getElementById('btnOptimistic').textContent = `狂热溢价 (${(forecastEngineData.optCagr*100).toFixed(2)}%)`;
+            if (yValue.length > 1) {
+                forecastEngineData.terminalDivYield = yDiv[yDiv.length - 2] / yValue[yValue.length - 2];
+            } else if (finalValue > 0) {
+                forecastEngineData.terminalDivYield = (finalDiv * 2) / finalValue;
+            }
+            
+            if(document.getElementById('btnConservative')) document.getElementById('btnConservative').textContent = `保守打折 (${(forecastEngineData.consCagr*100).toFixed(2)}%)`;
+            if(document.getElementById('btnHistorical')) document.getElementById('btnHistorical').textContent = `按历史均值 (${(forecastEngineData.baseCagr*100).toFixed(2)}%)`;
+            if(document.getElementById('btnOptimistic')) document.getElementById('btnOptimistic').textContent = `狂热溢价 (${(forecastEngineData.optCagr*100).toFixed(2)}%)`;
             
             let forecastRateHistory = 1 + (state.forecastMode === 'conservative' ? forecastEngineData.consCagr : (state.forecastMode === 'optimistic' ? forecastEngineData.optCagr : forecastEngineData.baseCagr));
             if (state.isDrip) forecastRateHistory += forecastEngineData.terminalDivYield;
 
-            let forecastAssetHist = finalValue; let forecastCapitalInjectedHist = currentCapitalInjected; let futureAnnualContHist = currentAnnualContribution;
-            let prevForecastAssetHist = finalValue; let forecastTableHtmlHistory = '';
+            let forecastAssetHist = finalValue;
+            let forecastCapitalInjectedHist = currentCapitalInjected;
+            let futureAnnualContHist = currentAnnualContribution;
+            let prevForecastAssetHist = finalValue;
+            let forecastTableHtmlHistory = '';
             
-            document.getElementById('baseYearTagHistory').textContent = state.currentYear;
+            if(document.getElementById('baseYearTagHistory')) document.getElementById('baseYearTagHistory').textContent = state.currentYear;
             let endForecastYearHistory = state.currentYear + state.forecastYearsHistory;
 
             for (let fy = state.currentYear + 1; fy <= endForecastYearHistory; fy++) {
-                forecastAssetHist += futureAnnualContHist; forecastCapitalInjectedHist += futureAnnualContHist; forecastAssetHist *= forecastRateHistory;
+                forecastAssetHist += futureAnnualContHist;
+                forecastCapitalInjectedHist += futureAnnualContHist;
+                forecastAssetHist *= forecastRateHistory;
+                
                 let forecastDiv = forecastAssetHist * forecastEngineData.terminalDivYield;
                 let assetGrowthRateForecast = prevForecastAssetHist > 0 ? ((forecastAssetHist - prevForecastAssetHist) / prevForecastAssetHist) * 100 : 0;
-                prevForecastAssetHist = forecastAssetHist; futureAnnualContHist *= (1 + state.annualAddGrowth); 
+                prevForecastAssetHist = forecastAssetHist;
+                futureAnnualContHist *= (1 + state.annualAddGrowth); 
+                
                 let forecastYOC = forecastCapitalInjectedHist > 0 ? (forecastDiv / forecastCapitalInjectedHist) * 100 : 0;
+
                 forecastTableHtmlHistory += `
                     <tr class="hover:bg-blue-50/50 transition border-b border-gray-100">
-                        <td class="py-2.5 px-4 font-bold text-gray-800">${fy}</td><td class="py-2.5 px-4 text-blue-700 font-semibold">${fmtUsd(forecastAssetHist)}</td>
+                        <td class="py-2.5 px-4 font-bold text-gray-800">${fy}</td>
+                        <td class="py-2.5 px-4 text-blue-700 font-semibold">${fmtUsd(forecastAssetHist)}</td>
                         <td class="py-2.5 px-4 text-purple-700 font-semibold">+${assetGrowthRateForecast.toFixed(2)}%</td>
                         <td class="py-2.5 px-4 text-[#d4af37] font-semibold">${fmtUsd(forecastDiv)}</td>
                         <td class="py-2.5 px-4 font-semibold text-orange-600">${fmtUsd(forecastDiv * 0.7)}</td>
                         <td class="py-2.5 px-4 font-semibold text-rose-600">${fmtUsd(forecastDiv * 0.9)}</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-bold ${forecastYOC >= 10 ? 'text-red-500' : 'text-emerald-700'}">${forecastYOC.toFixed(2)}%</td>
-                    </tr>`;
+                    </tr>
+                `;
             }
-            document.getElementById('forecastTableBodyHistory').innerHTML = forecastTableHtmlHistory;
+            if(document.getElementById('forecastTableBodyHistory')) document.getElementById('forecastTableBodyHistory').innerHTML = forecastTableHtmlHistory;
 
+            // 联动高阶工具箱
             const btnCustomRvb = document.getElementById('btnRvbCustom');
-            if(btnCustomRvb) { btnCustomRvb.textContent = `专属组合 (${(trueHistoricalCagr * 100).toFixed(2)}%)`; btnCustomRvb.setAttribute('onclick', `setRvbInvest(${(trueHistoricalCagr * 100).toFixed(2)})`); }
+            if(btnCustomRvb) {
+                btnCustomRvb.textContent = `专属组合 (${(trueHistoricalCagr * 100).toFixed(2)}%)`;
+                btnCustomRvb.setAttribute('onclick', `setRvbInvest(${(trueHistoricalCagr * 100).toFixed(2)})`);
+            }
 
-            document.getElementById('wiNetWorth').value = finalValue.toFixed(0);
-            const fireCapInput = document.getElementById('fireCapital');
-            if(fireCapInput && !fireCapInput.dataset.userEdited) { fireCapInput.value = finalValue.toFixed(0); formatInputCommas(fireCapInput); }
+            if(document.getElementById('wiNetWorth')) document.getElementById('wiNetWorth').value = finalValue.toFixed(0);
             
-            calcWealthIndex(); calcFire(); calcLeverage(); calcRvb(); runIndForecast();
+            const fireCapInput = document.getElementById('fireCapital');
+            if(fireCapInput && !fireCapInput.dataset.userEdited) {
+                fireCapInput.value = finalValue.toFixed(0);
+                formatInputCommas(fireCapInput);
+            }
+            
+            // 依次安全调用各个模块
+            calcWealthIndex();
+            calcFire();
+            calcLeverage();
+            calcRvb();
+            runIndForecast();
         }
 
         // ================= 独立的未来沙盘推演系统 =================
         window.runIndForecast = function() {
-            let startAsset = parseFloat(document.getElementById('fcIndCapital').value.replace(/,/g, '')) || 0;
+            const elCap = document.getElementById('fcIndCapital');
+            if(!elCap) return; // 护城河
+
+            let startAsset = parseFloat(elCap.value.replace(/,/g, '')) || 0;
             let annualAdd = parseFloat(document.getElementById('fcIndAdd').value.replace(/,/g, '')) || 0;
             let annualAddGrowth = (parseFloat(document.getElementById('fcIndAddGrowth').value) || 0) / 100.0;
             let years = parseInt(document.getElementById('fcIndYears').value) || 10;
@@ -863,14 +1243,24 @@
             let forecastRate = 1 + customCagr;
             if (state.isDrip) forecastRate = 1 + customCagr + customDivYield;
 
-            let asset = startAsset; let capitalInjected = startAsset; let currentAdd = annualAdd; let prevAsset = startAsset; let tableHtml = '';
+            let asset = startAsset;
+            let capitalInjected = startAsset;
+            let currentAdd = annualAdd;
+            let prevAsset = startAsset;
+            let tableHtml = '';
 
             for (let i = 1; i <= years; i++) {
-                asset += currentAdd; capitalInjected += currentAdd; asset *= forecastRate;
+                asset += currentAdd;
+                capitalInjected += currentAdd;
+                asset *= forecastRate;
+                
                 let divAmount = asset * customDivYield;
                 let assetGrowthRate = prevAsset > 0 ? ((asset - prevAsset) / prevAsset) * 100 : 0;
-                prevAsset = asset; currentAdd *= (1 + annualAddGrowth); 
+                prevAsset = asset;
+                currentAdd *= (1 + annualAddGrowth); 
+                
                 let yoc = capitalInjected > 0 ? (divAmount / capitalInjected) * 100 : 0;
+
                 tableHtml += `
                     <tr class="hover:bg-emerald-50/50 transition border-b border-gray-100">
                         <td class="py-2.5 px-4 font-bold text-gray-800">第 ${i} 年</td>
@@ -878,14 +1268,24 @@
                         <td class="py-2.5 px-4 text-purple-700 font-semibold">${assetGrowthRate >= 0 ? '+' : ''}${assetGrowthRate.toFixed(2)}%</td>
                         <td class="py-2.5 px-4 text-amber-600 font-semibold">${fmtUsd(divAmount)}</td>
                         <td class="py-2.5 px-4 text-emerald-700 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-700'}">${yoc.toFixed(2)}%</td>
-                    </tr>`;
+                    </tr>
+                `;
             }
-            document.getElementById('forecastTableBodyInd').innerHTML = tableHtml;
+            if(document.getElementById('forecastTableBodyInd')) {
+                document.getElementById('forecastTableBodyInd').innerHTML = tableHtml;
+            }
         }
 
-        // ================= 工具四：FIRE 倒推计算器 =================
-        window.formatAndCalcFire = function(el) { formatInputCommas(el); el.dataset.userEdited = "true"; calcFire(); };
+        // ================= 工具库：各种高阶计算 =================
+        window.formatAndCalcFire = function(el) {
+            formatInputCommas(el);
+            el.dataset.userEdited = "true";
+            calcFire();
+        };
+
         window.calcFire = function() {
+            if(!document.getElementById('fireMonthly')) return; // 防弹拦截
+
             let monthlyExp = parseFloat(document.getElementById('fireMonthly').value.replace(/,/g, '')) || 0;
             let swr = parseFloat(document.getElementById('fireSwr').value) || 4.0;
             let capital = parseFloat(document.getElementById('fireCapital').value.replace(/,/g, '')) || 0;
@@ -894,10 +1294,11 @@
             let rate = expectedReturn / 100.0;
 
             if(swr <= 0) return;
+            
             let target = (monthlyExp * 12) / (swr / 100.0);
             document.getElementById('fireTargetOutput').textContent = fmtUsd(target);
+
             let gap = target - capital;
-            
             if(gap <= 0) {
                 document.getElementById('fireGapOutput').textContent = "无缺口，已达标！";
                 document.getElementById('fireYearsOutput').textContent = "0 年 (随时退休)";
@@ -906,52 +1307,91 @@
             }
             document.getElementById('fireGapOutput').textContent = fmtUsd(gap);
 
-            let years = 0; let currentAsset = capital; let maxLoop = 100; 
+            let years = 0;
+            let currentAsset = capital;
+            let maxLoop = 100;
+            
             if (rate <= 0 && annualAdd <= 0) {
-                document.getElementById('fireYearsOutput').textContent = "遥遥无期..."; document.getElementById('fireYearsOutput').className = "text-xl font-mono font-bold text-gray-500";
+                document.getElementById('fireYearsOutput').textContent = "遥遥无期...";
+                document.getElementById('fireYearsOutput').className = "text-xl font-mono font-bold text-gray-500";
                 return;
             }
-            while(currentAsset < target && years < maxLoop) { currentAsset += annualAdd; currentAsset *= (1 + rate); years++; }
-            if(years >= maxLoop) { document.getElementById('fireYearsOutput').textContent = "> 100 年"; document.getElementById('fireYearsOutput').className = "text-xl font-mono font-bold text-gray-500"; } 
-            else { document.getElementById('fireYearsOutput').textContent = `${years} 年`; document.getElementById('fireYearsOutput').className = "text-2xl font-mono font-bold text-red-500"; }
+
+            while(currentAsset < target && years < maxLoop) {
+                currentAsset += annualAdd;
+                currentAsset *= (1 + rate);
+                years++;
+            }
+
+            if(years >= maxLoop) {
+                document.getElementById('fireYearsOutput').textContent = "> 100 年";
+                document.getElementById('fireYearsOutput').className = "text-xl font-mono font-bold text-gray-500";
+            } else {
+                document.getElementById('fireYearsOutput').textContent = `${years} 年`;
+                document.getElementById('fireYearsOutput').className = "text-2xl font-mono font-bold text-red-500";
+            }
         };
 
-        // ================= 工具五：买房 vs 租房对比 =================
-        window.formatAndCalcRvb = function(el) { formatInputCommas(el); calcRvb(); };
-        window.setRvbInvest = function(val) { document.getElementById('rvbInvestReturn').value = parseFloat(val).toFixed(2); calcRvb(); };
+        window.formatAndCalcRvb = function(el) {
+            formatInputCommas(el);
+            calcRvb();
+        };
+
+        window.setRvbInvest = function(val) {
+            if(!document.getElementById('rvbInvestReturn')) return;
+            document.getElementById('rvbInvestReturn').value = parseFloat(val).toFixed(2);
+            calcRvb();
+        };
+
         window.calcRvb = function() {
+            if(!document.getElementById('rvbHousePrice')) return; // 防弹拦截
+
             let housePrice = parseFloat(document.getElementById('rvbHousePrice').value.replace(/,/g, '')) || 0;
             let downPct = parseFloat(document.getElementById('rvbDownPct').value) || 0;
             let mortgageRate = parseFloat(document.getElementById('rvbMortgageRate').value) || 0;
             let houseAppr = parseFloat(document.getElementById('rvbHouseAppr').value) || 0;
+            
             let rent = parseFloat(document.getElementById('rvbRent').value.replace(/,/g, '')) || 0;
             let investReturn = parseFloat(document.getElementById('rvbInvestReturn').value) || 0;
 
             let downPayment = housePrice * (downPct / 100.0);
             let loan = housePrice - downPayment;
-            let rM = (mortgageRate / 100.0) / 12.0; let n = 360; 
+            
+            let rM = (mortgageRate / 100.0) / 12.0;
+            let n = 360; 
             let monthlyMortgage = 0;
-            if (rM > 0 && loan > 0) { monthlyMortgage = loan * (rM * Math.pow(1 + rM, n)) / (Math.pow(1 + rM, n) - 1); } 
-            else if (loan > 0) { monthlyMortgage = loan / n; }
+            if (rM > 0 && loan > 0) {
+                monthlyMortgage = loan * (rM * Math.pow(1 + rM, n)) / (Math.pow(1 + rM, n) - 1);
+            } else if (loan > 0) {
+                monthlyMortgage = loan / n;
+            }
 
             let houseFV = housePrice * Math.pow(1 + (houseAppr / 100.0), 30);
+            
             let monthlyInvestDiff = monthlyMortgage - rent;
             let investRateM = Math.pow(1 + (investReturn / 100.0), 1/12) - 1;
-            let investFV = downPayment;
             
-            for(let m = 1; m <= n; m++) { investFV += monthlyInvestDiff; investFV *= (1 + investRateM); }
+            let investFV = downPayment;
+            for(let m = 1; m <= n; m++) {
+                investFV += monthlyInvestDiff;
+                investFV *= (1 + investRateM);
+            }
 
             document.getElementById('rvbHouseNetWorth').textContent = fmtUsd(houseFV);
             document.getElementById('rvbInvestNetWorth').textContent = fmtUsd(investFV);
 
             let msgEl = document.getElementById('rvbWinnerMsg');
-            if(investFV > houseFV) msgEl.innerHTML = `租房派多赚了 <span class="text-amber-600 font-mono text-lg">${fmtUsd(investFV - houseFV)}</span>`;
-            else if (houseFV > investFV) msgEl.innerHTML = `买房派多赚了 <span class="text-teal-600 font-mono text-lg">${fmtUsd(houseFV - investFV)}</span>`;
-            else msgEl.innerHTML = `<span class="text-gray-600 font-mono text-lg">两者完全打平</span>`;
+            if(investFV > houseFV) {
+                msgEl.innerHTML = `租房派多赚了 <span class="text-amber-600 font-mono text-lg">${fmtUsd(investFV - houseFV)}</span>`;
+            } else if (houseFV > investFV) {
+                msgEl.innerHTML = `买房派多赚了 <span class="text-teal-600 font-mono text-lg">${fmtUsd(houseFV - investFV)}</span>`;
+            } else {
+                msgEl.innerHTML = `<span class="text-gray-600 font-mono text-lg">两者完全打平</span>`;
+            }
         };
 
-        // ================= 旧版财富指数与杠杆计算 =================
         window.calcWealthIndex = function() {
+            if(!document.getElementById('wiAge')) return;
             let age = parseFloat(document.getElementById('wiAge').value) || 0;
             let income = parseFloat(document.getElementById('wiIncome').value) || 0;
             let netWorth = parseFloat(document.getElementById('wiNetWorth').value) || 0;
@@ -959,43 +1399,76 @@
                 let index = (10 * netWorth) / (age * income);
                 document.getElementById('wiResult').textContent = index.toFixed(2);
                 let evalEl = document.getElementById('wiEval');
-                if (index < 1.0) { evalEl.textContent = '新人积累期 (暂未及格)'; evalEl.className = 'text-right text-xs font-bold text-red-500'; } 
-                else if (index < 1.7) { evalEl.textContent = '良好 (中产水准)'; evalEl.className = 'text-right text-xs font-bold text-blue-500'; } 
-                else if (index < 2.2) { evalEl.textContent = '优秀 (富裕阶层)'; evalEl.className = 'text-right text-xs font-bold text-emerald-600'; } 
-                else { evalEl.textContent = '极优 (巴菲特级)'; evalEl.className = 'text-right text-xs font-bold text-[#d4af37]'; }
+                if (index < 1.0) {
+                    evalEl.textContent = '新人积累期 (暂未及格)';
+                    evalEl.className = 'text-right text-xs font-bold text-red-500';
+                } else if (index < 1.7) {
+                    evalEl.textContent = '良好 (中产水准)';
+                    evalEl.className = 'text-right text-xs font-bold text-blue-500';
+                } else if (index < 2.2) {
+                    evalEl.textContent = '优秀 (富裕阶层)';
+                    evalEl.className = 'text-right text-xs font-bold text-emerald-600';
+                } else {
+                    evalEl.textContent = '极优 (巴菲特级)';
+                    evalEl.className = 'text-right text-xs font-bold text-[#d4af37]';
+                }
             }
         };
 
         window.calcLeverage = function() {
+            if(!document.getElementById('levHouseReturn')) return; // 防弹拦截
             let r = parseFloat(document.getElementById('levHouseReturn').value) / 100 || 0;
             let d = parseFloat(document.getElementById('levMortgageRate').value) / 100 || 0;
             let s = parseFloat(document.getElementById('levEtfReturn').value) / 100 || 0;
             let n = parseFloat(document.getElementById('levN').value) || 0;
+            
             let roi = r + (s - d) * n;
             document.getElementById('levResult').textContent = (roi * 100).toFixed(2) + '%';
-            let alpha = roi - r; let alphaEl = document.getElementById('levAlpha');
-            if(alpha >= 0) { alphaEl.textContent = '+ ' + (alpha * 100).toFixed(2) + '%'; alphaEl.className = 'text-emerald-600'; } 
-            else { alphaEl.textContent = '- ' + Math.abs(alpha * 100).toFixed(2) + '%'; alphaEl.className = 'text-red-500'; }
+            
+            let alpha = roi - r;
+            let alphaEl = document.getElementById('levAlpha');
+            if(alpha >= 0) {
+                alphaEl.textContent = '+ ' + (alpha * 100).toFixed(2) + '%';
+                alphaEl.className = 'text-emerald-600';
+            } else {
+                alphaEl.textContent = '- ' + Math.abs(alpha * 100).toFixed(2) + '%';
+                alphaEl.className = 'text-red-500';
+            }
         };
 
+        // ================= 全局浮动雷达 Tooltip =================
         const dynamicTooltip = document.createElement('div');
         dynamicTooltip.className = 'fixed bg-gray-900 text-white text-xs px-3 py-2 rounded shadow-2xl pointer-events-none z-[9999] opacity-0 transition-opacity duration-150 ease-in-out font-sans leading-relaxed max-w-[280px] border border-gray-600';
         document.body.appendChild(dynamicTooltip);
 
         function setupDynamicTooltips() {
             document.querySelectorAll('.help-tip').forEach(el => {
-                el.addEventListener('mouseenter', () => { const tipText = el.getAttribute('data-tip'); if(tipText) { dynamicTooltip.innerHTML = tipText; dynamicTooltip.classList.remove('opacity-0'); } });
+                el.addEventListener('mouseenter', () => {
+                    const tipText = el.getAttribute('data-tip');
+                    if(tipText) {
+                        dynamicTooltip.innerHTML = tipText;
+                        dynamicTooltip.classList.remove('opacity-0');
+                    }
+                });
                 el.addEventListener('mousemove', e => {
-                    let tipX = e.clientX + 15; let tipY = e.clientY + 15;
+                    let tipX = e.clientX + 15;
+                    let tipY = e.clientY + 15;
                     if (tipX + dynamicTooltip.offsetWidth > window.innerWidth) tipX = e.clientX - dynamicTooltip.offsetWidth - 10;
                     if (tipY + dynamicTooltip.offsetHeight > window.innerHeight) tipY = e.clientY - dynamicTooltip.offsetHeight - 10;
-                    dynamicTooltip.style.left = tipX + 'px'; dynamicTooltip.style.top = tipY + 'px';
+                    dynamicTooltip.style.left = tipX + 'px';
+                    dynamicTooltip.style.top = tipY + 'px';
                 });
-                el.addEventListener('mouseleave', () => { dynamicTooltip.classList.add('opacity-0'); });
+                el.addEventListener('mouseleave', () => {
+                    dynamicTooltip.classList.add('opacity-0');
+                });
             });
         }
 
-        window.onload = () => { renderEtfGrid(); runBacktestEngine(); setupDynamicTooltips(); };
+        window.onload = () => { 
+            renderEtfGrid(); 
+            runBacktestEngine(); 
+            setupDynamicTooltips();
+        };
     </script>
 </body>
 </html>
