@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -84,7 +84,6 @@
         /* 能量条背景 */
         .energy-bar-bg { background-color: #f3f4f6; border-radius: 4px; overflow: hidden; height: 20px; width: 100%; position: relative; }
         .energy-bar-fill { background-color: #e5e7eb; height: 100%; position: absolute; left: 0; top: 0; z-index: 0; transition: width 0.3s ease; }
-        .energy-bar-text { position: absolute; left: 8px; right: 8px; top: 0; height: 100%; display: flex; justify-content: space-between; align-items: center; z-index: 1; font-size: 0.75rem; }
     </style>
 </head>
 <body class="p-8 max-w-7xl mx-auto">
@@ -229,7 +228,7 @@
     <!-- 全新：X-Ray 穿透面板 -->
     <div id="section-xray" class="card bg-[#fffdfa] border-t-4 border-[#b8860b]">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="font-bold text-xl text-slate-800">🔍 投资组合深度穿透 </h2>
+            <h2 class="font-bold text-xl text-slate-800">🔍 投资组合深度穿透 (X-Ray)</h2>
             <div class="xray-tooltip relative inline-block cursor-help">
                 <span class="text-xs text-slate-400 border-b border-dashed border-slate-300 pb-0.5">🧮 穿透引擎：基于矩阵乘法实时计算还原</span>
                 <div class="tooltip-text">
@@ -342,6 +341,11 @@
             <div class="flex items-center">
                 <h3 class="font-bold text-lg text-slate-800">现金流 (年度股息) 增长趋势</h3>
                 <span class="icon-tip ml-2 help-tip" data-tip="采用年度收盘与年度总派息数据。">i</span>
+            </div>
+            <!-- 恢复被删掉的季度股息切换按钮 -->
+            <div class="flex space-x-2 bg-slate-100 p-1 rounded-lg">
+                <button id="btnDivYear" onclick="setChartMode('dividend', 'yearly')" class="chart-toggle-btn chart-toggle-active">年度分红</button>
+                <button id="btnDivQuarter" onclick="setChartMode('dividend', 'quarterly')" class="chart-toggle-btn chart-toggle-inactive">季度视角</button>
             </div>
         </div>
         <canvas id="dividendChart" height="60"></canvas>
@@ -700,6 +704,7 @@
             <div><strong class="text-slate-800">VPU</strong> (2004成立) <span class="text-slate-400 mx-1">←</span> <span class="text-slate-600">XLU</span> (1998-2004) <span class="text-slate-400 mx-1">←</span> <span class="text-slate-600">FKUTX</span> (1993-1998)</div>
         </div>
     </div>
+
     <!-- ================= 核心 JavaScript 引擎 ================= -->
     <script>
         const etfLibrary = [
@@ -759,33 +764,33 @@
         let trueHistoricalCagr = 0;
 
         etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
-        if (typeof proxyDatabase === 'undefined') window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
+        if (typeof window.proxyDatabase === 'undefined') window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
 
-        // 默认 X-Ray 数据 (如果外部 data.js 没有提供，则降级使用此数据防止报错)
-        if (typeof etfHoldings === 'undefined') {
+        // 核心修复：完美的降级兜底数据，匹配 Python 脚本的【对象数组】结构
+        if (typeof window.etfHoldings === 'undefined') {
             window.etfHoldings = {
-                'VOO': {'Apple Inc.': 6.8, 'Microsoft': 6.5, 'Nvidia': 5.0, 'Amazon': 3.5, 'Meta': 2.0},
-                'QQQM': {'Apple Inc.': 8.5, 'Microsoft': 8.0, 'Nvidia': 6.5, 'Amazon': 5.0, 'Meta': 4.5, 'Tesla': 3.0},
-                'SCHD': {'Broadcom': 4.2, 'Home Depot': 4.0, 'AbbVie': 4.0, 'Texas Instruments': 3.9, 'Chevron': 3.8},
-                'DGRO': {'Microsoft': 3.0, 'Apple Inc.': 2.9, 'Exxon Mobil': 2.5, 'JPMorgan': 2.4, 'Johnson & Johnson': 2.3},
-                'SMH': {'Nvidia': 20.5, 'TSMC': 12.0, 'Broadcom': 8.0, 'ASML': 5.5, 'AMD': 5.0},
-                'VGT': {'Apple Inc.': 17.5, 'Microsoft': 16.0, 'Nvidia': 12.0, 'Broadcom': 4.5, 'Salesforce': 3.0},
-                'VPU': {'NextEra Energy': 8.5, 'Southern Co': 8.0, 'Duke Energy': 7.5, 'Sempra': 5.0, 'AEP': 4.5}
+                'VOO': [ {name: 'Apple Inc.', weight: 6.8}, {name: 'Microsoft', weight: 6.5}, {name: 'Nvidia', weight: 5.0}, {name: 'Amazon', weight: 3.5}, {name: 'Meta', weight: 2.0} ],
+                'QQQM': [ {name: 'Apple Inc.', weight: 8.5}, {name: 'Microsoft', weight: 8.0}, {name: 'Nvidia', weight: 6.5}, {name: 'Amazon', weight: 5.0}, {name: 'Meta', weight: 4.5}, {name: 'Tesla', weight: 3.0} ],
+                'SCHD': [ {name: 'Broadcom', weight: 4.2}, {name: 'Home Depot', weight: 4.0}, {name: 'AbbVie', weight: 4.0}, {name: 'Texas Instruments', weight: 3.9}, {name: 'Chevron', weight: 3.8} ],
+                'DGRO': [ {name: 'Microsoft', weight: 3.0}, {name: 'Apple Inc.', weight: 2.9}, {name: 'Exxon Mobil', weight: 2.5}, {name: 'JPMorgan', weight: 2.4}, {name: 'Johnson & Johnson', weight: 2.3} ],
+                'SMH': [ {name: 'Nvidia', weight: 20.5}, {name: 'TSMC', weight: 12.0}, {name: 'Broadcom', weight: 8.0}, {name: 'ASML', weight: 5.5}, {name: 'AMD', weight: 5.0} ],
+                'VGT': [ {name: 'Apple Inc.', weight: 17.5}, {name: 'Microsoft', weight: 16.0}, {name: 'Nvidia', weight: 12.0}, {name: 'Broadcom', weight: 4.5}, {name: 'Salesforce', weight: 3.0} ],
+                'VPU': [ {name: 'NextEra Energy', weight: 8.5}, {name: 'Southern Co', weight: 8.0}, {name: 'Duke Energy', weight: 7.5}, {name: 'Sempra', weight: 5.0}, {name: 'AEP', weight: 4.5} ]
             };
         }
-        if (typeof etfSectors === 'undefined') {
+        if (typeof window.etfSectors === 'undefined') {
             window.etfSectors = {
                 'VOO': {'信息技术': 30, '金融': 13, '医疗保健': 12, '可选消费': 10, '通信服务': 9, '工业': 8, '必选消费': 6, '能源': 4, '房地产': 3, '公用事业': 3, '原材料': 2},
                 'QQQM': {'信息技术': 50, '通信服务': 15, '可选消费': 14, '医疗保健': 7, '工业': 5, '必选消费': 4, '其他': 5},
                 'SCHD': {'工业': 18, '医疗保健': 16, '金融': 15, '必选消费': 13, '信息技术': 11, '能源': 9, '可选消费': 8, '通信服务': 5, '原材料': 5},
                 'DGRO': {'金融': 19, '医疗保健': 18, '信息技术': 17, '工业': 12, '必选消费': 10, '能源': 7, '公用事业': 6, '可选消费': 5, '其他': 6},
-                'SMH': {'信息技术': 100},
+                'SMH': {'信息技术(半导体)': 100},
                 'VGT': {'信息技术': 100},
                 'VPU': {'公用事业': 100}
             };
         }
 
-        // ================= X-Ray 计算引擎 =================
+        // ================= X-Ray 计算引擎 (数据结构修复版) =================
         let sectorChartInstance = null;
 
         function updateXRay() {
@@ -800,11 +805,12 @@
             for (const [etfId, weight] of Object.entries(state.portfolio)) {
                 let ratio = weight / totalW;
                 
-                // 计算持仓
-                if (window.etfHoldings[etfId]) {
-                    for (const [stock, pct] of Object.entries(window.etfHoldings[etfId])) {
-                        aggregatedHoldings[stock] = (aggregatedHoldings[stock] || 0) + (pct * ratio);
-                    }
+                // 计算持仓 (兼容 Python 脚本导出的对象数组)
+                if (window.etfHoldings[etfId] && Array.isArray(window.etfHoldings[etfId])) {
+                    window.etfHoldings[etfId].forEach(stock => {
+                        let name = stock.name || stock.ticker;
+                        aggregatedHoldings[name] = (aggregatedHoldings[name] || 0) + (stock.weight * ratio);
+                    });
                 }
                 
                 // 计算行业
@@ -943,7 +949,7 @@
             }
         }
 
-        // 渲染 ETF 盲盒数据
+        // 渲染 ETF 盲盒数据 (修复数据结构解析)
         function renderBlindboxes() {
             etfLibrary.forEach(etf => {
                 const box = document.getElementById(`blindbox-${etf.id}`);
@@ -954,12 +960,13 @@
                                 <span class="text-slate-400 font-normal text-[10px]">权重</span>
                             </div>`;
                 
-                if (window.etfHoldings[etf.id]) {
-                    let sorted = Object.entries(window.etfHoldings[etf.id]).sort((a, b) => b[1] - a[1]).slice(0, 10);
-                    sorted.forEach(([name, pct]) => {
+                if (window.etfHoldings[etf.id] && Array.isArray(window.etfHoldings[etf.id])) {
+                    let sorted = [...window.etfHoldings[etf.id]].sort((a, b) => b.weight - a.weight).slice(0, 10);
+                    sorted.forEach(stock => {
+                        let name = stock.name || stock.ticker;
                         html += `<div class="blindbox-row">
                                     <span class="truncate pr-2">${name}</span>
-                                    <span class="font-mono text-emerald-400">${pct.toFixed(2)}%</span>
+                                    <span class="font-mono text-emerald-400">${stock.weight.toFixed(2)}%</span>
                                  </div>`;
                     });
                 } else {
@@ -1322,7 +1329,6 @@
 
             let yLabels = [], yValue = [], yDiv = [];
             let qLabels = [], qValue = [], qDiv = [];
-            let mLabels = [], mValue = []; 
             
             let cumulativeDiv = 0;
             let currentCapitalInjected = state.capital;
@@ -1376,7 +1382,7 @@
                 yDiv.push(currentYearDiv);
                 cumulativeDiv += currentYearDiv;
                 
-                // === 智能时间切分与权重平滑（解决 YTD 摊薄问题） ===
+                // === 智能时间切分与权重平滑（仅保留股息季度逻辑） ===
                 let isCurrentYear = (y === state.currentYear);
                 let currentMonthNum = new Date().getMonth() + 1;
                 let quartersToRun = isCurrentYear ? Math.ceil(currentMonthNum / 3) : 4;
@@ -1474,7 +1480,7 @@
             if(document.getElementById('historyRangeTag')) document.getElementById('historyRangeTag').textContent = `${state.startYear} - ${state.currentYear}`;
             if(document.getElementById('historyTableBody')) document.getElementById('historyTableBody').innerHTML = historyTableHtml;
 
-            // 强制走势图为 yearly
+            // 强制走势图为 yearly，恢复分红图的视角切换
             setChartMode('value', 'yearly');
             setChartMode('dividend', state.viewDiv);
 
