@@ -213,7 +213,7 @@
     <!-- 2. 交互配置 -->
     <div id="section-weights" class="card overflow-visible">
         <div class="flex justify-between items-center mb-4">
-            <h2 class="font-bold text-xl text-slate-800">步骤 1：设置初始配比</h2>
+            <h2 class="font-bold text-xl text-slate-800"> 设置初始配比</h2>
             <div id="weightStatusTag" class="text-sm font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">当前总权重: 100%</div>
         </div>
         <p class="text-sm text-slate-500 mb-6">输入初始资金分配权重。点击ETF名称左侧的复选框可以启用或取消该ETF。系统将自动进行动态历史回测。</p>
@@ -317,12 +317,12 @@
             </div>
             <!-- 修改为实际到手股息，去除臃肿的副标题 -->
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-                <div class="flex items-center mb-2"><span class="text-xs text-slate-500">最新年度总分红 (实际到手)</span></div>
+                <div class="flex items-center mb-2"><span class="text-xs text-slate-500">最新年度总股息 </span></div>
                 <div class="text-3xl font-bold font-mono mb-2 text-slate-800" id="valSalary">$0.00</div>
                 <div class="text-xs flex flex-col space-y-1" id="valSalarySub"></div>
             </div>
             <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex flex-col justify-between">
-                <div class="flex items-center mb-2"><span class="text-xs text-slate-500">累计落袋分红 (实际到手)</span></div>
+                <div class="flex items-center mb-2"><span class="text-xs text-slate-500">累计落袋股息 </span></div>
                 <div class="text-3xl font-bold font-mono mb-2 text-slate-800" id="valTotalDiv">$0.00</div>
                 <div class="text-xs flex flex-col space-y-1" id="valTotalDivSub"></div>
             </div>
@@ -428,7 +428,7 @@
         <div class="flex flex-wrap justify-between items-center mb-4">
             <div>
                 <div class="flex items-center space-x-2">
-                    <h3 class="font-bold text-xl text-slate-800">独立未来推演沙盘</h3>
+                    <h3 class="font-bold text-xl text-slate-800">独立未来推演</h3>
                     <span id="sandboxDripTag"></span>
                 </div>
                 <p class="text-xs text-slate-500 mt-2">完全自由独立的数学推演，不影响上方任何回测。修改参数立即生效。</p>
@@ -534,7 +534,7 @@
                     </div>
                 </div>
                 <p class="text-xs font-bold text-amber-600 leading-relaxed pt-2">
-                    沙盘解析：传统保守买法确实能 100% 保证钱花不完，但 90% 股票买法的复利太猛，就算遇到股灾，在 30 年长跑里它依然能多赚出 一倍以上 的钱抵抗通胀。
+                    解析：传统保守买法确实能 100% 保证钱花不完，但 90% 股票买法的复利太猛，就算遇到股灾，在 30 年长跑里它依然能多赚出 一倍以上 的钱抵抗通胀。
                 </p>
             </div>
         </div>
@@ -567,7 +567,7 @@
                     </div>
                     <div class="text-right text-xs font-bold text-slate-500 mb-2">比房子干放着多赚: <span id="levAlpha" class="text-emerald-600">+ 9.00%</span></div>
                     <p class="text-xs font-bold text-amber-600 leading-relaxed border-t border-gray-100 pt-2">
-                        沙盘解析：在控制好现金流不断供的前提下，将死资产转化为能产生复利的生息资产，是跨越阶层的核心杠杆。
+                        解析：在控制好现金流不断供的前提下，将死资产转化为能产生复利的生息资产，是跨越阶层的核心杠杆。
                     </p>
                 </div>
             </div>
@@ -614,7 +614,7 @@
                         <span id="fireYearsOutput" class="text-2xl font-mono font-bold text-slate-800">16 年</span>
                     </div>
                     <p class="text-xs font-bold text-amber-600 leading-relaxed pt-2 border-t border-gray-200 border-dashed">
-                        沙盘解析：按照著名的 Trinity Study 4% 法则，只要你的总资产达到你年度总开销的 25 倍，你就可以随时退休。靠着组合内部的复利生长，这笔钱这辈子都花不完。
+                        解析：按照著名的 Trinity Study 4% 法则，只要你的总资产达到你年度总开销的 25 倍，你就可以随时退休。靠着组合内部的复利生长，这笔钱这辈子都花不完。
                     </p>
                 </div>
             </div>
@@ -681,7 +681,7 @@
                     租房派多赚了 <span class="text-slate-800 font-mono text-lg">$1.88M</span>
                 </div>
                 <p class="text-xs font-bold text-amber-600 leading-relaxed border-t border-gray-200 border-dashed pt-2">
-                    沙盘解析：买房锁死了流动性，而租房派将高额首付与月供差额投入高收益美股，拉长 30 年往往能靠复利实现总资产的反超。
+                    解析：买房锁死了流动性，而租房派将高额首付与月供差额投入高收益美股，拉长 30 年往往能靠复利实现总资产的反超。
                 </p>
             </div>
         </div>
@@ -1632,7 +1632,7 @@
             let currentAdd = annualAdd;
             let indCumulativeDiv = 0;
             let tableHtml = '';
-            let dripTag = state.isDrip ? `<span class="text-[0.65rem] text-slate-400 font-normal ml-1 whitespace-nowrap">(已自动再投)</span>` : '';
+            let dripTag = state.isDrip ? `<span class="text-[0.65rem] text-slate-400 font-normal ml-1 whitespace-nowrap">(自动再投)</span>` : '';
 
             for (let i = 1; i <= years; i++) {
                 let startOfYearAsset = asset + currentAdd;
