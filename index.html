@@ -220,7 +220,7 @@
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="etfGrid"></div>
     </div>
 
-    <!-- 全新：X-Ray 穿透面板 -->
+    <!-- X-Ray 穿透面板 -->
     <div id="section-xray" class="card bg-[#fffdfa] border-t-4 border-[#b8860b]">
         <div class="flex justify-between items-center mb-6">
             <h2 class="font-bold text-xl text-slate-800">🔍 投资组合穿透 </h2>
@@ -266,13 +266,11 @@
     <!-- 主控台 -->
     <div id="section-control" class="card bg-[#faf9f6]">
         <div class="flex flex-wrap items-center gap-6 mb-6">
-            <!-- 核心交互：加入身份标签与分红模式全局联动 -->
             <div class="bg-white rounded-full p-1 flex shadow-sm border relative">
                 <button id="btnIncome" class="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold transition help-tip" data-tip="累计收益率包含已拿走的现金分红：(总资产 + 累计分红 - 累计本金) ÷ 累计本金">取出分红</button>
                 <button id="btnDrip" class="text-slate-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-slate-100 help-tip" data-tip="分红扣除指定税率后，化为复利直接滚动：(总资产 - 累计本金) ÷ 累计本金">分红再投 (DRIP)</button>
             </div>
             
-            <!-- 税务身份切换区 -->
             <div class="bg-white rounded-full p-1 flex shadow-sm border relative">
                 <button id="btnTax0" class="bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-bold transition">股息免税 (0%)</button>
                 <button id="btnTax10" class="text-slate-600 px-4 py-2 rounded-full text-sm font-bold transition hover:bg-slate-100">CN (10%)</button>
@@ -358,7 +356,6 @@
             <div>
                 <div class="flex items-center">
                     <h3 class="font-bold text-xl text-slate-800">历史数据年度明细</h3>
-                    <!-- 全局联动动态标签 -->
                     <span id="historyDynamicTag" class="text-xs bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20 px-2 py-1 rounded font-bold ml-3">当前身份: 股息免税 (0%) | 模式: 取出分红</span>
                 </div>
                 <p class="text-xs text-slate-500 mt-1">记录资产自然膨胀的过程。右侧股息已根据全局税务身份自动扣减。</p>
@@ -373,10 +370,10 @@
                         <th class="py-3 px-4">累计投入本金</th>
                         <th class="py-3 px-4">年底总资产</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="从所选起点至今，你投入的累积总本金，被市场总共放大了多少倍的总回报率。">累计总收益率</span></th>
-                        <!-- 动态修改表头 -->
-                        <th id="thHistDiv" class="py-3 px-4 text-[#10b981]">实际到手股息</th>
-                        <th id="thHistCumDiv" class="py-3 px-4 text-[#10b981]">累计已领股息</th>
-                        <th class="py-3 px-4 text-[#10b981]"><span class="help-tip" data-tip="税后实际拿到手的股息 ÷ 投入的累积总本金。">税后实际 YOC</span></th>
+                        <!-- 核心修改：表头颜色回归克制（去除 text-[#10b981]） -->
+                        <th id="thHistDiv" class="py-3 px-4">实际到手股息</th>
+                        <th id="thHistCumDiv" class="py-3 px-4">累计已领股息</th>
+                        <th class="py-3 px-4"><span class="help-tip" data-tip="税后实际拿到手的股息 ÷ 投入的累积总本金。">税后实际 YOC</span></th>
                     </tr>
                 </thead>
                 <tbody id="historyTableBody" class="divide-y divide-gray-100 bg-white font-mono"></tbody>
@@ -392,7 +389,6 @@
                     <h3 class="font-bold text-xl text-slate-800">未来动态延伸预测表 (承接历史)</h3>
                     <input type="number" id="forecastYearsInputHistory" value="10" min="1" max="60" class="border border-slate-300 p-1 rounded-md w-16 text-center font-mono font-bold text-slate-800 shadow-sm focus:outline-none">
                     <h3 class="font-bold text-xl text-slate-800">年</h3>
-                    <!-- 全局联动动态标签 -->
                     <span id="forecastDynamicTag" class="text-xs bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20 px-2 py-1 rounded font-bold ml-2">当前身份: 股息免税 (0%) | 模式: 取出分红</span>
                 </div>
                 <p class="text-xs text-slate-500 mt-2">基于上方组合的历史置信度自动向后推演。起点为 <strong id="baseYearTagHistory">2026</strong> 年。</p>
@@ -411,10 +407,10 @@
                         <th class="py-3 px-4">预计累计本金</th>
                         <th class="py-3 px-4">预计年底总资产</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="从历史起点延伸至未来推演年份的累计总回报表现（已自动匹配当前的取现或复投模式）。">累计总收益率</span></th>
-                        <!-- 动态修改表头 -->
-                        <th id="thFcstDiv" class="py-3 px-4 text-[#10b981]">预计实际到手股息</th>
-                        <th id="thFcstCumDiv" class="py-3 px-4 text-[#10b981]">预计累计到手股息</th>
-                        <th class="py-3 px-4 text-[#10b981]"><span class="help-tip" data-tip="税后实际拿到手的预期股息 ÷ 投入的累积总本金。衡量真金白银掏出的钱，未来每年能产出多少比例的现金流。">预期税后 YOC</span></th>
+                        <!-- 核心修改：表头颜色回归克制 -->
+                        <th id="thFcstDiv" class="py-3 px-4">预计实际到手股息</th>
+                        <th id="thFcstCumDiv" class="py-3 px-4">预计累计到手股息</th>
+                        <th class="py-3 px-4"><span class="help-tip" data-tip="税后实际拿到手的预期股息 ÷ 投入的累积总本金。衡量真金白银掏出的钱，未来每年能产出多少比例的现金流。">预期税后 YOC</span></th>
                     </tr>
                 </thead>
                 <tbody id="forecastTableBodyHistory" class="divide-y divide-gray-100 bg-white font-mono"></tbody>
@@ -422,7 +418,7 @@
         </div>
     </div>
 
-    <!-- 独立未来推演沙盘 & 缝隙沙盘 -->
+    <!-- 独立未来推演沙盘 (已去除多余 Tab 结构) -->
     <div id="section-forecast" class="card bg-[#fcfdfd] border-t-4 border-[#b8860b]">
         <div class="flex flex-wrap justify-between items-center mb-4">
             <div>
@@ -434,111 +430,53 @@
             </div>
         </div>
 
-        <!-- 核心新增：双视角切换 Tab -->
-        <div class="flex space-x-6 mb-4 text-sm border-b border-gray-200">
-            <button id="tabModeA" class="pb-2 font-bold text-slate-800 border-b-2 border-slate-800 transition" onclick="switchFcMode('A')">资产雪球滚存</button>
-            <button id="tabModeB" class="pb-2 text-slate-500 hover:text-slate-800 transition" onclick="switchFcMode('B')">离职现金流覆盖测试</button>
-        </div>
-
-        <!-- 模式 A：资产雪球滚存 (你原本的独立推演) -->
-        <div id="fcModeA">
-            <div class="bg-slate-50 p-4 rounded-xl border border-gray-200 mb-6 grid grid-cols-2 lg:grid-cols-6 gap-4">
-                <div class="flex flex-col space-y-1">
-                    <span class="text-xs font-bold text-slate-700">初始本金 $</span>
-                    <input type="text" id="fcIndCapital" value="100,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatAndRunIndForecast(this)">
-                </div>
-                <div class="flex flex-col space-y-1">
-                    <span class="text-xs font-bold text-slate-700">每年追加 $</span>
-                    <input type="text" id="fcIndAdd" value="10,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatAndRunIndForecast(this)">
-                </div>
-                <div class="flex flex-col space-y-1">
-                    <span class="text-xs font-bold text-slate-700 help-tip" data-tip="模拟工资涨幅。如果填5，意味着明年追加的钱比今年多5%。">追加增幅 %</span>
-                    <input type="number" id="fcIndAddGrowth" value="0" min="0" max="100" class="border border-gray-300 p-1.5 rounded text-center font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="runIndForecast()">
-                </div>
-                <div class="flex flex-col space-y-1">
-                    <span class="text-xs font-bold text-slate-700">投资时长 (年)</span>
-                    <input type="number" id="fcIndYears" value="10" min="1" max="60" class="border border-gray-300 p-1.5 rounded text-center font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="runIndForecast()">
-                </div>
-                <div class="flex flex-col space-y-1 relative">
-                    <span class="text-xs font-bold text-slate-700 help-tip" data-tip="每年资产能以多快的速度复利增长？">自定义年均涨幅 %</span>
-                    <input type="number" id="fcIndCagr" value="10.00" step="0.1" class="border-2 border-slate-500 p-1.5 rounded text-center font-mono text-sm font-bold text-slate-800 bg-white shadow-inner focus:outline-slate-600 transition" oninput="runIndForecast()">
-                </div>
-                <div class="flex flex-col space-y-1 relative">
-                    <span class="text-xs font-bold text-slate-700 help-tip" data-tip="用来测算每年的现金分红金额。">自定义股息率 %</span>
-                    <input type="number" id="fcIndDivYield" value="2.00" step="0.1" class="border-2 border-[#b8860b] p-1.5 rounded text-center font-mono text-sm font-bold text-[#b8860b] bg-white shadow-inner focus:outline-[#b8860b] transition" oninput="runIndForecast()">
-                </div>
+        <div class="bg-slate-50 p-4 rounded-xl border border-gray-200 mb-6 grid grid-cols-2 lg:grid-cols-6 gap-4">
+            <div class="flex flex-col space-y-1">
+                <span class="text-xs font-bold text-slate-700">初始本金 $</span>
+                <input type="text" id="fcIndCapital" value="100,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatAndRunIndForecast(this)">
             </div>
-
-            <div class="overflow-x-auto border border-gray-200 rounded-lg max-h-[400px] overflow-y-auto">
-                <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
-                    <thead class="bg-slate-50 text-slate-600 font-medium sticky top-0 shadow-sm z-10">
-                        <tr>
-                            <th class="py-3 px-4">推演年份</th>
-                            <th class="py-3 px-4">累计投入本金</th>
-                            <th class="py-3 px-4">预计年底总资产</th>
-                            <th class="py-3 px-4">累计总收益率</th>
-                            <th class="py-3 px-4">自定义股息金额</th>
-                            <!-- 核心新增：累计股息列 (动态表头) -->
-                            <th id="thIndCumDiv" class="py-3 px-4 text-[#10b981]">预计累计到手股息</th>
-                            <th class="py-3 px-4">预期 YOC</th>
-                        </tr>
-                    </thead>
-                    <tbody id="forecastTableBodyInd" class="divide-y divide-gray-100 bg-white font-mono"></tbody>
-                </table>
+            <div class="flex flex-col space-y-1">
+                <span class="text-xs font-bold text-slate-700">每年追加 $</span>
+                <input type="text" id="fcIndAdd" value="10,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatAndRunIndForecast(this)">
+            </div>
+            <div class="flex flex-col space-y-1">
+                <span class="text-xs font-bold text-slate-700 help-tip" data-tip="模拟工资涨幅。如果填5，意味着明年追加的钱比今年多5%。">追加增幅 %</span>
+                <input type="number" id="fcIndAddGrowth" value="0" min="0" max="100" class="border border-gray-300 p-1.5 rounded text-center font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="runIndForecast()">
+            </div>
+            <div class="flex flex-col space-y-1">
+                <span class="text-xs font-bold text-slate-700">投资时长 (年)</span>
+                <input type="number" id="fcIndYears" value="10" min="1" max="60" class="border border-gray-300 p-1.5 rounded text-center font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="runIndForecast()">
+            </div>
+            <div class="flex flex-col space-y-1 relative">
+                <span class="text-xs font-bold text-slate-700 help-tip" data-tip="每年资产能以多快的速度复利增长？">自定义年均涨幅 %</span>
+                <input type="number" id="fcIndCagr" value="10.00" step="0.1" class="border-2 border-slate-500 p-1.5 rounded text-center font-mono text-sm font-bold text-slate-800 bg-white shadow-inner focus:outline-slate-600 transition" oninput="runIndForecast()">
+            </div>
+            <div class="flex flex-col space-y-1 relative">
+                <span class="text-xs font-bold text-slate-700 help-tip" data-tip="用来测算每年的现金分红金额。">自定义股息率 %</span>
+                <input type="number" id="fcIndDivYield" value="2.00" step="0.1" class="border-2 border-[#b8860b] p-1.5 rounded text-center font-mono text-sm font-bold text-[#b8860b] bg-white shadow-inner focus:outline-[#b8860b] transition" oninput="runIndForecast()">
             </div>
         </div>
 
-        <!-- 核心新增 模式 B：离职现金流覆盖测试 (安全缝隙沙盘) -->
-        <div id="fcModeB" class="hidden">
-            <div class="bg-slate-50 p-4 rounded-xl border border-gray-200 mb-6 relative">
-                <!-- 顶级白盒化提示 Tooltip -->
-                <div class="absolute top-4 right-4 veteran-tooltip inline-block cursor-help z-50">
-                    <div class="icon-tip bg-emerald-600 text-white shadow-sm relative bottom-[1px]">?</div>
-                    <div class="tooltip-text !w-80 !right-0 !left-auto">
-                        <div class="font-bold text-emerald-400 mb-2 border-b border-slate-600 pb-1">什么是覆盖率缝隙 (Safety Gap)?</div>
-                        <div class="mb-2"><span class="font-bold text-white">4% 提现率：</span>传统FIRE需要卖出本金凑生活费，若初期遇到股灾(SORR)，本金会遭到永久性破坏。</div>
-                        <div class="mb-2"><span class="font-bold text-white">纯股息流：</span>只花公司发放的现金分红，绝不卖出一股本金，对抗危机能力极强。</div>
-                        <div><span class="font-bold text-[#b8860b]">缝隙期：</span>退休初期，纯股息可能低于生活支出。本沙盘帮你算出绿线（股息）穿过红线（支出）的具体年份，以及这期间你需要额外准备多少“过冬现金”来补足缺口。</div>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 pr-10">
-                    <div class="flex flex-col space-y-1">
-                        <span class="text-xs font-bold text-slate-700">目标年支出 ($)</span>
-                        <input type="text" id="gapTargetExp" value="40,000" class="border-2 border-red-300 p-1.5 rounded text-right font-mono text-sm font-bold text-red-600 bg-white shadow-inner focus:outline-red-400 transition" oninput="formatInputCommas(this); runGapForecast();">
-                    </div>
-                    <div class="flex flex-col space-y-1">
-                        <span class="text-xs font-bold text-slate-700 help-tip" data-tip="生活成本每年上涨的通胀比例">预计年通胀率 %</span>
-                        <input type="number" id="gapInflation" value="2.5" step="0.1" class="border border-gray-300 p-1.5 rounded text-center font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="runGapForecast()">
-                    </div>
-                    <div class="flex flex-col space-y-1">
-                        <span class="text-xs font-bold text-slate-700 help-tip" data-tip="由于企业盈利上升及分红增加，股息流每年的自然复合增速。">股息年均增速 %</span>
-                        <input type="number" id="gapDivGrowth" value="6.0" step="0.1" class="border-2 border-emerald-400 p-1.5 rounded text-center font-mono text-sm font-bold text-emerald-600 bg-white shadow-inner focus:outline-emerald-500 transition" oninput="runGapForecast()">
-                    </div>
-                    <div class="flex flex-col space-y-1">
-                        <span class="text-xs font-bold text-slate-400">初始本金 & 初始股息率</span>
-                        <div class="p-1.5 text-xs font-mono text-slate-500 bg-slate-100 rounded border border-slate-200 text-center flex items-center justify-center h-full">
-                            自动抓取左侧面板数据
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 结论宣判区 -->
-            <div class="mb-4 text-center">
-                <div id="gapConclusion" class="inline-block bg-slate-50 border border-slate-200 text-slate-800 px-4 py-2 rounded-lg font-bold text-sm shadow-sm">
-                    计算中...
-                </div>
-            </div>
-
-            <!-- 缝隙对比折线图 -->
-            <div class="relative w-full h-[320px]">
-                <canvas id="gapChart"></canvas>
-            </div>
+        <div class="overflow-x-auto border border-gray-200 rounded-lg max-h-[400px] overflow-y-auto">
+            <table class="min-w-full divide-y divide-gray-200 text-sm text-left">
+                <thead class="bg-slate-50 text-slate-600 font-medium sticky top-0 shadow-sm z-10">
+                    <tr>
+                        <th class="py-3 px-4">推演年份</th>
+                        <th class="py-3 px-4">累计投入本金</th>
+                        <th class="py-3 px-4">预计年底总资产</th>
+                        <th class="py-3 px-4">累计总收益率</th>
+                        <th class="py-3 px-4">自定义股息金额</th>
+                        <!-- 核心修改：表头颜色回归克制 -->
+                        <th id="thIndCumDiv" class="py-3 px-4">预计累计到手股息</th>
+                        <th class="py-3 px-4">预期 YOC</th>
+                    </tr>
+                </thead>
+                <tbody id="forecastTableBodyInd" class="divide-y divide-gray-100 bg-white font-mono"></tbody>
+            </table>
         </div>
     </div>
 
-    <!-- ================= 进阶财富计算器 (高阶色修改版) ================= -->
+    <!-- ================= 进阶财富计算器 ================= -->
     <h2 id="section-toolbox" class="font-bold text-2xl mt-12 mb-6 text-slate-900 border-l-4 border-[#1f2937] pl-3"> 进阶财富规划工具箱 (硅谷居士)</h2>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
@@ -633,54 +571,125 @@
         </div>
     </div>
 
+    <!-- 下半区重磅布局 -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-        <!-- 工具四：FIRE 倒推 -->
-        <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-purple-500">
-            <h3 class="font-bold text-lg text-slate-800 mb-2">工具四：4%法则与 FIRE 倒计时</h3>
-            <p class="text-xs text-slate-500 mb-4 h-8">算算你距离“不用上班的财富自由”到底还需要奋斗多少年。</p>
-            <div class="space-y-3 text-sm flex-grow">
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-600">预期退休每月生活费 ($)</span>
-                    <input type="text" id="fireMonthly" value="5,000" class="border border-gray-200 p-1 w-24 text-right font-mono rounded bg-slate-50 focus:outline-slate-500" oninput="formatAndCalcFire(this)">
+        <!-- 核心重制：工具四（跨两列的超宽沙盘） -->
+        <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-purple-500 lg:col-span-2 relative">
+            
+            <div class="absolute top-4 right-4 veteran-tooltip inline-block cursor-help z-50">
+                <div class="icon-tip bg-purple-500 text-white shadow-sm relative bottom-[1px]">?</div>
+                <div class="tooltip-text !w-80 !right-0 !left-auto">
+                    <div class="font-bold text-purple-400 mb-2 border-b border-slate-600 pb-1">双轨交叉 FIRE 沙盘</div>
+                    <div class="mb-2"><span class="font-bold text-white">4% 法则：</span>按资产规模安全提现，可能需要卖本金（左侧倒计时）。</div>
+                    <div class="mb-2"><span class="font-bold text-white">纯股息流：</span>绝不卖出一股股票，仅靠现金分红生活（图表绿线）。</div>
+                    <div><span class="font-bold text-[#b8860b]">终极目标：</span>拖动左侧滑块进行压力测试，看看哪一年绿线能穿透红线，实现真正的“全复利”覆盖。</div>
                 </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-600 help-tip" data-tip="Safe Withdrawal Rate (安全提款率)。基于Trinity Study，每年提取投资组合的4%并根据通胀调整，在30年内有极大极大概率不会破产。保守者可设为3.5%。">安全提款率 SWR %</span>
-                    <input type="number" id="fireSwr" value="4.0" step="0.1" class="border border-gray-200 p-1 w-20 text-center font-mono rounded bg-slate-50 focus:outline-slate-500" oninput="calcFire()">
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-600">你手头现有启动本金 ($)</span>
-                    <input type="text" id="fireCapital" value="100,000" class="border border-gray-200 p-1 w-28 text-right font-mono rounded bg-slate-50 focus:outline-slate-500" oninput="formatAndCalcFire(this)">
-                </div>
-                <div class="flex justify-between items-center">
-                    <span class="text-slate-600">你每年预期还能攒下追加 ($)</span>
-                    <input type="text" id="fireAnnualAdd" value="20,000" class="border border-gray-200 p-1 w-28 text-right font-mono rounded bg-slate-50 focus:outline-slate-500" oninput="formatAndCalcFire(this)">
-                </div>
-                <div class="flex justify-between items-center pb-3 border-b border-gray-100">
-                    <span class="text-slate-600">预期年化收益率 %</span>
-                    <input type="number" id="fireReturn" value="10.0" step="0.1" class="border border-gray-200 p-1 w-20 text-center font-mono rounded bg-slate-100 text-slate-800 font-bold focus:outline-slate-500" oninput="calcFire()">
-                </div>
-                <div class="pt-2 bg-slate-50 p-3 rounded-lg border border-gray-200">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-slate-700 font-bold">🎯 FIRE 终极目标：</span>
-                        <span id="fireTargetOutput" class="text-lg font-mono font-bold text-slate-800">$1.50M</span>
+            </div>
+
+            <h3 class="font-bold text-xl text-slate-800 mb-2">工具四：FIRE 倒计时 & 纯股息覆盖沙盘</h3>
+            <p class="text-xs text-slate-500 mb-6">结合了经典的 4% 提现法则与纯股息流策略。拖动下方滑块，直观感受你的财务自由临界点。</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- 左侧分栏：全景滑动控制台 (占 4 列) -->
+                <div class="lg:col-span-4 bg-slate-50 p-4 rounded-xl border border-gray-100 space-y-4">
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 border-b border-gray-200 pb-1">互动操作台</div>
+                    
+                    <!-- Slider 1 -->
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-slate-600 text-sm font-bold">目标退休月开销 ($)</span>
+                            <input type="text" id="t4MonthlyExp" value="5,000" class="border border-gray-300 p-1 w-20 text-right font-mono text-sm rounded bg-white shadow-inner focus:outline-purple-500 transition" oninput="formatInputCommas(this); syncInputToSlider('t4MonthlyExp', 't4MonthlyExpSlider');">
+                        </div>
+                        <input type="range" id="t4MonthlyExpSlider" min="1000" max="20000" step="500" value="5000" class="w-full accent-purple-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4MonthlyExpSlider', 't4MonthlyExp', true);">
                     </div>
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-slate-500 text-xs">目前资金缺口：</span>
-                        <span id="fireGapOutput" class="text-sm font-mono text-slate-500">$1.40M</span>
+
+                    <!-- Slider 2 -->
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-slate-600 text-sm font-bold">现有启动本金 ($)</span>
+                            <input type="text" id="t4Capital" value="100,000" class="border border-gray-300 p-1 w-24 text-right font-mono text-sm rounded bg-white shadow-inner focus:outline-purple-500 transition" oninput="formatInputCommas(this); syncInputToSlider('t4Capital', 't4CapitalSlider');">
+                        </div>
+                        <input type="range" id="t4CapitalSlider" min="50000" max="10000000" step="50000" value="100000" class="w-full accent-blue-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4CapitalSlider', 't4Capital', true);">
                     </div>
-                    <div class="flex justify-between items-center border-t border-gray-200 pt-2 mt-2 mb-2">
-                        <span class="text-slate-800 font-bold text-base">⏳ 预计还需奋斗：</span>
-                        <span id="fireYearsOutput" class="text-2xl font-mono font-bold text-slate-800">16 年</span>
+
+                    <!-- Slider 3 -->
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-slate-600 text-sm font-bold help-tip" data-tip="纯股息分红率。左侧面板数据变更时会自动重载，也可手动覆盖测算。">纯股息收益率 (%)</span>
+                            <input type="number" id="t4DivYield" value="2.5" step="0.1" class="border-2 border-emerald-400 p-1 w-16 text-center font-mono text-sm font-bold text-emerald-600 rounded bg-white shadow-inner focus:outline-emerald-500 transition" oninput="syncInputToSlider('t4DivYield', 't4DivYieldSlider');">
+                        </div>
+                        <input type="range" id="t4DivYieldSlider" min="0.5" max="8.0" step="0.1" value="2.5" class="w-full accent-emerald-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4DivYieldSlider', 't4DivYield', false);">
                     </div>
-                    <p class="text-xs font-bold text-amber-600 leading-relaxed pt-2 border-t border-gray-200 border-dashed">
-                        解析：按照著名的 Trinity Study 4% 法则，只要你的总资产达到你年度总开销的 25 倍，你就可以随时退休。靠着组合内部的复利生长，这笔钱这辈子都花不完。
-                    </p>
+
+                    <!-- Slider 4 -->
+                    <div class="flex flex-col">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-slate-600 text-sm font-bold help-tip" data-tip="长期来看，优秀企业的股息通常能跑赢通胀，实现复利增长。">股息年均增速 (%)</span>
+                            <input type="number" id="t4DivGrowth" value="6.0" step="0.1" class="border border-gray-300 p-1 w-16 text-center font-mono text-sm rounded bg-white shadow-inner focus:outline-purple-500 transition" oninput="syncInputToSlider('t4DivGrowth', 't4DivGrowthSlider');">
+                        </div>
+                        <input type="range" id="t4DivGrowthSlider" min="2.0" max="15.0" step="0.5" value="6.0" class="w-full accent-amber-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4DivGrowthSlider', 't4DivGrowth', false);">
+                    </div>
+
+                    <!-- Slider 5 -->
+                    <div class="flex flex-col mb-2">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-slate-600 text-sm font-bold">预期年通胀率 (%)</span>
+                            <input type="number" id="t4Inflation" value="2.5" step="0.1" class="border border-gray-300 p-1 w-16 text-center font-mono text-sm rounded bg-white shadow-inner focus:outline-purple-500 transition" oninput="syncInputToSlider('t4Inflation', 't4InflationSlider');">
+                        </div>
+                        <input type="range" id="t4InflationSlider" min="1.0" max="6.0" step="0.1" value="2.5" class="w-full accent-red-400 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4InflationSlider', 't4Inflation', false);">
+                    </div>
+                    
+                    <div class="border-t border-gray-200 pt-3 grid grid-cols-2 gap-2 text-xs">
+                        <div>
+                            <span class="text-slate-500 block mb-1 help-tip" data-tip="安全提现率。只要总资产达到年开销的25倍，就随时可依此比例取现。">SWR 提现率 %</span>
+                            <input type="number" id="t4Swr" value="4.0" step="0.1" class="border border-gray-200 p-1 w-full text-center font-mono rounded" oninput="runTool4()">
+                        </div>
+                        <div>
+                            <span class="text-slate-500 block mb-1">每年追加攒下 $</span>
+                            <input type="text" id="t4AnnualAdd" value="20,000" class="border border-gray-200 p-1 w-full text-center font-mono rounded" oninput="formatInputCommas(this); runTool4();">
+                        </div>
+                        <div class="col-span-2">
+                            <span class="text-slate-500 block mb-1 help-tip" data-tip="自动抓取系统算出的历史复利。">大盘/组合年均总收益 %</span>
+                            <input type="number" id="t4Return" value="10.0" step="0.1" class="border border-gray-200 p-1 w-full text-center font-mono font-bold text-slate-700 bg-white rounded" oninput="runTool4()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右侧分栏：视觉结果与图表 (占 8 列) -->
+                <div class="lg:col-span-8 flex flex-col justify-between">
+                    <!-- 顶层：4% 法则状态卡片 -->
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <div class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm text-center">
+                            <div class="text-xs text-slate-500 mb-1">🎯 4%法则目标总额</div>
+                            <div id="t4TargetOutput" class="text-lg font-mono font-bold text-slate-800">$1.50M</div>
+                        </div>
+                        <div class="bg-white border border-gray-200 p-3 rounded-lg shadow-sm text-center">
+                            <div class="text-xs text-slate-500 mb-1">目前总资产缺口</div>
+                            <div id="t4GapOutput" class="text-lg font-mono font-bold text-slate-500">$1.40M</div>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-100 p-3 rounded-lg shadow-sm text-center">
+                            <div class="text-xs text-purple-600 font-bold mb-1">⏳ 预计还需奋斗 (卖本金)</div>
+                            <div id="t4YearsOutput" class="text-xl font-mono font-bold text-purple-800">16 年</div>
+                        </div>
+                    </div>
+
+                    <!-- 中层：结论宣判 -->
+                    <div class="mb-4 text-center mt-2">
+                        <div id="t4GapConclusion" class="inline-block bg-slate-50 border border-slate-200 text-slate-800 px-4 py-2 rounded-full font-bold text-sm shadow-sm transition-all duration-300">
+                            计算中...
+                        </div>
+                    </div>
+
+                    <!-- 底层：纯股息缝隙折线图 -->
+                    <div class="relative w-full flex-grow min-h-[260px] border-t border-gray-100 pt-4">
+                        <canvas id="t4GapChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- 工具五：买房 vs 租房 -->
-        <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-amber-500">
+        <!-- 工具五：买房 vs 租房 (保持不变，只是跟随栅格流转) -->
+        <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-amber-500 lg:col-span-2">
             <h3 class="font-bold text-lg text-slate-800 mb-2">工具五：“买房 vs 租房+全投指数”机会成本</h3>
             <p class="text-xs text-slate-500 mb-4 h-8">对比30年后，是全款买下的房子净资产高，还是“租房过日子 + 差额定投指数”的净资产高。</p>
             
@@ -820,7 +829,7 @@
             currentYear: new Date().getFullYear(), portfolio: {},
             viewVal: 'yearly', viewDiv: 'yearly',
             forecastMode: 'historical', forecastYearsHistory: 10,
-            taxRate: 0 // 全局税务身份：0(股息免税), 0.1(内地CN), 0.3(香港HK)
+            taxRate: 0 
         };
 
         let forecastEngineData = { baseCagr: 0.10, consCagr: 0.07, optCagr: 0.12, terminalDivYield: 0.015 };
@@ -835,7 +844,6 @@
         etfLibrary.forEach(etf => { if (etf.defaultWeight > 0) state.portfolio[etf.id] = etf.defaultWeight; });
         if (typeof proxyDatabase === 'undefined') window.proxyDatabase = { 2000: {SCHD:[0,0.03], SMH:[0,0.01]} };
 
-        // 默认 X-Ray 数据 (防报错降级数据)
         if (typeof etfHoldings === 'undefined') {
             window.etfHoldings = {
                 'VOO': [ {name: 'Apple Inc.', weight: 6.8}, {name: 'Microsoft', weight: 6.5}, {name: 'Nvidia', weight: 5.0}, {name: 'Amazon', weight: 3.5}, {name: 'Meta', weight: 2.0} ],
@@ -859,7 +867,6 @@
             };
         }
 
-        // ================= X-Ray 计算引擎 =================
         function formatStockName(stock) {
             let name = typeof stock === 'object' && stock !== null ? stock.name : stock;
             return String(name || "Unknown");
@@ -875,7 +882,6 @@
 
             for (const [etfId, weight] of Object.entries(state.portfolio)) {
                 let ratio = weight / totalW;
-                
                 if (window.etfHoldings[etfId]) {
                     let holdingsData = window.etfHoldings[etfId];
                     let holdingsArray = Array.isArray(holdingsData) ? holdingsData : Object.entries(holdingsData).map(([k,v]) => ({name: k, weight: v}));
@@ -885,7 +891,6 @@
                         aggregatedHoldings[displayName] = (aggregatedHoldings[displayName] || 0) + ((stock.weight || 0) * ratio);
                     });
                 }
-                
                 if (window.etfSectors[etfId]) {
                     for (const [sector, pct] of Object.entries(window.etfSectors[etfId])) {
                         let mappedSector = sector;
@@ -893,12 +898,10 @@
                         if (sector === '非必需消费') mappedSector = '可选消费';
                         if (sector === '必需消费') mappedSector = '必选消费';
                         if (sector === '信息技术(半导体)') mappedSector = '信息技术';
-                        
                         aggregatedSectors[mappedSector] = (aggregatedSectors[mappedSector] || 0) + (pct * ratio);
                     }
                 }
             }
-
             renderSectorChart(aggregatedSectors);
             renderTop15List(aggregatedHoldings);
         }
@@ -966,7 +969,6 @@
             });
         }
 
-        // 核心修改：Top 15 “财富翠绿”的不透明度渐变热力图
         function renderTop15List(holdings) {
             let sortedHoldings = Object.entries(holdings).sort((a, b) => b[1] - a[1]);
             let top15 = sortedHoldings.slice(0, 15);
@@ -1070,7 +1072,6 @@
                     yrCap += capReturn * w;
                     yrDiv += divYield * w;
                 }
-                // 扣税引擎前置影响计算
                 idxVal *= (1 + yrCap + (state.isDrip ? yrDiv * (1 - state.taxRate) : 0));
             }
             return Math.pow(idxVal, 1 / yearsCount) - 1;
@@ -1148,6 +1149,22 @@
             if(!isNaN(val) && val !== '') {
                 inputEl.value = Number(val).toLocaleString('en-US');
             }
+        }
+
+        // ================= 工具四 滑块双向绑定 =================
+        window.syncSliderToInput = function(sliderId, inputId, isCurrency = false) {
+            let val = document.getElementById(sliderId).value;
+            let inputEl = document.getElementById(inputId);
+            inputEl.value = isCurrency ? Number(val).toLocaleString('en-US') : parseFloat(val).toFixed(1);
+            inputEl.dataset.userEdited = "true";
+            runTool4();
+        }
+        window.syncInputToSlider = function(inputId, sliderId) {
+            let inputEl = document.getElementById(inputId);
+            let val = parseFloat(inputEl.value.replace(/,/g, '')) || 0;
+            document.getElementById(sliderId).value = val;
+            inputEl.dataset.userEdited = "true";
+            runTool4();
         }
 
         ['initialCapital', 'annualContribution', 'annualGrowthRate', 'startYear'].forEach(id => {
@@ -1421,7 +1438,6 @@
             let lastYearAssetForGrowth = state.capital;
             let dripTag = state.isDrip ? `<span class="text-[0.65rem] text-slate-400 font-normal ml-1 whitespace-nowrap">(自动再投)</span>` : '';
 
-            // 核心功能 1: 动态切换表头文案（已领/到手 vs 已再投）
             let txtDiv = state.isDrip ? "实际已再投股息" : "实际到手股息";
             let txtCumDiv = state.isDrip ? "累计已再投股息" : "累计已领股息";
             if(document.getElementById('thHistDiv')) document.getElementById('thHistDiv').innerHTML = txtDiv;
@@ -1429,7 +1445,6 @@
             if(document.getElementById('thFcstDiv')) document.getElementById('thFcstDiv').innerHTML = `预计${txtDiv}`;
             if(document.getElementById('thFcstCumDiv')) document.getElementById('thFcstCumDiv').innerHTML = `预计${txtCumDiv}`;
 
-            // 更新表格标题联动标识
             let taxStr = state.taxRate === 0 ? '股息免税 (0%)' : (state.taxRate === 0.1 ? '内地 (股息扣10%)' : '香港 (股息扣30%)');
             let modeStr = state.isDrip ? '分红再投' : '取出分红';
             let tagText = `当前身份: ${taxStr} | 模式: ${modeStr}`;
@@ -1532,7 +1547,7 @@
                         <td class="py-2 px-4 font-bold text-blue-900 text-base">${fmtUsd(currentYearTotalAsset)}</td>
                         <td class="py-2 px-4 font-bold ${roiColor}">${y === state.startYear ? '-' : (cumulativeROI >= 0 ? '+' : '') + cumulativeROI.toFixed(2) + '%'}</td>
                         <td class="py-2 px-4 font-medium text-slate-700">${fmtUsd(actualDivTotal)} ${dripTag}</td>
-                        <td class="py-2 px-4 font-medium text-[#10b981]">${fmtUsd(cumulativeActualDiv)}</td>
+                        <td class="py-2 px-4 font-medium text-slate-600">${fmtUsd(cumulativeActualDiv)}</td>
                         <td class="py-2 px-4 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-600'}">${yoc.toFixed(2)}%</td>
                     </tr>
                 `;
@@ -1573,7 +1588,6 @@
             setChartMode('value', 'yearly');
             setChartMode('dividend', state.viewDiv);
 
-            // 贝叶斯平滑预测
             let longTermPortfolioPrior = calculateAllTimePortfolioCagr(); 
             let weight = Math.min(1.0, years / 20.0); 
             forecastEngineData.baseCagr = (trueHistoricalCagr * weight) + (longTermPortfolioPrior * (1.0 - weight));
@@ -1631,8 +1645,8 @@
                         <td class="py-2.5 px-4 font-bold text-blue-900 text-base">${fmtUsd(forecastAssetHist)}</td>
                         <td class="py-2.5 px-4 font-bold ${roiColor}">${(forecastCumulativeROI >= 0 ? '+' : '') + forecastCumulativeROI.toFixed(2)}%</td>
                         <td class="py-2.5 px-4 font-medium text-slate-700">${fmtUsd(forecastDivActual)} ${dripTag}</td>
-                        <td class="py-2.5 px-4 font-medium text-[#10b981]">${fmtUsd(forecastCumulativeActualDiv)}</td>
-                        <td class="py-2.5 px-4 font-bold ${forecastYOC >= 10 ? 'text-red-500' : 'text-emerald-700'}">${forecastYOC.toFixed(2)}%</td>
+                        <td class="py-2.5 px-4 text-slate-600">${fmtUsd(forecastCumulativeActualDiv)}</td>
+                        <td class="py-2.5 px-4 font-bold ${forecastYOC >= 10 ? 'text-red-500' : 'text-emerald-600'}">${forecastYOC.toFixed(2)}%</td>
                     </tr>
                 `;
             }
@@ -1646,47 +1660,39 @@
 
             if(document.getElementById('wiNetWorth')) document.getElementById('wiNetWorth').value = finalValue.toFixed(0);
             
-            const fireCapInput = document.getElementById('fireCapital');
-            if(fireCapInput && !fireCapInput.dataset.userEdited) {
-                fireCapInput.value = finalValue.toFixed(0);
-                formatInputCommas(fireCapInput);
+            // 自动联动工具四（沙盘）数据
+            const t4CapInput = document.getElementById('t4Capital');
+            if(t4CapInput && !t4CapInput.dataset.userEdited) {
+                t4CapInput.value = finalValue.toFixed(0);
+                document.getElementById('t4CapitalSlider').value = finalValue.toFixed(0);
+                formatInputCommas(t4CapInput);
+            }
+            
+            const t4DivInput = document.getElementById('t4DivYield');
+            if(t4DivInput && !t4DivInput.dataset.userEdited) {
+                let divPct = (forecastEngineData.terminalDivYield * 100).toFixed(1);
+                t4DivInput.value = divPct;
+                document.getElementById('t4DivYieldSlider').value = divPct;
+            }
+
+            const t4RetInput = document.getElementById('t4Return');
+            if(t4RetInput && !t4RetInput.dataset.userEdited) {
+                t4RetInput.value = (trueHistoricalCagr * 100).toFixed(1);
             }
             
             calcWealthIndex();
-            calcFire();
+            runTool4();
             calcLeverage();
             calcRvb();
             
-            // 确保修改在主控台时，独立沙盘也能拿到最新的动态表头并执行计算
             runIndForecast();
         }
 
-        // ================= 独立的未来沙盘推演系统与双视角 =================
-        window.switchFcMode = function(mode) {
-            const tabA = document.getElementById('tabModeA');
-            const tabB = document.getElementById('tabModeB');
-            const modeA = document.getElementById('fcModeA');
-            const modeB = document.getElementById('fcModeB');
-
-            if (mode === 'A') {
-                tabA.className = "pb-2 font-bold text-slate-800 border-b-2 border-slate-800 transition";
-                tabB.className = "pb-2 text-slate-500 hover:text-slate-800 transition";
-                modeA.classList.remove('hidden');
-                modeB.classList.add('hidden');
-            } else {
-                tabB.className = "pb-2 font-bold text-slate-800 border-b-2 border-slate-800 transition";
-                tabA.className = "pb-2 text-slate-500 hover:text-slate-800 transition";
-                modeB.classList.remove('hidden');
-                modeA.classList.add('hidden');
-                runGapForecast();
-            }
-        };
-
+        // ================= 独立的未来沙盘推演 =================
         window.runIndForecast = function() {
             const elCap = document.getElementById('fcIndCapital');
             if(!elCap) return; 
 
-            // 联动表头：根据全局 DRIP 状态修改表头
             let txtCumDiv = state.isDrip ? "预计累计已再投股息" : "预计累计到手股息";
             const thInd = document.getElementById('thIndCumDiv');
             if (thInd) thInd.innerHTML = txtCumDiv;
@@ -1722,7 +1728,6 @@
             for (let i = 1; i <= years; i++) {
                 let startOfYearAsset = asset + currentAdd;
                 capitalInjected += currentAdd;
-
                 asset = startOfYearAsset * forecastRate;
                 
                 let divAmount = asset * customDivYield;
@@ -1740,7 +1745,6 @@
                 let yoc = capitalInjected > 0 ? (divAmount / capitalInjected) * 100 : 0;
                 let roiColor = indCumulativeROI >= 0 ? 'text-emerald-600' : 'text-red-500';
 
-                // 核心功能 2: 独立推演表加入累计股息列
                 tableHtml += `
                     <tr class="hover:bg-slate-50 transition border-b border-gray-100">
                         <td class="py-2.5 px-4 text-slate-800">第 ${i} 年</td>
@@ -1748,44 +1752,79 @@
                         <td class="py-2.5 px-4 font-bold text-blue-900 text-base">${fmtUsd(asset)}</td>
                         <td class="py-2.5 px-4 font-bold ${roiColor}">${(indCumulativeROI >= 0 ? '+' : '') + indCumulativeROI.toFixed(2)}%</td>
                         <td class="py-2.5 px-4 font-medium text-slate-700">${fmtUsd(divAmount)} ${dripTag}</td>
-                        <td class="py-2.5 px-4 font-medium text-[#10b981]">${fmtUsd(indCumulativeDiv)}</td>
-                        <td class="py-2.5 px-4 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-700'}">${yoc.toFixed(2)}%</td>
+                        <td class="py-2.5 px-4 text-slate-600">${fmtUsd(indCumulativeDiv)}</td>
+                        <td class="py-2.5 px-4 font-bold ${yoc >= 10 ? 'text-red-500' : 'text-emerald-600'}">${yoc.toFixed(2)}%</td>
                     </tr>
                 `;
-                
                 currentAdd *= (1 + annualAddGrowth); 
             }
             if(document.getElementById('forecastTableBodyInd')) {
                 document.getElementById('forecastTableBodyInd').innerHTML = tableHtml;
             }
-
-            // 如果处于沙盘 B 模式，输入变动时同步重新计算缝隙
-            if(typeof runGapForecast === 'function') runGapForecast();
         }
 
-        // 核心功能 3: FIRE 安全缝隙推演引擎
-        window.runGapForecast = function() {
-            // 自动读取工具四本金与股息率
-            const elCap = document.getElementById('fcIndCapital');
-            let capital = parseFloat(elCap ? elCap.value.replace(/,/g, '') : '0') || 0;
-            let yieldPct = (parseFloat(document.getElementById('fcIndDivYield').value) || 0) / 100.0;
+        // ================= 核心工具四引擎 (合并 4% 与 缝隙推演) =================
+        window.runTool4 = function() {
+            if(!document.getElementById('t4MonthlyExp')) return; 
 
-            // 读取沙盘 B 的专属输入
-            let targetExp = parseFloat(document.getElementById('gapTargetExp').value.replace(/,/g, '')) || 0;
-            let inflation = (parseFloat(document.getElementById('gapInflation').value) || 0) / 100.0;
-            let divGrowth = (parseFloat(document.getElementById('gapDivGrowth').value) || 0) / 100.0;
+            let monthlyExp = parseFloat(document.getElementById('t4MonthlyExp').value.replace(/,/g, '')) || 0;
+            let capital = parseFloat(document.getElementById('t4Capital').value.replace(/,/g, '')) || 0;
+            let divYield = parseFloat(document.getElementById('t4DivYield').value) / 100.0 || 0;
+            let divGrowth = parseFloat(document.getElementById('t4DivGrowth').value) / 100.0 || 0;
+            let inflation = parseFloat(document.getElementById('t4Inflation').value) / 100.0 || 0;
+            
+            let swr = parseFloat(document.getElementById('t4Swr').value) || 4.0;
+            let annualAdd = parseFloat(document.getElementById('t4AnnualAdd').value.replace(/,/g, '')) || 0;
+            let totalReturn = parseFloat(document.getElementById('t4Return').value) / 100.0 || 0.1;
 
+            // 1. 传统 4% 法则计算
+            if(swr > 0) {
+                let target = (monthlyExp * 12) / (swr / 100.0);
+                document.getElementById('t4TargetOutput').textContent = fmtUsd(target);
+
+                let gap = target - capital;
+                if(gap <= 0) {
+                    document.getElementById('t4GapOutput').textContent = "无缺口，已达标！";
+                    document.getElementById('t4YearsOutput').textContent = "随时退休";
+                    document.getElementById('t4YearsOutput').className = "text-xl font-mono font-bold text-emerald-600";
+                } else {
+                    document.getElementById('t4GapOutput').textContent = fmtUsd(gap);
+                    let years4Rule = 0;
+                    let currentAsset4Rule = capital;
+                    let maxLoop = 100;
+                    
+                    if (totalReturn <= 0 && annualAdd <= 0) {
+                        document.getElementById('t4YearsOutput').textContent = "遥遥无期...";
+                        document.getElementById('t4YearsOutput').className = "text-xl font-mono font-bold text-slate-500";
+                    } else {
+                        while(currentAsset4Rule < target && years4Rule < maxLoop) {
+                            currentAsset4Rule += annualAdd;
+                            currentAsset4Rule *= (1 + totalReturn);
+                            years4Rule++;
+                        }
+                        if(years4Rule >= maxLoop) {
+                            document.getElementById('t4YearsOutput').textContent = "> 100 年";
+                            document.getElementById('t4YearsOutput').className = "text-xl font-mono font-bold text-slate-500";
+                        } else {
+                            document.getElementById('t4YearsOutput').textContent = `${years4Rule} 年`;
+                            document.getElementById('t4YearsOutput').className = "text-2xl font-mono font-bold text-purple-800";
+                        }
+                    }
+                }
+            }
+
+            // 2. 覆盖率缝隙 (Gap Chart) 计算
+            let targetExp = monthlyExp * 12;
             let labels = [];
             let expData = [];
             let divData = [];
             
             let currentExp = targetExp;
-            let currentDiv = capital * yieldPct;
+            let currentDiv = capital * divYield;
             
             let crossoverYear = -1;
             let totalGap = 0;
 
-            // 固定向后推演 30 年
             for (let i = 1; i <= 30; i++) {
                 labels.push(`第 ${i} 年`);
                 expData.push(currentExp);
@@ -1801,21 +1840,21 @@
                 currentDiv *= (1 + divGrowth);
             }
 
-            // 更新结论宣判文案
-            const conclusionEl = document.getElementById('gapConclusion');
+            // 更新结论
+            const conclusionEl = document.getElementById('t4GapConclusion');
             if (crossoverYear === 1) {
-                conclusionEl.innerHTML = `🎉 恭喜！当前纯股息已 100% 覆盖生活支出，直接实现彻底的财务自由！`;
-                conclusionEl.className = "inline-block bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2 rounded-lg font-bold text-sm shadow-sm";
+                conclusionEl.innerHTML = `🎉 恭喜！当前纯股息已 100% 覆盖生活支出，实现无死角财务自由！`;
+                conclusionEl.className = "inline-block bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2 rounded-full font-bold text-sm shadow-sm transition-all duration-300";
             } else if (crossoverYear > 1) {
-                conclusionEl.innerHTML = `💡 距离纯股息完全覆盖生活还需 <span class="text-xl mx-1">${crossoverYear}</span> 年，期间过冬储备金总缺口约为 <span class="text-xl mx-1 font-mono">${fmtUsd(totalGap)}</span>`;
-                conclusionEl.className = "inline-block bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-lg font-bold text-sm shadow-sm";
+                conclusionEl.innerHTML = `💡 距离纯股息 100% 覆盖生活还需 <span class="text-xl mx-1">${crossoverYear}</span> 年，期间缝隙储备金缺口约为 <span class="text-xl mx-1 font-mono">${fmtUsd(totalGap)}</span>`;
+                conclusionEl.className = "inline-block bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full font-bold text-sm shadow-sm transition-all duration-300";
             } else {
-                conclusionEl.innerHTML = `⚠️ 30年内纯股息无法穿透生活支出，建议提高初始本金、调优组合股息率，或降低预期开销。`;
-                conclusionEl.className = "inline-block bg-red-50 border border-red-200 text-red-800 px-4 py-2 rounded-lg font-bold text-sm shadow-sm";
+                conclusionEl.innerHTML = `⚠️ 30年内股息无法穿透支出红线。建议提高本金、增加高息 ETF 占比，或适当调低生活预期。`;
+                conclusionEl.className = "inline-block bg-red-50 border border-red-200 text-red-800 px-4 py-2 rounded-full font-bold text-sm shadow-sm transition-all duration-300";
             }
 
-            // 渲染折线图
-            const ctx = document.getElementById('gapChart');
+            // 渲染图表
+            const ctx = document.getElementById('t4GapChart');
             if (!ctx) return;
             if (gapChartInstance) gapChartInstance.destroy();
 
@@ -1852,11 +1891,7 @@
                     interaction: { mode: 'index', intersect: false },
                     plugins: {
                         legend: { position: 'top', labels: { usePointStyle: true, boxWidth: 8, font: { size: 12 } } },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) { return context.dataset.label + ': ' + fmtUsd(context.raw); }
-                            }
-                        }
+                        tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': ' + fmtUsd(context.raw); } } }
                     },
                     scales: {
                         x: { grid: { display: false } },
@@ -1867,66 +1902,7 @@
         };
 
         // ================= 工具库：各种高阶计算 =================
-        window.formatAndCalcFire = function(el) {
-            formatInputCommas(el);
-            el.dataset.userEdited = "true";
-            calcFire();
-        };
-
-        window.calcFire = function() {
-            if(!document.getElementById('fireMonthly')) return; 
-
-            let monthlyExp = parseFloat(document.getElementById('fireMonthly').value.replace(/,/g, '')) || 0;
-            let swr = parseFloat(document.getElementById('fireSwr').value) || 4.0;
-            let capital = parseFloat(document.getElementById('fireCapital').value.replace(/,/g, '')) || 0;
-            let annualAdd = parseFloat(document.getElementById('fireAnnualAdd').value.replace(/,/g, '')) || 0;
-            let expectedReturn = parseFloat(document.getElementById('fireReturn').value) || 10.0;
-            let rate = expectedReturn / 100.0;
-
-            if(swr <= 0) return;
-            
-            let target = (monthlyExp * 12) / (swr / 100.0);
-            document.getElementById('fireTargetOutput').textContent = fmtUsd(target);
-
-            let gap = target - capital;
-            if(gap <= 0) {
-                document.getElementById('fireGapOutput').textContent = "无缺口，已达标！";
-                document.getElementById('fireYearsOutput').textContent = "0 年 (随时退休)";
-                document.getElementById('fireYearsOutput').className = "text-2xl font-mono font-bold text-emerald-600";
-                return;
-            }
-            document.getElementById('fireGapOutput').textContent = fmtUsd(gap);
-
-            let years = 0;
-            let currentAsset = capital;
-            let maxLoop = 100;
-            
-            if (rate <= 0 && annualAdd <= 0) {
-                document.getElementById('fireYearsOutput').textContent = "遥遥无期...";
-                document.getElementById('fireYearsOutput').className = "text-xl font-mono font-bold text-slate-500";
-                return;
-            }
-
-            while(currentAsset < target && years < maxLoop) {
-                currentAsset += annualAdd;
-                currentAsset *= (1 + rate);
-                years++;
-            }
-
-            if(years >= maxLoop) {
-                document.getElementById('fireYearsOutput').textContent = "> 100 年";
-                document.getElementById('fireYearsOutput').className = "text-xl font-mono font-bold text-slate-500";
-            } else {
-                document.getElementById('fireYearsOutput').textContent = `${years} 年`;
-                document.getElementById('fireYearsOutput').className = "text-2xl font-mono font-bold text-slate-800";
-            }
-        };
-
-        window.formatAndCalcRvb = function(el) {
-            formatInputCommas(el);
-            calcRvb();
-        };
-
+        window.formatAndCalcRvb = function(el) { formatInputCommas(el); calcRvb(); };
         window.setRvbInvest = function(val) {
             if(!document.getElementById('rvbInvestReturn')) return;
             document.getElementById('rvbInvestReturn').value = parseFloat(val).toFixed(2);
