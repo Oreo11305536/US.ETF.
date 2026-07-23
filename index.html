@@ -395,7 +395,12 @@
             </div>
             <div class="bg-slate-100 p-1 rounded-lg flex space-x-1 shadow-inner sm:mt-0 mt-4">
                 <button id="btnConservative" onclick="setForecastMode('conservative')" class="px-3 py-1.5 rounded-md text-xs font-bold transition text-slate-500 hover:text-slate-800 hover:bg-white/50 help-tip" data-tip="在历史均值上再打7折，模拟剔除通货膨胀后的真实购买力增长。">保守打折</button>
-                <button id="btnHistorical" onclick="setForecastMode('historical')" class="px-3 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-slate-800">按历史均值</button>
+                <button id="btnHistorical"
+        onclick="setForecastMode('historical')" 
+        class="px-3 py-1.5 rounded-md text-xs font-bold transition bg-white shadow text-slate-800 help-tip" 
+        data-tip="💡 预测算法逻辑 (贝叶斯平滑模型)：&#10;• 计算公式：基准CAGR = (区间CAGR × w) + (30年大盘CAGR × (1 - w))&#10;• 权重系数：w = Min(回测年数 / 20, 1.0)&#10;• 机制说明：若回测≥20年(w=1)，100%采用区间真实CAGR；若回测较短(w<1)，自动融合1993年至今的全历史基准进行平滑纠偏，规避短牛短熊失真。">
+    按历史均值
+</button>
                 <button id="btnOptimistic" onclick="setForecastMode('optimistic')" class="px-3 py-1.5 rounded-md text-xs font-bold transition text-slate-500 hover:text-slate-800 hover:bg-white/50 help-tip" data-tip="在历史均值上乘1.2倍，模拟极度宽松与AI科技泡沫期的乐观景气预期。">狂热溢价</button>
             </div>
         </div>
