@@ -93,6 +93,7 @@
         <a href="#section-charts">📈 资产走势</a>
         <a href="#section-history">📋 历史明细</a>
         <a href="#section-forecast">🔮 未来推演</a>
+        <a href="#section-ind-forecast">🎲 独立沙盘</a>
         <a href="#section-toolbox">🧰 高阶工具</a>
     </div>
 
@@ -102,7 +103,6 @@
         <p class="text-sm text-slate-500 mb-6">全自动云端数据同步。采用资产自然生长（无强制再平衡）逻辑。</p>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- SCHD 等 ETF 卡片保持不变 -->
             <div class="border rounded-lg p-4 bg-white shadow-sm etf-card-hover relative z-[51]">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="font-bold text-lg text-slate-800">SCHD</h3>
@@ -236,7 +236,6 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- 左侧：行业分布圆环图 -->
             <div class="col-span-1 border-r border-gray-100 pr-4">
                 <h3 class="text-sm font-bold text-slate-700 mb-4 text-center">真实行业全景分布</h3>
                 <div class="relative h-48 w-full flex justify-center items-center">
@@ -249,15 +248,12 @@
                 <div id="sectorLegend" class="mt-4 grid grid-cols-2 gap-x-2 gap-y-1 text-[10px]"></div>
             </div>
             
-            <!-- 右侧：Top 15 持仓竖向两列 -->
             <div class="col-span-2">
                 <div class="flex justify-between items-end mb-4">
                     <h3 class="text-sm font-bold text-slate-700">全盘合并 Top 15 重仓股</h3>
                     <span class="text-[10px] text-slate-400 bg-slate-100 px-2 py-0.5 rounded">含尾部打包合并</span>
                 </div>
-                <div id="xrayTop15List" style="column-count: 2; column-gap: 1.5rem;" class="text-sm">
-                    <!-- JS 动态注入 -->
-                </div>
+                <div id="xrayTop15List" style="column-count: 2; column-gap: 1.5rem;" class="text-sm"></div>
             </div>
         </div>
     </div>
@@ -339,7 +335,6 @@
         <div class="flex justify-between items-center mt-8 mb-2">
             <div class="flex items-center">
                 <h3 class="font-bold text-lg text-slate-800">现金流 (年度股息) 增长趋势</h3>
-                <!-- Help-Tip 精准修改区 -->
                 <span class="icon-tip ml-2 help-tip" data-tip="美股公司通常习惯在年底(Q4)集中结算或派发特别股息。图表已自动引入美股历史季节性权重模型进行平滑，以贴合真实市场现金流节奏。前瞻基准修正引擎 (Run-Rate Projection) 已自动补全当前年满额预估，消除视觉腰斩。">?</span>
             </div>
             <div class="flex space-x-2 bg-slate-100 p-1 rounded-lg">
@@ -370,7 +365,7 @@
                         <th class="py-3 px-4">累计投入本金</th>
                         <th class="py-3 px-4">年底总资产</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="从所选起点至今，你投入的累积总本金，被市场总共放大了多少倍的总回报率。">累计总收益率</span></th>
-                        <!-- 核心修改：表头颜色回归克制（去除 text-[#10b981]） -->
+                        <!-- 核心修改 1: 表头颜色回归克制默认 -->
                         <th id="thHistDiv" class="py-3 px-4">实际到手股息</th>
                         <th id="thHistCumDiv" class="py-3 px-4">累计已领股息</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="税后实际拿到手的股息 ÷ 投入的累积总本金。">税后实际 YOC</span></th>
@@ -407,7 +402,7 @@
                         <th class="py-3 px-4">预计累计本金</th>
                         <th class="py-3 px-4">预计年底总资产</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="从历史起点延伸至未来推演年份的累计总回报表现（已自动匹配当前的取现或复投模式）。">累计总收益率</span></th>
-                        <!-- 核心修改：表头颜色回归克制 -->
+                        <!-- 核心修改 1: 表头颜色回归克制默认 -->
                         <th id="thFcstDiv" class="py-3 px-4">预计实际到手股息</th>
                         <th id="thFcstCumDiv" class="py-3 px-4">预计累计到手股息</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="税后实际拿到手的预期股息 ÷ 投入的累积总本金。衡量真金白银掏出的钱，未来每年能产出多少比例的现金流。">预期税后 YOC</span></th>
@@ -418,26 +413,26 @@
         </div>
     </div>
 
-    <!-- 独立未来推演沙盘 (已去除多余 Tab 结构) -->
-    <div id="section-forecast" class="card bg-[#fcfdfd] border-t-4 border-[#b8860b]">
+    <!-- 独立未来推演沙盘 (去除错误 Tab，保留纯净表格) -->
+    <div id="section-ind-forecast" class="card bg-[#fcfdfd] border-t-4 border-[#b8860b]">
         <div class="flex flex-wrap justify-between items-center mb-4">
             <div>
                 <div class="flex items-center space-x-2">
-                    <h3 class="font-bold text-xl text-slate-800">独立未来推演</h3>
+                    <h3 class="font-bold text-xl text-slate-800">独立未来沙盘推演</h3>
                     <span id="sandboxDripTag"></span>
                 </div>
-                <p class="text-xs text-slate-500 mt-2">完全自由独立的数学推演，不影响上方任何回测。修改参数立即生效。</p>
+                <p class="text-xs text-slate-500 mt-2">完全自由独立的数学推演表格，不影响上方任何回测。修改参数立即生效。</p>
             </div>
         </div>
 
         <div class="bg-slate-50 p-4 rounded-xl border border-gray-200 mb-6 grid grid-cols-2 lg:grid-cols-6 gap-4">
             <div class="flex flex-col space-y-1">
                 <span class="text-xs font-bold text-slate-700">初始本金 $</span>
-                <input type="text" id="fcIndCapital" value="100,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatAndRunIndForecast(this)">
+                <input type="text" id="fcIndCapital" value="100,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatInputCommas(this); runIndForecast();">
             </div>
             <div class="flex flex-col space-y-1">
                 <span class="text-xs font-bold text-slate-700">每年追加 $</span>
-                <input type="text" id="fcIndAdd" value="10,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatAndRunIndForecast(this)">
+                <input type="text" id="fcIndAdd" value="10,000" class="border border-gray-300 p-1.5 rounded text-right font-mono text-sm bg-white shadow-inner focus:outline-slate-500 transition" oninput="formatInputCommas(this); runIndForecast();">
             </div>
             <div class="flex flex-col space-y-1">
                 <span class="text-xs font-bold text-slate-700 help-tip" data-tip="模拟工资涨幅。如果填5，意味着明年追加的钱比今年多5%。">追加增幅 %</span>
@@ -466,7 +461,7 @@
                         <th class="py-3 px-4">预计年底总资产</th>
                         <th class="py-3 px-4">累计总收益率</th>
                         <th class="py-3 px-4">自定义股息金额</th>
-                        <!-- 核心修改：表头颜色回归克制 -->
+                        <!-- 核心修改 1: 表头颜色回归克制默认 -->
                         <th id="thIndCumDiv" class="py-3 px-4">预计累计到手股息</th>
                         <th class="py-3 px-4">预期 YOC</th>
                     </tr>
@@ -476,10 +471,10 @@
         </div>
     </div>
 
-    <!-- ================= 进阶财富计算器 ================= -->
+    <!-- ================= 进阶财富计算器 (终极形态) ================= -->
     <h2 id="section-toolbox" class="font-bold text-2xl mt-12 mb-6 text-slate-900 border-l-4 border-[#1f2937] pl-3"> 进阶财富规划工具箱 (硅谷居士)</h2>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <!-- 工具一：理财指数 -->
         <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-blue-400">
             <h3 class="font-bold text-lg text-slate-800 mb-2">工具一：个人理财指数</h3>
@@ -571,9 +566,10 @@
         </div>
     </div>
 
-    <!-- 下半区重磅布局 -->
+    <!-- 下半区重磅布局 (包含滑动沙盘工具四 和 工具五) -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
-        <!-- 核心重制：工具四（跨两列的超宽沙盘） -->
+        
+        <!-- 核心修改 2：工具四进化为跨全屏的“共同展示滑动沙盘” -->
         <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-purple-500 lg:col-span-2 relative">
             
             <div class="absolute top-4 right-4 veteran-tooltip inline-block cursor-help z-50">
@@ -587,14 +583,14 @@
             </div>
 
             <h3 class="font-bold text-xl text-slate-800 mb-2">工具四：FIRE 倒计时 & 纯股息覆盖沙盘</h3>
-            <p class="text-xs text-slate-500 mb-6">结合了经典的 4% 提现法则与纯股息流策略。拖动下方滑块，直观感受你的财务自由临界点。</p>
+            <p class="text-xs text-slate-500 mb-6">结合了经典的 4% 提现法则与纯股息流策略。拖动左侧滑块，直观感受红绿两线交叉的财务自由临界点。</p>
             
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <!-- 左侧分栏：全景滑动控制台 (占 4 列) -->
                 <div class="lg:col-span-4 bg-slate-50 p-4 rounded-xl border border-gray-100 space-y-4">
-                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 border-b border-gray-200 pb-1">互动操作台</div>
+                    <div class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 border-b border-gray-200 pb-1">互动控制台 (拖动滑块)</div>
                     
-                    <!-- Slider 1 -->
+                    <!-- Slider 1: 目标支出 -->
                     <div class="flex flex-col">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-slate-600 text-sm font-bold">目标退休月开销 ($)</span>
@@ -603,7 +599,7 @@
                         <input type="range" id="t4MonthlyExpSlider" min="1000" max="20000" step="500" value="5000" class="w-full accent-purple-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4MonthlyExpSlider', 't4MonthlyExp', true);">
                     </div>
 
-                    <!-- Slider 2 -->
+                    <!-- Slider 2: 启动本金 -->
                     <div class="flex flex-col">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-slate-600 text-sm font-bold">现有启动本金 ($)</span>
@@ -612,7 +608,7 @@
                         <input type="range" id="t4CapitalSlider" min="50000" max="10000000" step="50000" value="100000" class="w-full accent-blue-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4CapitalSlider', 't4Capital', true);">
                     </div>
 
-                    <!-- Slider 3 -->
+                    <!-- Slider 3: 股息率 -->
                     <div class="flex flex-col">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-slate-600 text-sm font-bold help-tip" data-tip="纯股息分红率。左侧面板数据变更时会自动重载，也可手动覆盖测算。">纯股息收益率 (%)</span>
@@ -621,7 +617,7 @@
                         <input type="range" id="t4DivYieldSlider" min="0.5" max="8.0" step="0.1" value="2.5" class="w-full accent-emerald-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4DivYieldSlider', 't4DivYield', false);">
                     </div>
 
-                    <!-- Slider 4 -->
+                    <!-- Slider 4: 股息增速 -->
                     <div class="flex flex-col">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-slate-600 text-sm font-bold help-tip" data-tip="长期来看，优秀企业的股息通常能跑赢通胀，实现复利增长。">股息年均增速 (%)</span>
@@ -630,7 +626,7 @@
                         <input type="range" id="t4DivGrowthSlider" min="2.0" max="15.0" step="0.5" value="6.0" class="w-full accent-amber-500 h-1.5 bg-gray-200 rounded-lg appearance-none cursor-pointer mt-1" oninput="syncSliderToInput('t4DivGrowthSlider', 't4DivGrowth', false);">
                     </div>
 
-                    <!-- Slider 5 -->
+                    <!-- Slider 5: 通胀率 -->
                     <div class="flex flex-col mb-2">
                         <div class="flex justify-between items-center mb-1">
                             <span class="text-slate-600 text-sm font-bold">预期年通胀率 (%)</span>
@@ -688,67 +684,67 @@
             </div>
         </div>
 
-        <!-- 工具五：买房 vs 租房 (保持不变，只是跟随栅格流转) -->
+        <!-- 工具五：买房 vs 租房 (居中展示，跨两列对齐) -->
         <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-amber-500 lg:col-span-2">
             <h3 class="font-bold text-lg text-slate-800 mb-2">工具五：“买房 vs 租房+全投指数”机会成本</h3>
             <p class="text-xs text-slate-500 mb-4 h-8">对比30年后，是全款买下的房子净资产高，还是“租房过日子 + 差额定投指数”的净资产高。</p>
             
-            <div class="grid grid-cols-2 gap-4 text-sm flex-grow">
+            <div class="grid grid-cols-2 gap-8 text-sm flex-grow">
                 <!-- 左：买房派 -->
-                <div class="space-y-2 border-r border-gray-200 pr-4">
-                    <div class="font-bold text-slate-700 mb-3 border-b border-gray-200 pb-1">🏠 砸钱买房路线</div>
+                <div class="space-y-3 border-r border-gray-200 pr-8">
+                    <div class="font-bold text-slate-700 mb-3 border-b border-gray-200 pb-1 text-base">🏠 砸钱买房路线</div>
                     <div class="flex justify-between items-center">
                         <span class="text-slate-600">房屋总价 $</span>
-                        <input type="text" id="rvbHousePrice" value="1,000,000" class="border border-gray-200 p-1 w-20 text-right font-mono rounded bg-slate-50" oninput="formatAndCalcRvb(this)">
+                        <input type="text" id="rvbHousePrice" value="1,000,000" class="border border-gray-200 p-1 w-24 text-right font-mono rounded bg-slate-50" oninput="formatAndCalcRvb(this)">
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-slate-600">首付比例 %</span>
-                        <input type="number" id="rvbDownPct" value="20" class="border border-gray-200 p-1 w-16 text-center font-mono rounded bg-slate-50" oninput="calcRvb()">
+                        <input type="number" id="rvbDownPct" value="20" class="border border-gray-200 p-1 w-20 text-center font-mono rounded bg-slate-50" oninput="calcRvb()">
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-slate-600">房贷利率 %</span>
-                        <input type="number" id="rvbMortgageRate" value="5.0" step="0.1" class="border border-gray-200 p-1 w-16 text-center font-mono rounded bg-slate-50" oninput="calcRvb()">
+                        <input type="number" id="rvbMortgageRate" value="5.0" step="0.1" class="border border-gray-200 p-1 w-20 text-center font-mono rounded bg-slate-50" oninput="calcRvb()">
                     </div>
                     <div class="flex justify-between items-center">
                         <span class="text-slate-600 help-tip" data-tip="刨去折旧后的房屋自然升值率">房子年涨幅 %</span>
-                        <input type="number" id="rvbHouseAppr" value="4.0" step="0.1" class="border border-gray-200 p-1 w-16 text-center font-mono rounded bg-slate-50" oninput="calcRvb()">
+                        <input type="number" id="rvbHouseAppr" value="4.0" step="0.1" class="border border-gray-200 p-1 w-20 text-center font-mono rounded bg-slate-50" oninput="calcRvb()">
                     </div>
                 </div>
 
                 <!-- 右：租房派 -->
-                <div class="space-y-2 pl-2">
-                    <div class="font-bold text-slate-700 mb-3 border-b border-gray-200 pb-1">💸 租房 + 定投路线</div>
+                <div class="space-y-3 pl-4">
+                    <div class="font-bold text-slate-700 mb-3 border-b border-gray-200 pb-1 text-base">💸 租房 + 定投路线</div>
                     <div class="flex justify-between items-center">
                         <span class="text-slate-600">每月租金 $</span>
-                        <input type="text" id="rvbRent" value="3,000" class="border border-gray-200 p-1 w-20 text-right font-mono rounded bg-slate-50" oninput="formatAndCalcRvb(this)">
+                        <input type="text" id="rvbRent" value="3,000" class="border border-gray-200 p-1 w-24 text-right font-mono rounded bg-slate-50" oninput="formatAndCalcRvb(this)">
                     </div>
                     
-                    <div class="mt-4 pt-2 border-t border-gray-200 border-dashed">
-                        <span class="text-xs font-bold text-slate-600 block mb-1">差额定投指数年化 %：</span>
-                        <div class="flex space-x-1 mb-1">
-                            <button onclick="setRvbInvest(10)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[0.65rem] px-2 py-1 rounded transition help-tip" data-tip="美股标普500长期的年化历史均值大约为10%。">标普500</button>
-                            <button id="btnRvbCustom" onclick="setRvbInvest(11.5)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-[0.65rem] px-2 py-1 rounded transition help-tip" data-tip="一键填入你在最上方配置的专属组合的回测收益率。">专属组合</button>
+                    <div class="mt-6 pt-4 border-t border-gray-200 border-dashed">
+                        <span class="text-sm font-bold text-slate-600 block mb-2">差额定投指数年化 %：</span>
+                        <div class="flex space-x-2 mb-2">
+                            <button onclick="setRvbInvest(10)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded transition help-tip" data-tip="美股标普500长期的年化历史均值大约为10%。">标普500</button>
+                            <button id="btnRvbCustom" onclick="setRvbInvest(11.5)" class="bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded transition help-tip" data-tip="一键填入你在最上方配置的专属组合的回测收益率。">专属组合</button>
                         </div>
-                        <input type="number" id="rvbInvestReturn" value="10.0" step="0.1" class="border border-gray-300 p-1 w-full text-center font-mono rounded bg-slate-100 text-slate-800 font-bold focus:outline-slate-400" oninput="calcRvb()">
+                        <input type="number" id="rvbInvestReturn" value="10.0" step="0.1" class="border border-gray-300 p-1.5 w-full text-center font-mono rounded bg-slate-100 text-slate-800 font-bold focus:outline-slate-400" oninput="calcRvb()">
                     </div>
                 </div>
             </div>
 
             <!-- 结果对决面板 -->
-            <div class="mt-4 bg-slate-50 p-3 rounded-lg border border-gray-200">
-                <div class="text-center font-bold text-slate-500 text-xs mb-2">🔥 30 年后净资产终极对决 🔥</div>
-                <div class="flex justify-between items-center mb-1">
-                    <span class="text-slate-600 font-bold text-sm">拥有一套无贷房子：</span>
-                    <span id="rvbHouseNetWorth" class="text-base font-mono font-bold text-slate-800">$3.24M</span>
+            <div class="mt-6 bg-slate-50 p-4 rounded-lg border border-gray-200">
+                <div class="text-center font-bold text-slate-500 text-sm mb-3">🔥 30 年后净资产终极对决 🔥</div>
+                <div class="flex justify-between items-center mb-2">
+                    <span class="text-slate-600 font-bold text-base">拥有一套无贷房子：</span>
+                    <span id="rvbHouseNetWorth" class="text-xl font-mono font-bold text-slate-800">$3.24M</span>
                 </div>
-                <div class="flex justify-between items-center mb-2 pb-2 border-b border-gray-200">
-                    <span class="text-slate-600 font-bold text-sm">租房+满手指数基金：</span>
-                    <span id="rvbInvestNetWorth" class="text-base font-mono font-bold text-slate-800">$5.12M</span>
+                <div class="flex justify-between items-center mb-3 pb-3 border-b border-gray-200">
+                    <span class="text-slate-600 font-bold text-base">租房+满手指数基金：</span>
+                    <span id="rvbInvestNetWorth" class="text-xl font-mono font-bold text-slate-800">$5.12M</span>
                 </div>
-                <div class="text-center text-sm font-bold mt-1 mb-2" id="rvbWinnerMsg">
-                    租房派多赚了 <span class="text-slate-800 font-mono text-lg">$1.88M</span>
+                <div class="text-center text-base font-bold mt-2 mb-2" id="rvbWinnerMsg">
+                    租房派多赚了 <span class="text-slate-800 font-mono text-2xl">$1.88M</span>
                 </div>
-                <p class="text-xs font-bold text-amber-600 leading-relaxed border-t border-gray-200 border-dashed pt-2">
+                <p class="text-xs font-bold text-amber-600 leading-relaxed border-t border-gray-200 border-dashed pt-3">
                     解析：买房锁死了流动性，而租房派将高额首付与月供差额投入高收益美股，拉长 30 年往往能靠复利实现总资产的反超。
                 </p>
             </div>
@@ -777,7 +773,7 @@
         </div>
     </div>
 
-    <!-- ================= 核心 JavaScript 引擎 ================= -->
+    <!-- ================= 纯净的、无重复的 JavaScript 引擎 ================= -->
     <script>
         const etfLibrary = [
             { id: 'SCHD', name: '高息质量', type: '收入', defaultWeight: 20,
@@ -929,7 +925,6 @@
 
             const canvas = document.getElementById('sectorChart');
             if (!canvas) return;
-
             if (sectorChartInstance) sectorChartInstance.destroy();
 
             sectorChartInstance = new Chart(canvas.getContext('2d'), {
@@ -1380,7 +1375,6 @@
             if (target === 'value' && valueChart) {
                 mode = 'yearly';
                 state.viewVal = mode;
-                
                 valueChart.data.labels = cachedChartData[mode].labels;
                 valueChart.data.datasets[0].data = cachedChartData[mode].value;
                 valueChart.update();
@@ -1412,7 +1406,7 @@
             runBacktestEngine(); 
         };
 
-        // ================= 核心计算引擎 =================
+        // ================= 核心回测引擎 =================
         function runBacktestEngine() {
             let totalWeight = 0;
             for (const w of Object.values(state.portfolio)) totalWeight += w;
@@ -1435,7 +1429,6 @@
             let indexValue = 1.0;
             
             let currentAnnualContribution = state.annualAdd; 
-            let lastYearAssetForGrowth = state.capital;
             let dripTag = state.isDrip ? `<span class="text-[0.65rem] text-slate-400 font-normal ml-1 whitespace-nowrap">(自动再投)</span>` : '';
 
             let txtDiv = state.isDrip ? "实际已再投股息" : "实际到手股息";
@@ -1452,9 +1445,7 @@
             if(document.getElementById('forecastDynamicTag')) document.getElementById('forecastDynamicTag').textContent = tagText;
 
             for(let y = state.startYear; y <= state.currentYear; y++) {
-                if (y > state.startYear) {
-                    currentCapitalInjected += currentAnnualContribution;
-                }
+                if (y > state.startYear) currentCapitalInjected += currentAnnualContribution;
                 
                 let startOfYearAsset = prevTotalAsset + (y > state.startYear ? currentAnnualContribution : 0);
                 let currentYearTotalAsset = 0;
@@ -1469,14 +1460,11 @@
 
                 for (const id of Object.keys(assetBuckets)) {
                     let [capReturn, divYield] = getAssetPerformance(y, id);
-                    
                     let w = weightSum > 0 ? (assetBuckets[id] / weightSum) : (state.portfolio[id] / totalWeight);
                     yearCapReturn += capReturn * w;
                     yearDivYield += divYield * w;
 
-                    if (y > state.startYear) {
-                        assetBuckets[id] += currentAnnualContribution * (state.portfolio[id] / totalWeight);
-                    }
+                    if (y > state.startYear) assetBuckets[id] += currentAnnualContribution * (state.portfolio[id] / totalWeight);
                     
                     let baseAssetForDividend = assetBuckets[id];
                     assetBuckets[id] = assetBuckets[id] * (1 + capReturn);
@@ -1523,19 +1511,12 @@
                 
                 let cumulativeROI = 0;
                 if (currentCapitalInjected > 0) {
-                    if (state.isDrip) {
-                        cumulativeROI = (currentYearTotalAsset - currentCapitalInjected) / currentCapitalInjected * 100;
-                    } else {
-                        cumulativeROI = (currentYearTotalAsset + cumulativeActualDiv - currentCapitalInjected) / currentCapitalInjected * 100;
-                    }
+                    if (state.isDrip) cumulativeROI = (currentYearTotalAsset - currentCapitalInjected) / currentCapitalInjected * 100;
+                    else cumulativeROI = (currentYearTotalAsset + cumulativeActualDiv - currentCapitalInjected) / currentCapitalInjected * 100;
                 }
                 
-                lastYearAssetForGrowth = currentYearTotalAsset;
                 prevTotalAsset = currentYearTotalAsset;
-                
-                if (y >= state.startYear) {
-                     currentAnnualContribution *= (1 + state.annualAddGrowth);
-                }
+                if (y >= state.startYear) currentAnnualContribution *= (1 + state.annualAddGrowth);
 
                 let yoc = currentCapitalInjected > 0 ? (actualDivTotal / currentCapitalInjected) * 100 : 0;
                 let roiColor = cumulativeROI >= 0 ? 'text-emerald-600' : 'text-red-500';
@@ -1626,11 +1607,8 @@
                 
                 let forecastCumulativeROI = 0;
                 if (forecastCapitalInjectedHist > 0) {
-                    if (state.isDrip) {
-                        forecastCumulativeROI = (forecastAssetHist - forecastCapitalInjectedHist) / forecastCapitalInjectedHist * 100;
-                    } else {
-                        forecastCumulativeROI = (forecastAssetHist + forecastCumulativeActualDiv - forecastCapitalInjectedHist) / forecastCapitalInjectedHist * 100;
-                    }
+                    if (state.isDrip) forecastCumulativeROI = (forecastAssetHist - forecastCapitalInjectedHist) / forecastCapitalInjectedHist * 100;
+                    else forecastCumulativeROI = (forecastAssetHist + forecastCumulativeActualDiv - forecastCapitalInjectedHist) / forecastCapitalInjectedHist * 100;
                 }
                 
                 futureAnnualContHist *= (1 + state.annualAddGrowth); 
@@ -1660,21 +1638,19 @@
 
             if(document.getElementById('wiNetWorth')) document.getElementById('wiNetWorth').value = finalValue.toFixed(0);
             
-            // 自动联动工具四（沙盘）数据
+            // 联动沙盘本金与收益率
             const t4CapInput = document.getElementById('t4Capital');
             if(t4CapInput && !t4CapInput.dataset.userEdited) {
                 t4CapInput.value = finalValue.toFixed(0);
                 document.getElementById('t4CapitalSlider').value = finalValue.toFixed(0);
                 formatInputCommas(t4CapInput);
             }
-            
             const t4DivInput = document.getElementById('t4DivYield');
             if(t4DivInput && !t4DivInput.dataset.userEdited) {
                 let divPct = (forecastEngineData.terminalDivYield * 100).toFixed(1);
                 t4DivInput.value = divPct;
                 document.getElementById('t4DivYieldSlider').value = divPct;
             }
-
             const t4RetInput = document.getElementById('t4Return');
             if(t4RetInput && !t4RetInput.dataset.userEdited) {
                 t4RetInput.value = (trueHistoricalCagr * 100).toFixed(1);
@@ -1684,7 +1660,6 @@
             runTool4();
             calcLeverage();
             calcRvb();
-            
             runIndForecast();
         }
 
@@ -1735,11 +1710,8 @@
                 
                 let indCumulativeROI = 0;
                 if (capitalInjected > 0) {
-                    if (state.isDrip) {
-                        indCumulativeROI = (asset - capitalInjected) / capitalInjected * 100;
-                    } else {
-                        indCumulativeROI = (asset + indCumulativeDiv - capitalInjected) / capitalInjected * 100;
-                    }
+                    if (state.isDrip) indCumulativeROI = (asset - capitalInjected) / capitalInjected * 100;
+                    else indCumulativeROI = (asset + indCumulativeDiv - capitalInjected) / capitalInjected * 100;
                 }
                 
                 let yoc = capitalInjected > 0 ? (divAmount / capitalInjected) * 100 : 0;
@@ -1763,7 +1735,7 @@
             }
         }
 
-        // ================= 核心工具四引擎 (合并 4% 与 缝隙推演) =================
+        // ================= 核心工具四引擎 (滑动沙盘) =================
         window.runTool4 = function() {
             if(!document.getElementById('t4MonthlyExp')) return; 
 
@@ -1840,20 +1812,20 @@
                 currentDiv *= (1 + divGrowth);
             }
 
-            // 更新结论
+            // 结论宣判
             const conclusionEl = document.getElementById('t4GapConclusion');
             if (crossoverYear === 1) {
                 conclusionEl.innerHTML = `🎉 恭喜！当前纯股息已 100% 覆盖生活支出，实现无死角财务自由！`;
                 conclusionEl.className = "inline-block bg-emerald-50 border border-emerald-200 text-emerald-800 px-4 py-2 rounded-full font-bold text-sm shadow-sm transition-all duration-300";
             } else if (crossoverYear > 1) {
-                conclusionEl.innerHTML = `💡 距离纯股息 100% 覆盖生活还需 <span class="text-xl mx-1">${crossoverYear}</span> 年，期间缝隙储备金缺口约为 <span class="text-xl mx-1 font-mono">${fmtUsd(totalGap)}</span>`;
+                conclusionEl.innerHTML = `💡 距离纯股息 100% 覆盖生活还需 <span class="text-xl mx-1">${crossoverYear}</span> 年，期间过冬储备金缺口约为 <span class="text-xl mx-1 font-mono">${fmtUsd(totalGap)}</span>`;
                 conclusionEl.className = "inline-block bg-amber-50 border border-amber-200 text-amber-800 px-4 py-2 rounded-full font-bold text-sm shadow-sm transition-all duration-300";
             } else {
                 conclusionEl.innerHTML = `⚠️ 30年内股息无法穿透支出红线。建议提高本金、增加高息 ETF 占比，或适当调低生活预期。`;
                 conclusionEl.className = "inline-block bg-red-50 border border-red-200 text-red-800 px-4 py-2 rounded-full font-bold text-sm shadow-sm transition-all duration-300";
             }
 
-            // 渲染图表
+            // 渲染折线图
             const ctx = document.getElementById('t4GapChart');
             if (!ctx) return;
             if (gapChartInstance) gapChartInstance.destroy();
@@ -1948,11 +1920,11 @@
 
             let msgEl = document.getElementById('rvbWinnerMsg');
             if(investFV > houseFV) {
-                msgEl.innerHTML = `租房派多赚了 <span class="text-slate-800 font-mono text-lg">${fmtUsd(investFV - houseFV)}</span>`;
+                msgEl.innerHTML = `租房派多赚了 <span class="text-slate-800 font-mono text-2xl">${fmtUsd(investFV - houseFV)}</span>`;
             } else if (houseFV > investFV) {
-                msgEl.innerHTML = `买房派多赚了 <span class="text-slate-800 font-mono text-lg">${fmtUsd(houseFV - investFV)}</span>`;
+                msgEl.innerHTML = `买房派多赚了 <span class="text-slate-800 font-mono text-2xl">${fmtUsd(houseFV - investFV)}</span>`;
             } else {
-                msgEl.innerHTML = `<span class="text-slate-500 font-mono text-lg">两者完全打平</span>`;
+                msgEl.innerHTML = `<span class="text-slate-500 font-mono text-2xl">两者完全打平</span>`;
             }
         };
 
