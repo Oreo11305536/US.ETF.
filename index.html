@@ -235,7 +235,6 @@
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- 左侧：行业分布圆环图 -->
             <div class="col-span-1 border-r border-gray-100 pr-4">
                 <h3 class="text-sm font-bold text-slate-700 mb-4 text-center">真实行业全景分布</h3>
                 <div class="relative h-48 w-full flex justify-center items-center">
@@ -248,7 +247,6 @@
                 <div id="sectorLegend" class="mt-4 grid grid-cols-2 gap-x-2 gap-y-1 text-[10px]"></div>
             </div>
             
-            <!-- 右侧：Top 15 持仓竖向两列 -->
             <div class="col-span-2">
                 <div class="flex justify-between items-end mb-4">
                     <h3 class="text-sm font-bold text-slate-700">全盘合并 Top 15 重仓股</h3>
@@ -261,17 +259,14 @@
         </div>
     </div>
 
-
     <!-- 主控台 -->
     <div id="section-control" class="card bg-[#faf9f6]">
         <div class="flex flex-wrap items-center gap-6 mb-6">
-            <!-- 核心交互：加入身份标签与分红模式全局联动 -->
             <div class="bg-white rounded-full p-1 flex shadow-sm border relative">
                 <button id="btnIncome" class="bg-slate-900 text-white px-5 py-2 rounded-full text-sm font-bold transition help-tip" data-tip="累计收益率包含已拿走的现金分红：(总资产 + 累计分红 - 累计本金) ÷ 累计本金">取出分红</button>
                 <button id="btnDrip" class="text-slate-600 px-5 py-2 rounded-full text-sm font-bold transition hover:bg-slate-100 help-tip" data-tip="分红扣除指定税率后，化为复利直接滚动：(总资产 - 累计本金) ÷ 累计本金">分红再投 (DRIP)</button>
             </div>
             
-            <!-- 税务身份切换区 -->
             <div class="bg-white rounded-full p-1 flex shadow-sm border relative">
                 <button id="btnTax0" class="bg-slate-900 text-white px-4 py-2 rounded-full text-sm font-bold transition">股息免税 (0%)</button>
                 <button id="btnTax10" class="text-slate-600 px-4 py-2 rounded-full text-sm font-bold transition hover:bg-slate-100">CN (10%)</button>
@@ -340,7 +335,6 @@
         <div class="flex justify-between items-center mt-8 mb-2">
             <div class="flex items-center">
                 <h3 class="font-bold text-lg text-slate-800">现金流 (年度股息) 增长趋势</h3>
-                <!-- Help-Tip 精准修改区 -->
                 <span class="icon-tip ml-2 help-tip" data-tip="美股公司通常习惯在年底(Q4)集中结算或派发特别股息。图表已自动引入美股历史季节性权重模型进行平滑，以贴合真实市场现金流节奏。前瞻基准修正引擎 (Run-Rate Projection) 已自动补全当前年满额预估，消除视觉腰斩。">?</span>
             </div>
             <div class="flex space-x-2 bg-slate-100 p-1 rounded-lg">
@@ -357,7 +351,6 @@
             <div>
                 <div class="flex items-center">
                     <h3 class="font-bold text-xl text-slate-800">历史数据年度明细</h3>
-                    <!-- 全局联动动态标签 -->
                     <span id="historyDynamicTag" class="text-xs bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20 px-2 py-1 rounded font-bold ml-3">当前身份: 股息免税 (0%) | 模式: 取出分红</span>
                 </div>
                 <p class="text-xs text-slate-500 mt-1">记录资产自然膨胀的过程。右侧股息已根据全局税务身份自动扣减。</p>
@@ -372,7 +365,7 @@
                         <th class="py-3 px-4">累计投入本金</th>
                         <th class="py-3 px-4">年底总资产</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="从所选起点至今，你投入的累积总本金，被市场总共放大了多少倍的总回报率。">累计总收益率</span></th>
-                        <!-- 核心修改：表头已完全去色，回归标准颜色 -->
+                        <!-- 表头完全去色 -->
                         <th id="thHistDiv" class="py-3 px-4">实际到手股息</th>
                         <th id="thHistCumDiv" class="py-3 px-4">累计已领股息</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="税后实际拿到手的股息 ÷ 投入的累积总本金。">税后实际 YOC</span></th>
@@ -391,7 +384,6 @@
                     <h3 class="font-bold text-xl text-slate-800">未来动态延伸预测表 (承接历史)</h3>
                     <input type="number" id="forecastYearsInputHistory" value="10" min="1" max="60" class="border border-slate-300 p-1 rounded-md w-16 text-center font-mono font-bold text-slate-800 shadow-sm focus:outline-none">
                     <h3 class="font-bold text-xl text-slate-800">年</h3>
-                    <!-- 全局联动动态标签 -->
                     <span id="forecastDynamicTag" class="text-xs bg-[#10b981]/10 text-[#10b981] border border-[#10b981]/20 px-2 py-1 rounded font-bold ml-2">当前身份: 股息免税 (0%) | 模式: 取出分红</span>
                 </div>
                 <p class="text-xs text-slate-500 mt-2">基于上方组合的历史置信度自动向后推演。起点为 <strong id="baseYearTagHistory">2026</strong> 年。</p>
@@ -410,7 +402,7 @@
                         <th class="py-3 px-4">预计累计本金</th>
                         <th class="py-3 px-4">预计年底总资产</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="从历史起点延伸至未来推演年份的累计总回报表现（已自动匹配当前的取现或复投模式）。">累计总收益率</span></th>
-                        <!-- 核心修改：表头已完全去色，回归标准颜色 -->
+                        <!-- 表头完全去色 -->
                         <th id="thFcstDiv" class="py-3 px-4">预计实际到手股息</th>
                         <th id="thFcstCumDiv" class="py-3 px-4">预计累计到手股息</th>
                         <th class="py-3 px-4"><span class="help-tip" data-tip="税后实际拿到手的预期股息 ÷ 投入的累积总本金。衡量真金白银掏出的钱，未来每年能产出多少比例的现金流。">预期税后 YOC</span></th>
@@ -421,15 +413,15 @@
         </div>
     </div>
 
-    <!-- 独立未来推演沙盘 -->
-    <div id="section-forecast" class="card bg-[#fcfdfd] border-t-4 border-[#b8860b]">
+    <!-- 独立未来沙盘推演 -->
+    <div id="section-ind-forecast" class="card bg-[#fcfdfd] border-t-4 border-[#b8860b]">
         <div class="flex flex-wrap justify-between items-center mb-4">
             <div>
                 <div class="flex items-center space-x-2">
-                    <h3 class="font-bold text-xl text-slate-800">独立未来推演</h3>
+                    <h3 class="font-bold text-xl text-slate-800">独立未来沙盘推演</h3>
                     <span id="sandboxDripTag"></span>
                 </div>
-                <p class="text-xs text-slate-500 mt-2">完全自由独立的数学推演，不影响上方任何回测。修改参数立即生效。</p>
+                <p class="text-xs text-slate-500 mt-2">完全自由独立的数学推演表格，不影响上方任何回测。修改参数立即生效。</p>
             </div>
         </div>
 
@@ -469,7 +461,7 @@
                         <th class="py-3 px-4">预计年底总资产</th>
                         <th class="py-3 px-4">累计总收益率</th>
                         <th class="py-3 px-4">自定义股息金额</th>
-                        <!-- 核心修改：新增累计股息列表头，并且去色 -->
+                        <!-- 独立推演表新增的累计股息列，去色 -->
                         <th id="thIndCumDiv" class="py-3 px-4">预计累计到手股息</th>
                         <th class="py-3 px-4">预期 YOC</th>
                     </tr>
@@ -478,11 +470,10 @@
             </table>
         </div>
     </div>
-
-    <!-- ================= 进阶财富计算器 (硅谷居士) ================= -->
+    <!-- ================= 进阶财富计算器 (终极集大成版) ================= -->
     <h2 id="section-toolbox" class="font-bold text-2xl mt-12 mb-6 text-slate-900 border-l-4 border-[#1f2937] pl-3"> 进阶财富规划工具箱 (硅谷居士)</h2>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <!-- 工具一：理财指数 -->
         <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-blue-400">
             <h3 class="font-bold text-lg text-slate-800 mb-2">工具一：个人理财指数</h3>
@@ -534,7 +525,7 @@
                     </div>
                 </div>
                 <p class="text-xs font-bold text-amber-600 leading-relaxed pt-2">
-                    解析：传统保守买法确实能 100% 保证钱花不完，但 90% 股票买法的复利太猛，就算遇到股灾，在 30 年长跑里它依然能多赚出 一倍以上 的钱抵抗通胀。
+                    解析：传统保守买法确实能 100% 保证钱花不完，但 90% 股票买法的复利太猛，即使遇到股灾，30年长跑依然能多赚出一倍以上的钱抵抗通胀。
                 </p>
             </div>
         </div>
@@ -573,7 +564,6 @@
             </div>
         </div>
     </div>
-
     <!-- 底部两个工具跨全屏，整齐对称 -->
     <div class="grid grid-cols-1 gap-6 mb-12">
         <!-- 核心重制：工具四（跨全宽的左右分栏共同展示，滑动沙盘） -->
@@ -683,7 +673,7 @@
         </div>
 
         <!-- 工具五：买房 vs 租房 -->
-        <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-amber-500">
+        <div class="card mb-0 bg-white border border-gray-200 shadow-sm flex flex-col h-full border-t-2 border-t-amber-500 lg:col-span-2">
             <h3 class="font-bold text-lg text-slate-800 mb-2">工具五：“买房 vs 租房+全投指数”机会成本</h3>
             <p class="text-xs text-slate-500 mb-4 h-8">对比30年后，是全款买下的房子净资产高，还是“租房过日子 + 差额定投指数”的净资产高。</p>
             
@@ -771,7 +761,7 @@
         </div>
     </div>
 
-    <!-- 纯净唯一的 JavaScript 引擎 -->
+    <!-- 单一且纯净的 JavaScript 引擎 -->
     <script>
         const etfLibrary = [
             { id: 'SCHD', name: '高息质量', type: '收入', defaultWeight: 20,
@@ -1427,7 +1417,6 @@
             let currentAnnualContribution = state.annualAdd; 
             let dripTag = state.isDrip ? `<span class="text-[0.65rem] text-slate-400 font-normal ml-1 whitespace-nowrap">(自动再投)</span>` : '';
 
-            // 全局表头文案自适应
             let txtDiv = state.isDrip ? "实际已再投股息" : "实际到手股息";
             let txtCumDiv = state.isDrip ? "累计已再投股息" : "累计已领股息";
             if(document.getElementById('thHistDiv')) document.getElementById('thHistDiv').textContent = txtDiv;
