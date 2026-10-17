@@ -108,104 +108,104 @@ window.etfHoldings = {
         {
             "ticker": "NEE",
             "name": "新纪元能源 (NEE)",
-            "weight": 11.73
+            "weight": 11.39
         },
         {
             "ticker": "SO",
             "name": "南方电力 (SO)",
-            "weight": 6.78
+            "weight": 6.74
         },
         {
             "ticker": "DUK",
             "name": "杜克能源 (DUK)",
-            "weight": 6.39
+            "weight": 6.41
         },
         {
             "ticker": "CEG",
             "name": "星座能源 (CEG)",
-            "weight": 5.86
+            "weight": 5.73
         },
         {
             "ticker": "AEP",
             "name": "美国电力 (AEP)",
-            "weight": 4.55
+            "weight": 4.66
         },
         {
             "ticker": "D",
             "name": "自治领能源 (D)",
-            "weight": 3.97
+            "weight": 3.84
         },
         {
             "ticker": "SRE",
             "name": "桑普拉能源 (SRE)",
-            "weight": 3.65
-        },
-        {
-            "ticker": "ETR",
-            "name": "Entergy Corp (ETR)",
-            "weight": 3.39
-        },
-        {
-            "ticker": "XEL",
-            "name": "卓越能源 (XEL)",
-            "weight": 3.23
+            "weight": 3.68
         },
         {
             "ticker": "VST",
             "name": "Vistra Corp (VST)",
-            "weight": 3.16
+            "weight": 3.36
+        },
+        {
+            "ticker": "ETR",
+            "name": "Entergy Corp (ETR)",
+            "weight": 3.34
+        },
+        {
+            "ticker": "XEL",
+            "name": "卓越能源 (XEL)",
+            "weight": 3.17
         }
     ],
     "VOO": [
         {
             "ticker": "NVDA",
             "name": "英伟达 (NVDA)",
-            "weight": 8.08
+            "weight": 8.39
         },
         {
             "ticker": "AAPL",
             "name": "苹果 (AAPL)",
-            "weight": 7.03
+            "weight": 7.38
         },
         {
             "ticker": "MSFT",
             "name": "微软 (MSFT)",
-            "weight": 5.7
+            "weight": 5.78
         },
         {
             "ticker": "AMZN",
             "name": "亚马逊 (AMZN)",
-            "weight": 3.84
+            "weight": 3.71
         },
         {
             "ticker": "GOOGL",
             "name": "谷歌 (GOOGL)",
-            "weight": 3.01
+            "weight": 3.07
         },
         {
             "ticker": "AVGO",
             "name": "博通 (AVGO)",
-            "weight": 2.65
+            "weight": 2.54
         },
         {
             "ticker": "GOOG",
             "name": "谷歌 (GOOG)",
-            "weight": 2.4
+            "weight": 2.45
         },
         {
             "ticker": "META",
             "name": "Meta (META)",
-            "weight": 1.9
+            "weight": 2.43
         },
         {
             "ticker": "MU",
             "name": "美光科技 (MU)",
-            "weight": 1.63
+            "weight": 1.83
         },
         {
             "ticker": "TSLA",
             "name": "特斯拉 (TSLA)",
-            "weight": 1.57
+            "weight": 1.52
         }
     ],
     "QQQM": [
@@ -316,52 +316,52 @@ window.etfHoldings = {
         {
             "ticker": "NVDA",
             "name": "英伟达 (NVDA)",
-            "weight": 17.74
+            "weight": 17.59
         },
         {
             "ticker": "AAPL",
             "name": "苹果 (AAPL)",
-            "weight": 15.8
+            "weight": 15.91
         },
         {
             "ticker": "MSFT",
             "name": "微软 (MSFT)",
-            "weight": 11.52
-        },
-        {
-            "ticker": "AVGO",
-            "name": "博通 (AVGO)",
-            "weight": 4.52
+            "weight": 11.16
         },
         {
             "ticker": "MU",
             "name": "美光科技 (MU)",
-            "weight": 4.18
+            "weight": 4.45
+        },
+        {
+            "ticker": "AVGO",
+            "name": "博通 (AVGO)",
+            "weight": 4.11
         },
         {
             "ticker": "AMD",
             "name": "超威半导体 (AMD)",
-            "weight": 2.95
-        },
-        {
-            "ticker": "CSCO",
-            "name": "思科 (CSCO)",
-            "weight": 1.71
-        },
-        {
-            "ticker": "PLTR",
-            "name": "Palantir Technologies Inc Ordinary Shares - Class A (PLTR)",
-            "weight": 1.61
+            "weight": 3.68
         },
         {
             "ticker": "INTC",
             "name": "英特尔 (INTC)",
-            "weight": 1.54
+            "weight": 1.99
+        },
+        {
+            "ticker": "CSCO",
+            "name": "思科 (CSCO)",
+            "weight": 1.6
         },
         {
             "ticker": "LRCX",
             "name": "泛林集团 (LRCX)",
-            "weight": 1.49
+            "weight": 1.56
+        },
+        {
+            "ticker": "PLTR",
+            "name": "Palantir Technologies Inc Ordinary Shares - Class A (PLTR)",
+            "weight": 1.55
         }
     ]
 };
@@ -384,7 +384,7 @@ window.proxyDatabase = {
     2005: { 'SCHD': [0.0437, 0.2674], 'DGRO': [0.0422, 0.0554], 'VPU': [0.1456, 0.0659], 'VOO': [0.0483, 0.0264], 'QQQM': [0.0157, 0.0040], 'SMH': [0.0980, 0.0000], 'VGT': [0.0300, 0.0023] },
     2006: { 'SCHD': [0.2063, 0.3144], 'DGRO': [0.0800, 0.0200], 'VPU': [0.2166, 0.0663], 'VOO': [0.1585, 0.0287], 'QQQM': [0.0714, 0.0038], 'SMH': [-0.0816, 0.0000], 'VGT': [0.0885, 0.0033] },
     2007: { 'SCHD': [0.0137, 0.0479], 'DGRO': [0.0563, 0.0241], 'VPU': [0.1699, 0.0545], 'VOO': [0.0515, 0.0273], 'QQQM': [0.1903, 0.0039], 'SMH': [-0.0354, 0.0000], 'VGT': [0.1478, 0.0039] },
-    2008: { 'SCHD': [-0.3192, 0.0503], 'DGRO': [-0.2669, 0.0268], 'VPU': [-0.2795, 0.0503], 'VOO': [-0.3679, 0.0262], 'QQQM': [-0.4173, 0.0031], 'SMH': [-0.4575, 0.0000], 'VGT': [-0.4282, 0.0064] },
+    2008: { 'SCHD': [-0.3192, 0.0503], 'DGRO': [-0.2669, 0.0268], 'VPU': [-0.2795, 0.0503], 'VOO': [-0.3680, 0.0262], 'QQQM': [-0.4173, 0.0031], 'SMH': [-0.4575, 0.0000], 'VGT': [-0.4282, 0.0064] },
     2009: { 'SCHD': [0.1719, 0.0598], 'DGRO': [0.1958, 0.0349], 'VPU': [0.1130, 0.0730], 'VOO': [0.2635, 0.0332], 'QQQM': [0.5468, 0.0081], 'SMH': [0.5855, 0.0000], 'VGT': [0.6189, 0.0085] },
     2010: { 'SCHD': [0.1422, 0.0477], 'DGRO': [0.1474, 0.0313], 'VPU': [0.0706, 0.0674], 'VOO': [0.1506, 0.0273], 'QQQM': [0.2014, 0.0113], 'SMH': [0.1651, 0.0000], 'VGT': [0.1278, 0.0076] },
     2011: { 'SCHD': [0.1055, 0.0508], 'DGRO': [0.0616, 0.0305], 'VPU': [0.1899, 0.0659], 'VOO': [0.0190, 0.0271], 'QQQM': [0.0348, 0.0108], 'SMH': [-0.0646, 0.0000], 'VGT': [0.0054, 0.0091] },
@@ -402,5 +402,5 @@ window.proxyDatabase = {
     2023: { 'SCHD': [0.0454, 0.0403], 'DGRO': [0.1047, 0.0287], 'VPU': [-0.0745, 0.0350], 'VOO': [0.2632, 0.0190], 'QQQM': [0.5501, 0.0102], 'SMH': [0.7338, 0.0104], 'VGT': [0.5266, 0.0100] },
     2024: { 'SCHD': [0.1166, 0.0433], 'DGRO': [0.1662, 0.0273], 'VPU': [0.2304, 0.0389], 'VOO': [0.2498, 0.0159], 'QQQM': [0.2568, 0.0077], 'SMH': [0.3910, 0.0062], 'VGT': [0.2930, 0.0078] },
     2025: { 'SCHD': [0.0434, 0.0408], 'DGRO': [0.1569, 0.0245], 'VPU': [0.1646, 0.0324], 'VOO': [0.1782, 0.0134], 'QQQM': [0.2085, 0.0060], 'SMH': [0.4917, 0.0046], 'VGT': [0.2177, 0.0049] },
-    2026: { 'SCHD': [0.2737, 0.0290], 'DGRO': [0.1480, 0.0153], 'VPU': [-0.0069, 0.0212], 'VOO': [0.1410, 0.0091], 'QQQM': [0.1896, 0.0039], 'SMH': [0.5518, 0.0000], 'VGT': [0.3028, 0.0040] },
+    2026: { 'SCHD': [0.2831, 0.0290], 'DGRO': [0.1521, 0.0153], 'VPU': [0.0061, 0.0212], 'VOO': [0.1285, 0.0091], 'QQQM': [0.1597, 0.0039], 'SMH': [0.4989, 0.0000], 'VGT': [0.2654, 0.0040] },
 };
